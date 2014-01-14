@@ -4,7 +4,7 @@
   <title><![CDATA[Neater]]></title>
   <link href="http://neater.github.io/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2013-12-26T15:04:50+08:00</updated>
+  <updated>2014-01-07T11:16:09+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -20,7 +20,46 @@
     <id>http://neater.github.io/blog/2013/12/26/2013hui-gu-and-2014zhan-wang</id>
     <content type="html"><![CDATA[<p>折腾了两天，终于看到效果了，以下是测试</p>
 
-<p>将Ruby作为日常编程语言</p>
+<p>开始折腾 Arduino &amp;&amp; Raspberry Pi</p>
+
+<h3>2014投资</h3>
+
+<h4>健身</h4>
+
+<p>健身器材 第二付哑铃 健身架 迎体向上门框架 弹力绳，练出肌肉再去健身房</p>
+
+<hr />
+
+<h3>家居</h3>
+
+<ul>
+<li>宽大的桌子</li>
+<li>折叠灯</li>
+<li>地图墙纸</li>
+</ul>
+
+
+<hr />
+
+<p>购买杜洋套装，学习单片机及电子制作</p>
+
+<h3>云</h3>
+
+<p>Haddop</p>
+
+<h3>语言</h3>
+
+<p>将Ruby作为日常编程语言，再过一遍JavaScript，偶尔Lisp，</p>
+
+<h3>理论</h3>
+
+<ul>
+<li>数据结构</li>
+<li>算法</li>
+<li>网络 tcp/ip</li>
+<li></li>
+</ul>
+
 ]]></content>
   </entry>
   
