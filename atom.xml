@@ -4,7 +4,7 @@
   <title><![CDATA[Neater]]></title>
   <link href="http://neater.github.io/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2014-01-14T14:24:17+08:00</updated>
+  <updated>2014-02-10T15:29:26+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -12,6 +12,40 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[全栈工程师++]]></title>
+    <link href="http://neater.github.io/blog/2014/01/22/quan-zhan-gong-cheng-shi-plus-plus/"/>
+    <updated>2014-01-22T10:41:05+08:00</updated>
+    <id>http://neater.github.io/blog/2014/01/22/quan-zhan-gong-cheng-shi-plus-plus</id>
+    <content type="html"><![CDATA[<p>近来全栈工程师成了新的热词，似乎都是偏重Web的，个人觉得缺少了硬件方面，所以题目增加++，即全栈工程师++ = 传统的Hacker ，就像 Apple 的创始人 Waz，软硬兼修才是真正的Hacker，也是个人发展的方向，无奈长期做软件方面的工作，14年多多在硬件、单片机、FPGA、Verilog投入精力和财力。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[CMD Tricks]]></title>
+    <link href="http://neater.github.io/blog/2014/01/14/cmd-tricks/"/>
+    <updated>2014-01-14T15:47:05+08:00</updated>
+    <id>http://neater.github.io/blog/2014/01/14/cmd-tricks</id>
+    <content type="html"><![CDATA[<p>虽然CMD中有很多快捷键，但无法大范围移动光标，OS X 下，按住option，然后鼠标点击当前行，光标会移动到该处。</p>
+
+<hr />
+
+<p>使用pgrep查找进程id，而不用 ps -ef | grep XXX</p>
+
+<hr />
+
+<p>echo $0，当前使用的 shell</p>
+
+<p>输出文件的指定行
+sed -n &lsquo;x,yp&rsquo; file;   awk &lsquo;NF > x &amp;&amp; NF > y&rsquo; file</p>
+
+<p>从x行开始，输出y行
+tail +x file | head -y</p>
+
+<p>head和tail 参数 -n的不同，head -n -10 除去最后10行 tail -n +10 从第10行开始</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[2013回顾 &amp; 2014展望]]></title>
@@ -59,6 +93,9 @@
 
 
 <p>开始使用 zsh &amp; Alfred</p>
+
+<p>学习 Verilog，购买FPGA，阅读《自制CPU》
+自制编程语言 30天自制操作系统</p>
 ]]></content>
   </entry>
   
