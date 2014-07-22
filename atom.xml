@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Neater]]></title>
+  <link href="http://neater.github.io/atom.xml" rel="self"/>
+  <link href="http://neater.github.io/"/>
+  <updated>2014-07-22T16:57:19+08:00</updated>
+  <id>http://neater.github.io/</id>
+  <author>
+    <name><![CDATA[Your Name]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[全栈工程师++]]></title>
+    <link href="http://neater.github.io/blog/2014/01/22/quan-zhan-gong-cheng-shi-plus-plus/"/>
+    <updated>2014-01-22T10:41:05+08:00</updated>
+    <id>http://neater.github.io/blog/2014/01/22/quan-zhan-gong-cheng-shi-plus-plus</id>
+    <content type="html"><![CDATA[<p>近来全栈工程师成了新的热词，似乎都是偏重Web的，个人觉得缺少了硬件方面，所以题目增加++，即全栈工程师++ = 传统的Hacker ，就像 Apple 的创始人 Waz，软硬兼修才是真正的Hacker，也是个人发展的方向，无奈长期做软件方面的工作，14年多多在硬件、单片机、FPGA、Verilog投入精力和财力。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[CMD Tricks]]></title>
+    <link href="http://neater.github.io/blog/2014/01/14/cmd-tricks/"/>
+    <updated>2014-01-14T15:47:05+08:00</updated>
+    <id>http://neater.github.io/blog/2014/01/14/cmd-tricks</id>
+    <content type="html"><![CDATA[<p>输出文件的指定行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sed -n 'x,yp' file;   awk 'NF &gt; x && NF &gt; y' file</span></code></pre></td></tr></table></div></figure>
+
+
+<p>从x行开始，输出y行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tail +x file | head -y</span></code></pre></td></tr></table></div></figure>
+
+
+<p>head和tail 参数 -n的不同，head -n -10 除去最后10行 tail -n +10 从第10行开始</p>
+
+<h4>Mac下获取UDID</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ioreg -w 0 -rc IOUSBDevice -k SupportsIPhoneOS | sed -n 's/.*USB Serial Number[^0-9a-z]*\([0-9a-z]*\).*/\1/p'</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>system_profiler SPUSBDataType | sed -n -e '/iPhone/,/Serial/p' | grep "Serial Number:" | awk -F ": " '{print $2}'</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>system_profiler SPUSBDataType | grep "Serial Number:.*" | sed s#".*Serial Number: "##</span></code></pre></td></tr></table></div></figure>
+
+
+<p>虽然CMD中有很多快捷键，但无法大范围移动光标，OS X 下，按住option，然后鼠标点击当前行，光标会移动到该处。</p>
+
+<hr />
+
+<p>使用pgrep查找进程id，而不用 ps -ef | grep XXX</p>
+
+<hr />
+
+<p>echo $0，当前使用的 shell</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[2013回顾 &amp; 2014展望]]></title>
+    <link href="http://neater.github.io/blog/2013/12/26/2013hui-gu-and-2014zhan-wang/"/>
+    <updated>2013-12-26T14:29:06+08:00</updated>
+    <id>http://neater.github.io/blog/2013/12/26/2013hui-gu-and-2014zhan-wang</id>
+    <content type="html"><![CDATA[<h3>2014投资</h3>
+
+<h4>健身</h4>
+
+<p>健身器材 第二付哑铃 健身架 迎体向上门框架 弹力绳，练出肌肉再去健身房</p>
+
+<hr />
+
+<h3>家居</h3>
+
+<ul>
+<li>宽大的桌子</li>
+<li>折叠灯</li>
+<li>地图墙纸</li>
+</ul>
+
+
+<hr />
+
+<p>购买杜洋套装，学习单片机及电子制作</p>
+
+<p>购买iPad Mini, Kindle PaperWite 3, Arduino &amp;&amp; Raspberry Pi, SSD</p>
+
+<h3>云</h3>
+
+<p>Haddop</p>
+
+<h3>语言</h3>
+
+<p>将Ruby作为日常编程语言，再过一遍JavaScript，偶尔Lisp，系统学习Go，还有C++</p>
+
+<h3>理论</h3>
+
+<ul>
+<li>数据结构</li>
+<li>算法</li>
+<li>网络 tcp/ip</li>
+</ul>
+
+
+<p>开始使用 zsh &amp; Alfred</p>
+
+<p>学习 Verilog，购买FPGA，阅读《自制CPU》
+自制编程语言 30天自制操作系统</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -5,11 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Neater</title>
+  <title>CMD Tricks - Neater</title>
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="近来全栈工程师成了新的热词，似乎都是偏重Web的，个人觉得缺少了硬件方面，所以题目增加++，即全栈工程师++ = 传统的Hacker ，就像 Apple 的创始人 Waz，软硬兼修才是真正的Hacker，也是个人发展的方向，无奈长期做软件方面的工作，14年多多在硬件、单片机、FPGA、 &hellip;">
+  <meta name="description" content="输出文件的指定行 1
+sed -n 'x,yp' file; awk 'NF &gt; x && NF &gt; y' file 从x行开始，输出y行 1
+tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后10行 tail -n + &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +20,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://neater.github.io">
+  <link rel="canonical" href="http://neater.github.io/blog/2014/01/14/cmd-tricks">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Neater" type="application/atom+xml">
@@ -63,51 +65,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/01/22/quan-zhan-gong-cheng-shi-plus-plus/">全栈工程师++</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-22T10:41:05+08:00" pubdate data-updated="true">Jan 22<span>nd</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>近来全栈工程师成了新的热词，似乎都是偏重Web的，个人觉得缺少了硬件方面，所以题目增加++，即全栈工程师++ = 传统的Hacker ，就像 Apple 的创始人 Waz，软硬兼修才是真正的Hacker，也是个人发展的方向，无奈长期做软件方面的工作，14年多多在硬件、单片机、FPGA、Verilog投入精力和财力。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/01/14/cmd-tricks/">CMD Tricks</a></h1>
+      <h1 class="entry-title">CMD Tricks</h1>
     
     
       <p class="meta">
@@ -130,7 +93,7 @@
   </header>
 
 
-  <div class="entry-content"><p>输出文件的指定行</p>
+<div class="entry-content"><p>输出文件的指定行</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>sed -n 'x,yp' file;   awk 'NF &gt; x && NF &gt; y' file</span></code></pre></td></tr></table></div></figure>
@@ -168,22 +131,16 @@
 
 <p>echo $0，当前使用的 shell</p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/26/2013hui-gu-and-2014zhan-wang/">2013回顾 &amp; 2014展望</a></h1>
-    
-    
-      <p class="meta">
-        
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
 
 
 
@@ -195,70 +152,34 @@
   
 
 
-<time datetime="2013-12-26T14:29:06+08:00" pubdate data-updated="true">Dec 26<span>th</span>, 2013</time>
-        
-      </p>
+<time datetime="2014-01-14T15:47:05+08:00" pubdate data-updated="true">Jan 14<span>th</span>, 2014</time>
+      
+
+
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><h3>2014投资</h3>
-
-<h4>健身</h4>
-
-<p>健身器材 第二付哑铃 健身架 迎体向上门框架 弹力绳，练出肌肉再去健身房</p>
-
-<hr />
-
-<h3>家居</h3>
-
-<ul>
-<li>宽大的桌子</li>
-<li>折叠灯</li>
-<li>地图墙纸</li>
-</ul>
-
-
-<hr />
-
-<p>购买杜洋套装，学习单片机及电子制作</p>
-
-<p>购买iPad Mini, Kindle PaperWite 3, Arduino &amp;&amp; Raspberry Pi, SSD</p>
-
-<h3>云</h3>
-
-<p>Haddop</p>
-
-<h3>语言</h3>
-
-<p>将Ruby作为日常编程语言，再过一遍JavaScript，偶尔Lisp，系统学习Go，还有C++</p>
-
-<h3>理论</h3>
-
-<ul>
-<li>数据结构</li>
-<li>算法</li>
-<li>网络 tcp/ip</li>
-</ul>
-
-
-<p>开始使用 zsh &amp; Alfred</p>
-
-<p>学习 Verilog，购买FPGA，阅读《自制CPU》
-自制编程语言 30天自制操作系统</p>
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://neater.github.io/blog/2014/01/14/cmd-tricks/" data-via="" data-counturl="http://neater.github.io/blog/2014/01/14/cmd-tricks/" >Tweet</a>
+  
+  
+  
 </div>
-  
-  
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/12/26/2013hui-gu-and-2014zhan-wang/" title="Previous Post: 2013回顾 &amp; 2014展望">&laquo; 2013回顾 &amp; 2014展望</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/01/22/quan-zhan-gong-cheng-shi-plus-plus/" title="Next Post: 全栈工程师++">全栈工程师++ &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
 
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
 </div>
+
 <aside class="sidebar">
   
     <section>
@@ -286,6 +207,7 @@
 
   
 </aside>
+
 
     </div>
   </div>
