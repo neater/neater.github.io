@@ -28,9 +28,16 @@ tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+  <!--
+<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+
+<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
 
   
 
@@ -121,6 +128,16 @@ tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后
 </pre></td><td class='code'><pre><code class=''><span class='line'>system_profiler SPUSBDataType | grep "Serial Number:.*" | sed s#".*Serial Number: "##</span></code></pre></td></tr></table></div></figure>
 
 
+<h4>清空文件</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; filename</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cat /dev/null &gt; filename</span></code></pre></td></tr></table></div></figure>
+
+
 <p>虽然CMD中有很多快捷键，但无法大范围移动光标，OS X 下，按住option，然后鼠标点击当前行，光标会移动到该处。</p>
 
 <hr />
@@ -154,6 +171,12 @@ tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后
 
 <time datetime="2014-01-14T15:47:05+08:00" pubdate data-updated="true">Jan 14<span>th</span>, 2014</time>
       
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ming-ling-xing/'>命令行</a>
+  
+</span>
 
 
     </p>

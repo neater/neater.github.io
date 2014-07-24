@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 命令行 | Neater]]></title>
+  <link href="http://neater.github.io/blog/categories/ming-ling-xing/atom.xml" rel="self"/>
+  <link href="http://neater.github.io/"/>
+  <updated>2014-07-24T10:42:29+08:00</updated>
+  <id>http://neater.github.io/</id>
+  <author>
+    <name><![CDATA[Your Name]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[CMD Tricks]]></title>
+    <link href="http://neater.github.io/blog/2014/01/14/cmd-tricks/"/>
+    <updated>2014-01-14T15:47:05+08:00</updated>
+    <id>http://neater.github.io/blog/2014/01/14/cmd-tricks</id>
+    <content type="html"><![CDATA[<p>输出文件的指定行
+<code>
+sed -n 'x,yp' file;   awk 'NF &gt; x &amp;&amp; NF &gt; y' file
+</code>
+从x行开始，输出y行
+<code>
+tail +x file | head -y
+</code>
+head和tail 参数 -n的不同，head -n -10 除去最后10行 tail -n +10 从第10行开始</p>
+
+<h4>Mac下获取UDID</h4>
+
+<p><code>
+ioreg -w 0 -rc IOUSBDevice -k SupportsIPhoneOS | sed -n 's/.*USB Serial Number[^0-9a-z]*\([0-9a-z]*\).*/\1/p'
+</code>
+<code>
+system_profiler SPUSBDataType | sed -n -e '/iPhone/,/Serial/p' | grep "Serial Number:" | awk -F ": " '{print $2}'
+</code>
+<code>
+system_profiler SPUSBDataType | grep "Serial Number:.*" | sed s#".*Serial Number: "##
+</code></p>
+
+<h4>清空文件</h4>
+
+<p>```</p>
+
+<blockquote><p>filename
+<code>
+</code>
+cat /dev/null > filename
+```</p></blockquote>
+
+<p>虽然CMD中有很多快捷键，但无法大范围移动光标，OS X 下，按住option，然后鼠标点击当前行，光标会移动到该处。</p>
+
+<hr />
+
+<p>使用pgrep查找进程id，而不用 ps -ef | grep XXX</p>
+
+<hr />
+
+<p>echo $0，当前使用的 shell</p>
+]]></content>
+  </entry>
+  
+</feed>
