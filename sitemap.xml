@@ -2,26 +2,30 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://neater.github.io/blog/2013/12/26/2013hui-gu-and-2014zhan-wang/</loc>
-        <lastmod>2014-07-22T14:58:42+08:00</lastmod>
+        <lastmod>2014-07-25T10:15:50+08:00</lastmod>
     </url>
     <url>
         <loc>http://neater.github.io/blog/2014/01/14/cmd-tricks/</loc>
-        <lastmod>2014-07-24T09:45:25+08:00</lastmod>
+        <lastmod>2014-07-25T10:15:50+08:00</lastmod>
     </url>
     <url>
         <loc>http://neater.github.io/blog/2014/01/22/quan-zhan-gong-cheng-shi-plus-plus/</loc>
-        <lastmod>2014-07-22T15:54:04+08:00</lastmod>
+        <lastmod>2014-07-25T10:15:50+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://neater.github.io/blog/2014/07/24/viewcontrollershou-shen/</loc>
+        <lastmod>2014-07-25T14:59:00+08:00</lastmod>
     </url>
     <url>
         <loc>http://neater.github.io/blog/archives/</loc>
-        <lastmod>2014-07-24T09:45:25+08:00</lastmod>
+        <lastmod>2014-07-25T14:59:00+08:00</lastmod>
     </url>
     <url>
         <loc>http://neater.github.io/</loc>
-        <lastmod>2014-07-24T09:45:25+08:00</lastmod>
+        <lastmod>2014-07-25T14:59:00+08:00</lastmod>
     </url>
     <url>
         <loc>http://neater.github.io/robots.txt</loc>
-        <lastmod>2014-07-22T14:58:42+08:00</lastmod>
+        <lastmod>2014-07-25T10:15:50+08:00</lastmod>
     </url>
 </urlset>

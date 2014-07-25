@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 命令行 | Neater]]></title>
   <link href="http://neater.github.io/blog/categories/ming-ling-xing/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2014-07-24T10:42:29+08:00</updated>
+  <updated>2014-07-25T15:55:24+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -18,37 +18,36 @@
     <link href="http://neater.github.io/blog/2014/01/14/cmd-tricks/"/>
     <updated>2014-01-14T15:47:05+08:00</updated>
     <id>http://neater.github.io/blog/2014/01/14/cmd-tricks</id>
-    <content type="html"><![CDATA[<p>输出文件的指定行
-<code>
+    <content type="html"><![CDATA[<h4>输出文件的指定行</h4>
+
+<p><code>
 sed -n 'x,yp' file;   awk 'NF &gt; x &amp;&amp; NF &gt; y' file
 </code>
 从x行开始，输出y行
-<code>
-tail +x file | head -y
-</code>
-head和tail 参数 -n的不同，head -n -10 除去最后10行 tail -n +10 从第10行开始</p>
+```
+tail +x file | head -y</p>
+
+<p>head和tail 参数 -n的不同，head -n -10 除去最后10行 tail -n +10 从第10行开始
+```</p>
 
 <h4>Mac下获取UDID</h4>
 
-<p><code>
-ioreg -w 0 -rc IOUSBDevice -k SupportsIPhoneOS | sed -n 's/.*USB Serial Number[^0-9a-z]*\([0-9a-z]*\).*/\1/p'
-</code>
-<code>
-system_profiler SPUSBDataType | sed -n -e '/iPhone/,/Serial/p' | grep "Serial Number:" | awk -F ": " '{print $2}'
-</code>
-<code>
-system_profiler SPUSBDataType | grep "Serial Number:.*" | sed s#".*Serial Number: "##
-</code></p>
+<p>```
+ioreg -w 0 -rc IOUSBDevice -k SupportsIPhoneOS | sed -n &rsquo;s/.<em>USB Serial Number[^0-9a-z]</em>([0-9a-z]<em>).</em>/\1/p'</p>
+
+<p>system_profiler SPUSBDataType | sed -n -e &lsquo;/iPhone/,/Serial/p&rsquo; | grep &ldquo;Serial Number:&rdquo; | awk -F &ldquo;: &rdquo; &lsquo;{print $2}&rsquo;</p>
+
+<p>system_profiler SPUSBDataType | grep &ldquo;Serial Number:.<em>&rdquo; | sed s#&ldquo;.</em>Serial Number: &rdquo;##
+```</p>
 
 <h4>清空文件</h4>
 
 <p>```</p>
 
-<blockquote><p>filename
-<code>
-</code>
-cat /dev/null > filename
-```</p></blockquote>
+<blockquote><p>filename</p></blockquote>
+
+<p>cat /dev/null > filename
+```</p>
 
 <p>虽然CMD中有很多快捷键，但无法大范围移动光标，OS X 下，按住option，然后鼠标点击当前行，光标会移动到该处。</p>
 

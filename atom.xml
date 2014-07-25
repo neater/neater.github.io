@@ -4,7 +4,7 @@
   <title><![CDATA[Neater]]></title>
   <link href="http://neater.github.io/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2014-07-24T10:42:29+08:00</updated>
+  <updated>2014-07-25T15:55:24+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -12,6 +12,99 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ViewController瘦身之 抽取View Logic]]></title>
+    <link href="http://neater.github.io/blog/2014/07/24/viewcontrollershou-shen/"/>
+    <updated>2014-07-24T16:45:58+08:00</updated>
+    <id>http://neater.github.io/blog/2014/07/24/viewcontrollershou-shen</id>
+    <content type="html"><![CDATA[<p>面对日益臃肿的ViewController，测试、重构、增加新的需求将越来越困难，怎么破？</p>
+
+<h4>1.抽取view logic</h4>
+
+<p>通常我们会在ViewController里加载并控制View（通过Xib或者loadView方法），这样VC就会关心View的内部细节，如layout、Animation、如何填充、响应子视图的事件等，使VC更难以理解，而且增加了和View的耦合。</p>
+
+<h5>为Views创建Class</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &lt;UIKit/UIKit.h&gt;</span>
+</span><span class='line'><span class="k">@class</span> <span class="nc">JPLoginViewModel</span>;
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">JPLoginView</span> : <span class="nc">UIView</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">JPLoginViewModel</span> <span class="o">*</span><span class="n">viewModel</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">showAppearanceAnimation</span><span class="p">;</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">showNoConnectionFeedback:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">shouldShow</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">JPLoginViewModel</span> : <span class="nc">NSObject</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">userName</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">password</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>为异步操作使用Block</h4>
+
+<p>View有许多操作都是异步的，比如显示动画、显示需要客户确认，这时应该使用Block，这样可以增加可读性，使代码更紧凑。</p>
+
+<p>应该将不同的操作分离成Block。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">typedef</span> <span class="nf">BOOL</span><span class="p">(</span><span class="o">^</span><span class="n">JPLoginViewConfirmationCompletion</span><span class="p">)();</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">JPLoginView</span> : <span class="nc">UIView</span>
+</span><span class='line'><span class="c1">//...</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">showUserConfirmationWithCompletionBlock:</span><span class="p">(</span><span class="n">JPLoginViewConfirmationCompletion</span><span class="p">)</span><span class="nv">completion</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这种策略有利于测试，可以创建一对测试View，仅仅调用block，而不用为两个View分别模拟测试数据。</p>
+
+<h4>Datasources置于View中而不是ViewController</h4>
+
+<p>众所周之，VC通常实现Datasources，Apple的示例代码也是这么做的，但是仔细想想，当把UITableView的内部View改成UILabel或者UITextfield时，不可避免地要修改VC，无疑增加了耦合。</p>
+
+<p>另外，如果View Model所需要的数据已经由专门的Class提供，为什么还要VC充当这个角色？TableView只需要关心视图的细节。</p>
+
+<p>View所要做的仅仅是实例化分离出来的Datasources，并且将View Model赋值给它。将Cell的创建和配置信息封装起来，增加了可读性；分离Datasoures，方便进行单独测试，比如：number of cells、number of sections。</p>
+
+<h4>结论</h4>
+
+<p>有些人可能认为，这些不符合Apple的标准，但Apple Guideline并没有明确禁止把View从View Controller分离出来，也没有说只能在VC中定义IBOutlet，Guideline适用的场景是在比较小的系统中，当应用场景变的越来越大、越来越复杂，那就必须分离逻辑，好处是增加了可读性和可测试性。</p>
+
+<p>当然，增加额外的层会影响性能，但考虑到这样做所带来的好处，比如更易读、更快的查找，这点性能上的损失是绝对值得的</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[全栈工程师++]]></title>
@@ -27,7 +120,7 @@
     <link href="http://neater.github.io/blog/2014/01/14/cmd-tricks/"/>
     <updated>2014-01-14T15:47:05+08:00</updated>
     <id>http://neater.github.io/blog/2014/01/14/cmd-tricks</id>
-    <content type="html"><![CDATA[<p>输出文件的指定行</p>
+    <content type="html"><![CDATA[<h4>输出文件的指定行</h4>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>sed -n 'x,yp' file;   awk 'NF &gt; x && NF &gt; y' file</span></code></pre></td></tr></table></div></figure>
@@ -36,33 +129,35 @@
 <p>从x行开始，输出y行</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>tail +x file | head -y</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tail +x file | head -y
+</span><span class='line'>
+</span><span class='line'>head和tail 参数 -n的不同，head -n -10 除去最后10行 tail -n +10 从第10行开始</span></code></pre></td></tr></table></div></figure>
 
-
-<p>head和tail 参数 -n的不同，head -n -10 除去最后10行 tail -n +10 从第10行开始</p>
 
 <h4>Mac下获取UDID</h4>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ioreg -w 0 -rc IOUSBDevice -k SupportsIPhoneOS | sed -n 's/.*USB Serial Number[^0-9a-z]*\([0-9a-z]*\).*/\1/p'</span></code></pre></td></tr></table></div></figure>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>system_profiler SPUSBDataType | sed -n -e '/iPhone/,/Serial/p' | grep "Serial Number:" | awk -F ": " '{print $2}'</span></code></pre></td></tr></table></div></figure>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>system_profiler SPUSBDataType | grep "Serial Number:.*" | sed s#".*Serial Number: "##</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ioreg -w 0 -rc IOUSBDevice -k SupportsIPhoneOS | sed -n 's/.*USB Serial Number[^0-9a-z]*\([0-9a-z]*\).*/\1/p'
+</span><span class='line'>
+</span><span class='line'>system_profiler SPUSBDataType | sed -n -e '/iPhone/,/Serial/p' | grep "Serial Number:" | awk -F ": " '{print $2}'
+</span><span class='line'>
+</span><span class='line'>system_profiler SPUSBDataType | grep "Serial Number:.*" | sed s#".*Serial Number: "##</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>清空文件</h4>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; filename</span></code></pre></td></tr></table></div></figure>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cat /dev/null &gt; filename</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; filename
+</span><span class='line'>
+</span><span class='line'>cat /dev/null &gt; filename</span></code></pre></td></tr></table></div></figure>
 
 
 <p>虽然CMD中有很多快捷键，但无法大范围移动光标，OS X 下，按住option，然后鼠标点击当前行，光标会移动到该处。</p>

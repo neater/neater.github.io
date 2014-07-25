@@ -11,7 +11,9 @@
   
   <meta name="description" content="输出文件的指定行 1
 sed -n 'x,yp' file; awk 'NF &gt; x && NF &gt; y' file 从x行开始，输出y行 1
-tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后10行 tail -n + &hellip;">
+2
+3
+tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后10行 tail &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -25,7 +27,10 @@ tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Neater" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
+  <!--
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  -->
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--
@@ -42,6 +47,15 @@ tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后
   
 
 </head>
+
+<!--
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+   <link href="/atom.xml" rel="alternate" title="技术小黑屋" type="application/atom+xml">
+   <script src="/javascripts/modernizr-2.0.js"></script>
+   <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+-->
 
 <body   >
   <header role="banner"><hgroup>
@@ -100,7 +114,7 @@ tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后
   </header>
 
 
-<div class="entry-content"><p>输出文件的指定行</p>
+<div class="entry-content"><h4>输出文件的指定行</h4>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>sed -n 'x,yp' file;   awk 'NF &gt; x && NF &gt; y' file</span></code></pre></td></tr></table></div></figure>
@@ -109,33 +123,35 @@ tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后
 <p>从x行开始，输出y行</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>tail +x file | head -y</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tail +x file | head -y
+</span><span class='line'>
+</span><span class='line'>head和tail 参数 -n的不同，head -n -10 除去最后10行 tail -n +10 从第10行开始</span></code></pre></td></tr></table></div></figure>
 
-
-<p>head和tail 参数 -n的不同，head -n -10 除去最后10行 tail -n +10 从第10行开始</p>
 
 <h4>Mac下获取UDID</h4>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ioreg -w 0 -rc IOUSBDevice -k SupportsIPhoneOS | sed -n 's/.*USB Serial Number[^0-9a-z]*\([0-9a-z]*\).*/\1/p'</span></code></pre></td></tr></table></div></figure>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>system_profiler SPUSBDataType | sed -n -e '/iPhone/,/Serial/p' | grep "Serial Number:" | awk -F ": " '{print $2}'</span></code></pre></td></tr></table></div></figure>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>system_profiler SPUSBDataType | grep "Serial Number:.*" | sed s#".*Serial Number: "##</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ioreg -w 0 -rc IOUSBDevice -k SupportsIPhoneOS | sed -n 's/.*USB Serial Number[^0-9a-z]*\([0-9a-z]*\).*/\1/p'
+</span><span class='line'>
+</span><span class='line'>system_profiler SPUSBDataType | sed -n -e '/iPhone/,/Serial/p' | grep "Serial Number:" | awk -F ": " '{print $2}'
+</span><span class='line'>
+</span><span class='line'>system_profiler SPUSBDataType | grep "Serial Number:.*" | sed s#".*Serial Number: "##</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>清空文件</h4>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; filename</span></code></pre></td></tr></table></div></figure>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cat /dev/null &gt; filename</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; filename
+</span><span class='line'>
+</span><span class='line'>cat /dev/null &gt; filename</span></code></pre></td></tr></table></div></figure>
 
 
 <p>虽然CMD中有很多快捷键，但无法大范围移动光标，OS X 下，按住option，然后鼠标点击当前行，光标会移动到该处。</p>
@@ -208,6 +224,10 @@ tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/07/24/viewcontrollershou-shen/">ViewController瘦身之 抽取View Logic</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/01/22/quan-zhan-gong-cheng-shi-plus-plus/">全栈工程师++</a>
