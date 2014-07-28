@@ -33,7 +33,10 @@ system_profiler SPUSBDataType | grep "Serial Number:.*" | sed s#".*Serial Number
 
 cat /dev/null > filename
 ```
-
+给机器增加Load
+```
+cat /dev/nll/unandom | gzip -9 > /dev/null & 
+```
 虽然CMD中有很多快捷键，但无法大范围移动光标，OS X 下，按住option，然后鼠标点击当前行，光标会移动到该处。
 ***
 使用pgrep查找进程id，而不用 ps -ef | grep XXX
