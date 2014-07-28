@@ -4,7 +4,7 @@
   <title><![CDATA[Neater]]></title>
   <link href="http://neater.github.io/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2014-07-25T15:55:24+08:00</updated>
+  <updated>2014-07-28T17:20:21+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -20,11 +20,15 @@
     <id>http://neater.github.io/blog/2014/07/24/viewcontrollershou-shen</id>
     <content type="html"><![CDATA[<p>面对日益臃肿的ViewController，测试、重构、增加新的需求将越来越困难，怎么破？</p>
 
-<h4>1.抽取view logic</h4>
-
 <p>通常我们会在ViewController里加载并控制View（通过Xib或者loadView方法），这样VC就会关心View的内部细节，如layout、Animation、如何填充、响应子视图的事件等，使VC更难以理解，而且增加了和View的耦合。</p>
 
-<h5>为Views创建Class</h5>
+<p>VC主要负责与用户的交互，主要是控制内部View以及用户操作时产生的事件，而不是用来实现View，如果View使用了UITableView或者UICollectionView，那么VC不得不关心View的内部细节，就像一只冲出牢笼的野兽，变得难以驾驭，应该避免这样。</p>
+
+<p>下面是如何设计View的实践</p>
+
+<h4>为Views创建Class</h4>
+
+<p>首先，为Views创建类，它封装了View的所有内部细节，并为VC提供抽象接口，用来提供改变View状态的方法或者获得其内部信息，这样一来，VC实现了与View的解耦，不用关心View的内部实现，只需要访问View提供的接口即可。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -64,6 +68,74 @@
 </span><span class='line'><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+<p>可以看出，这个.h文件没有IBOutlets和subViews的信息，因为他们都是内部细节；如果不这样的话，VC将能访问这样内部细节，设想将来你想使用UITextFields和UILabels，而不是现在的UITableView来显示login和password，修改VC将是无法避免的。</p>
+
+<h4>使用View Model封闭View信息</h4>
+
+<p>上面的代码中的JPLoginViewModel封闭了View显示的细节，其中定义了2个字符串，而不在View中这样做，是因为View Model可以作为两者沟通的桥梁。
+View Model一般定义在View中，并提供操作的接口，VC创建View Model，并给其赋值，当然也能再获得这样值，再把这个View Model的引用赋给View。通过KVO，VC可以实现对View属性的监控。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSString</span> <span class="o">*</span><span class="n">userName</span> <span class="o">=</span> <span class="s">@&quot;&quot;</span><span class="p">;</span> <span class="c1">//Retreive it from your bussiness logic</span>
+</span><span class='line'>    <span class="n">NSString</span> <span class="o">*</span><span class="n">password</span> <span class="o">=</span> <span class="s">@&quot;&quot;</span><span class="p">;</span> <span class="c1">//Retreive it from your bussiness logic</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">JPLoginViewModel</span> <span class="o">*</span><span class="n">viewModel</span> <span class="o">=</span> <span class="p">[[</span><span class="n">JPLoginViewModel</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">viewModel</span><span class="p">.</span><span class="n">userName</span> <span class="o">=</span> <span class="n">userName</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">viewModel</span><span class="p">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">password</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">loginView</span><span class="p">.</span><span class="n">viewModel</span> <span class="o">=</span> <span class="n">viewModel</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidAppear:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">animated</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="nl">viewDidAppear:</span><span class="n">animated</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">loginView</span><span class="p">.</span><span class="n">viewModel</span> <span class="nl">addObserver:</span><span class="n">self</span> <span class="nl">forKeyPath:</span><span class="s">@&quot;password&quot;</span> <span class="nl">options:</span><span class="n">kNilOptions</span> <span class="nl">context:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidDisappear:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">animated</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="nl">viewDidDisappear:</span><span class="n">animated</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="nl">removeObserver:</span><span class="n">self</span> <span class="nl">forKeyPath:</span><span class="s">@&quot;password&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样一来，VC就知道什么时候View什么时候修改了View Model的数据，而不用通过蛋疼的Delegate，同时与View实现了解耦，View Model的这种简单清晰的方式，实现了VC与View之间的数据同步。</p>
 
 <h4>为异步操作使用Block</h4>
 
@@ -158,6 +230,12 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>&gt; filename
 </span><span class='line'>
 </span><span class='line'>cat /dev/null &gt; filename</span></code></pre></td></tr></table></div></figure>
+
+
+<p>给机器增加Load</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cat /dev/nll/unandom | gzip -9 &gt; /dev/null & </span></code></pre></td></tr></table></div></figure>
 
 
 <p>虽然CMD中有很多快捷键，但无法大范围移动光标，OS X 下，按住option，然后鼠标点击当前行，光标会移动到该处。</p>
