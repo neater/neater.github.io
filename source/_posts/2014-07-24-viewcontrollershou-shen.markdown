@@ -14,7 +14,7 @@ VC主要负责与用户的交互，主要是控制内部View以及用户操作�
 下面是如何设计View的实践：
 ###为Views创建Class
 首先，为Views创建类，它封装了View的所有内部细节，并为VC提供抽象接口，用来提供改变View状态的方法或者获得其内部信息，这样一来，VC实现了与View的解耦，不用关心View的内部实现，只需要访问View提供的接口即可。
-```
+```objective-c
 #import <UIKit/UIKit.h>
 @class JPLoginViewModel;
  
