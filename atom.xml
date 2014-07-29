@@ -4,7 +4,7 @@
   <title><![CDATA[Neater]]></title>
   <link href="http://neater.github.io/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2014-07-29T15:41:19+08:00</updated>
+  <updated>2014-07-29T15:48:21+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -39,7 +39,7 @@
 
 <p>首先，为Views创建类，它封装了View的所有内部细节，并为VC提供抽象接口，用来提供改变View状态的方法或者获得其内部信息，这样一来，VC实现了与View的解耦，不用关心View的内部实现，只需要访问View提供的接口即可。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -57,24 +57,25 @@
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
 <span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#import &lt;UIKit/UIKit.h&gt;
-</span><span class='line'>@class JPLoginViewModel;
-</span><span class='line'> 
-</span><span class='line'>@interface JPLoginView : UIView
-</span><span class='line'> 
-</span><span class='line'>@property (strong, nonatomic) JPLoginViewModel *viewModel;
-</span><span class='line'> 
-</span><span class='line'>- (void)showAppearanceAnimation;
-</span><span class='line'>- (void)showNoConnectionFeedback:(BOOL)shouldShow;
-</span><span class='line'> 
-</span><span class='line'>@end
-</span><span class='line'> 
-</span><span class='line'>@interface JPLoginViewModel : NSObject
-</span><span class='line'> 
-</span><span class='line'>@property (strong, nonatomic) NSString *userName;
-</span><span class='line'>@property (strong, nonatomic) NSString *password;
-</span><span class='line'> 
-</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &lt;UIKit/UIKit.h&gt;</span>
+</span><span class='line'><span class="k">@class</span> <span class="nc">JPLoginViewModel</span>;
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">JPLoginView</span> : <span class="nc">UIView</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">JPLoginViewModel</span> <span class="o">*</span><span class="n">viewModel</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">showAppearanceAnimation</span><span class="p">;</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">showNoConnectionFeedback:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">shouldShow</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">JPLoginViewModel</span> : <span class="nc">NSObject</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">userName</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">password</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>可以看出，这个.h文件没有IBOutlets和subViews的信息，因为他们都是内部细节；如果不这样的话，VC将能访问这样内部细节，设想将来你想使用UITextFields和UILabels，而不是现在的UITableView来显示login和password，修改VC将是无法避免的。</p>
@@ -84,7 +85,7 @@
 <p>上面的代码中的JPLoginViewModel封闭了View显示的细节，其中定义了2个字符串，而不在View中这样做，是因为View Model可以作为两者沟通的桥梁。
 View Model一般定义在View中，并提供操作的接口，VC创建View Model，并给其赋值，当然也能再获得这样值，再把这个View Model的引用赋给View。通过KVO，VC可以实现对View属性的监控。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -112,34 +113,35 @@ View Model一般定义在View中，并提供操作的接口，VC创建View Model
 <span class='line-number'>26</span>
 <span class='line-number'>27</span>
 <span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)viewDidLoad
-</span><span class='line'>{
-</span><span class='line'>    [super viewDidLoad];
-</span><span class='line'>    
-</span><span class='line'>    NSString *userName = @""; //Retreive it from your bussiness logic
-</span><span class='line'>    NSString *password = @""; //Retreive it from your bussiness logic
-</span><span class='line'>    
-</span><span class='line'>    
-</span><span class='line'>    JPLoginViewModel *viewModel = [[JPLoginViewModel alloc] init];
-</span><span class='line'>    viewModel.userName = userName;
-</span><span class='line'>    viewModel.password = password;
-</span><span class='line'>    
-</span><span class='line'>    self.loginView.viewModel = viewModel;
-</span><span class='line'>}
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
 </span><span class='line'>
-</span><span class='line'>- (void)viewDidAppear:(BOOL)animated
-</span><span class='line'>{
-</span><span class='line'>    [super viewDidAppear:animated];
-</span><span class='line'>    
-</span><span class='line'>    [self.loginView.viewModel addObserver:self forKeyPath:@"password" options:kNilOptions context:nil];
-</span><span class='line'>}
+</span><span class='line'>    <span class="n">NSString</span> <span class="o">*</span><span class="n">userName</span> <span class="o">=</span> <span class="s">@&quot;&quot;</span><span class="p">;</span> <span class="c1">//Retreive it from your bussiness logic</span>
+</span><span class='line'>    <span class="n">NSString</span> <span class="o">*</span><span class="n">password</span> <span class="o">=</span> <span class="s">@&quot;&quot;</span><span class="p">;</span> <span class="c1">//Retreive it from your bussiness logic</span>
 </span><span class='line'>
-</span><span class='line'>- (void)viewDidDisappear:(BOOL)animated
-</span><span class='line'>{
-</span><span class='line'>    [super viewDidDisappear:animated];
-</span><span class='line'>    
-</span><span class='line'>    [self removeObserver:self forKeyPath:@"password"];
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">JPLoginViewModel</span> <span class="o">*</span><span class="n">viewModel</span> <span class="o">=</span> <span class="p">[[</span><span class="n">JPLoginViewModel</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">viewModel</span><span class="p">.</span><span class="n">userName</span> <span class="o">=</span> <span class="n">userName</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">viewModel</span><span class="p">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">password</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">loginView</span><span class="p">.</span><span class="n">viewModel</span> <span class="o">=</span> <span class="n">viewModel</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidAppear:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">animated</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="nl">viewDidAppear:</span><span class="n">animated</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">loginView</span><span class="p">.</span><span class="n">viewModel</span> <span class="nl">addObserver:</span><span class="n">self</span> <span class="nl">forKeyPath:</span><span class="s">@&quot;password&quot;</span> <span class="nl">options:</span><span class="n">kNilOptions</span> <span class="nl">context:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidDisappear:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">animated</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="nl">viewDidDisappear:</span><span class="n">animated</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="nl">removeObserver:</span><span class="n">self</span> <span class="nl">forKeyPath:</span><span class="s">@&quot;password&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>这样一来，VC就知道什么时候View什么时候修改了View Model的数据，而不用通过蛋疼的Delegate，同时与View实现了解耦，View Model的这种简单清晰的方式，实现了VC与View之间的数据同步。</p>
@@ -148,7 +150,7 @@ View Model一般定义在View中，并提供操作的接口，VC创建View Model
 
 <p>当你需要引用内部的Subviews，例如UILable，UITableView等视图时，所有这些内部细节对任何其它类来说都应该是不可见的，应该把这些细节定义为View的内部属性。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -160,18 +162,19 @@ View Model一般定义在View中，并提供操作的接口，VC创建View Model
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#import "JPLoginView.h"
-</span><span class='line'> 
-</span><span class='line'>@interface JPLoginView()
-</span><span class='line'>@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
-</span><span class='line'>@property (strong, nonatomic) IBOutlet UITableView *fieldsTableView;
-</span><span class='line'>@property (strong, nonatomic) IBOutlet UIButton *loginButton;
-</span><span class='line'>@property (strong, nonatomic) IBOutlet UIProgressView *connectionIssueProgressView;
-</span><span class='line'> 
-</span><span class='line'>@end
-</span><span class='line'> 
-</span><span class='line'>@implementation JPLoginView
-</span><span class='line'>//...</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &quot;JPLoginView.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">JPLoginView</span><span class="p">()</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="n">UILabel</span> <span class="o">*</span><span class="n">titleLabel</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="n">UITableView</span> <span class="o">*</span><span class="n">fieldsTableView</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="n">UIButton</span> <span class="o">*</span><span class="n">loginButton</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="n">UIProgressView</span> <span class="o">*</span><span class="n">connectionIssueProgressView</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">JPLoginView</span>
+</span><span class='line'><span class="c1">//...</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>可以看到，将来如果想把UITableView改成UILabels和UITextFields，不用修改VC，改这个类就可以了，删除也是一样。</p>
@@ -191,7 +194,7 @@ View Model一般定义在View中，并提供操作的接口，VC创建View Model
 
 <p>Delegate应该定义在View的头文件中，因为是View产生了事件。可以为View定义一个Delegate的属性，而让VC为它赋值，方式可以是通过XIBs，或者在viewDidLoad方法中。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -207,22 +210,23 @@ View Model一般定义在View中，并提供操作的接口，VC创建View Model
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@protocol JPLoginViewDelegate;
-</span><span class='line'> 
-</span><span class='line'>@interface JPLoginView : UIView
-</span><span class='line'> 
-</span><span class='line'>@property (strong, nonatomic) JPLoginViewModel *viewModel;
-</span><span class='line'>@property (weak, nonatomic) id&lt;JPLoginViewDelegate&gt; delegate;
-</span><span class='line'> 
-</span><span class='line'>//methods
-</span><span class='line'> 
-</span><span class='line'>@end
-</span><span class='line'> 
-</span><span class='line'>@protocol JPLoginViewDelegate &lt;NSObject&gt;
-</span><span class='line'> 
-</span><span class='line'>- (void)didTapLoginAtLoginView:(JPLoginView *)loginView;
-</span><span class='line'> 
-</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@protocol</span> <span class="nc">JPLoginViewDelegate</span>;
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">JPLoginView</span> : <span class="nc">UIView</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">JPLoginViewModel</span> <span class="o">*</span><span class="n">viewModel</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">weak</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="kt">id</span><span class="o">&lt;</span><span class="n">JPLoginViewDelegate</span><span class="o">&gt;</span> <span class="n">delegate</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//methods</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@protocol</span> <span class="nc">JPLoginViewDelegate</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">didTapLoginAtLoginView:</span><span class="p">(</span><span class="n">JPLoginView</span> <span class="o">*</span><span class="p">)</span><span class="n">loginView</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Delegate的所有方法，可以集中在VC中，如果使用Block的话，viewDidLoad会充斥大量的代码，影响可读性，这方面，无疑Delegate做得更好。
@@ -234,20 +238,21 @@ View Model一般定义在View中，并提供操作的接口，VC创建View Model
 
 <p>应该将不同的操作分离成Block。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>typedef BOOL(^JPLoginViewConfirmationCompletion)();
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">typedef</span> <span class="nf">BOOL</span><span class="p">(</span><span class="o">^</span><span class="n">JPLoginViewConfirmationCompletion</span><span class="p">)();</span>
 </span><span class='line'>
-</span><span class='line'>@interface JPLoginView : UIView
-</span><span class='line'>//...
-</span><span class='line'>- (void)showUserConfirmationWithCompletionBlock:(JPLoginViewConfirmationCompletion)completion;
+</span><span class='line'><span class="k">@interface</span> <span class="nc">JPLoginView</span> : <span class="nc">UIView</span>
+</span><span class='line'><span class="c1">//...</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">showUserConfirmationWithCompletionBlock:</span><span class="p">(</span><span class="n">JPLoginViewConfirmationCompletion</span><span class="p">)</span><span class="nv">completion</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>这种策略有利于测试，可以创建一对测试View，仅仅调用block，而不用为两个View分别模拟测试数据。</p>
