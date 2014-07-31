@@ -4,7 +4,7 @@
   <title><![CDATA[Neater]]></title>
   <link href="http://neater.github.io/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2014-07-29T15:48:21+08:00</updated>
+  <updated>2014-07-31T15:49:13+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -14,11 +14,58 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Mac Tips]]></title>
+    <link href="http://neater.github.io/blog/2014/07/30/mac-tips/"/>
+    <updated>2014-07-30T15:37:40+08:00</updated>
+    <id>http://neater.github.io/blog/2014/07/30/mac-tips</id>
+    <content type="html"><![CDATA[<h4>Mac下打开最近访问项</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>⌘ + ⇥ 切换App的时候，⌘不放，再按↑，将会显示该App最近打开的文件。使用↑↓←→进行选择，按 ↩ 打开。</span></code></pre></td></tr></table></div></figure>
+
+
+<p>虽然CMD中有很多快捷键，但无法大范围移动光标，OS X 下，按住option，然后鼠标点击当前行，光标会移动到该处。</p>
+
+<h3>键盘操控对话框</h3>
+
+<p>以未保存对话框为例
+<img src="https://farm3.staticflickr.com/2897/14005766309_e55ffb73ac_z.jpg" alt="" /></p>
+
+<ul>
+<li>回车 —> Save</li>
+<li>⌘ + . &ndash;> Cancel</li>
+<li>⌘ + Del &ndash;> Delete</li>
+<li>⌘ + ⇧ + H &ndash;> 跳转至主目录</li>
+<li>⌘ + D   &ndash;>  跳转至桌面</li>
+<li>⌘ + ⇧ + G &ndash;> 输入要跳转的路径，按 ⇥ 自动补全。</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[通讯学习心得]]></title>
+    <link href="http://neater.github.io/blog/2014/07/30/tong-xun-xue-xi-xin-de/"/>
+    <updated>2014-07-30T09:04:15+08:00</updated>
+    <id>http://neater.github.io/blog/2014/07/30/tong-xun-xue-xi-xin-de</id>
+    <content type="html"><![CDATA[<p>眼下正在大力普及4G，但听说韩国已经在部署5G计划了，互联网和通讯行业发展迅猛，一大波术语让人困惑，比如 4G、5G、GPRS、CDMA、LTE。再读几本入门书籍后，有了感性的认识，分别是《大话通信》、《大话移动通信》、《大话无线通信》。</p>
+
+<h3>信号</h3>
+
+<p>以前大量使用模拟信号（连续的随时间变化的波形信号），优点是避免失真，如电影胶片；而数字信号，最大的优点是对跑嗓声的处理，另外还有加密、校验。</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Xcode技巧]]></title>
     <link href="http://neater.github.io/blog/2014/07/29/xcodeji-qiao/"/>
     <updated>2014-07-29T14:05:32+08:00</updated>
     <id>http://neater.github.io/blog/2014/07/29/xcodeji-qiao</id>
-    <content type="html"><![CDATA[<p><strong>Edit all in Scope</strong> 适合进行大批量的修改变量和方法；选定一个想要修改的字符串，然后选择<strong>Edit－Edit all in Scope</strong>，然后在你输入的时候，所有该字符出现的地方都进行同步更改。</p>
+    <content type="html"><![CDATA[<h4>Edit all in Scope</h4>
+
+<p>适合进行大批量的修改变量和方法；选定一个想要修改的字符串，然后选择<strong>Edit－Edit all in Scope</strong>，然后在你输入的时候，所有该字符出现的地方都进行同步更改。</p>
+
+<h3>#</h3>
 ]]></content>
   </entry>
   
@@ -332,8 +379,6 @@ View Model一般定义在View中，并提供操作的接口，VC创建View Model
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>cat /dev/nll/unandom | gzip -9 &gt; /dev/null & </span></code></pre></td></tr></table></div></figure>
 
-
-<p>虽然CMD中有很多快捷键，但无法大范围移动光标，OS X 下，按住option，然后鼠标点击当前行，光标会移动到该处。</p>
 
 <hr />
 
