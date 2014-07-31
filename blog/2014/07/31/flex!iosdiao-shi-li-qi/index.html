@@ -5,11 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>通讯学习心得 - Neater</title>
+  <title>FLEX！iOS调试利器 - Neater</title>
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="眼下正在大力普及4G，但听说韩国已经在部署5G计划了，互联网和通讯行业发展迅猛，一大波术语让人困惑，比如 4G、5G、GPRS、CDMA、LTE。再读几本入门书籍后，有了感性的认识，分别是《大话通信》、《大话移动通信》、《大话无线通信》。 信号 以前大量使用模拟信号（连续的随时间变化的波形信号）， &hellip;">
+  <meta name="description" content="FLEX (Flipboard Explorer)是一系列集成在APP内部的用于iOS调试的工具集，以工具栏的形式显示在应用中，通过它，可以查看并修改几乎所有的APP运行状态。 强大的调试能力 查看、修改View的层次关系。
+查看对象的属性和实例变量。
+动态修改属性和实例变量。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +20,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://neater.github.io/blog/2014/07/30/tong-xun-xue-xi-xin-de">
+  <link rel="canonical" href="http://neater.github.io/blog/2014/07/31/flex%21iosdiao-shi-li-qi">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Neater" type="application/atom+xml">
@@ -87,7 +89,7 @@
   
   <header>
     
-      <h1 class="entry-title">通讯学习心得</h1>
+      <h1 class="entry-title">FLEX！iOS调试利器</h1>
     
     
       <p class="meta">
@@ -103,18 +105,83 @@
   
 
 
-<time datetime="2014-07-30T09:04:15+08:00" pubdate data-updated="true">Jul 30<span>th</span>, 2014</time>
+<time datetime="2014-07-31T15:51:37+08:00" pubdate data-updated="true">Jul 31<span>st</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>眼下正在大力普及4G，但听说韩国已经在部署5G计划了，互联网和通讯行业发展迅猛，一大波术语让人困惑，比如 4G、5G、GPRS、CDMA、LTE。再读几本入门书籍后，有了感性的认识，分别是《大话通信》、《大话移动通信》、《大话无线通信》。</p>
+<div class="entry-content"><p>FLEX (Flipboard Explorer)是一系列集成在APP内部的用于iOS调试的工具集，以工具栏的形式显示在应用中，通过它，可以查看并修改几乎所有的APP运行状态。</p>
 
-<h3>信号</h3>
+<p><img src="https://camo.githubusercontent.com/9986601c5e4306f7935032465911c0f70596e046/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f62617369632d766965772d6578706c6f726174696f6e2e676966" alt="dfd" /></p>
 
-<p>以前大量使用模拟信号（连续的随时间变化的波形信号），优点是避免失真，如电影胶片；而数字信号，最大的优点是对跑嗓声的处理，另外还有加密、校验。</p>
+<h2>强大的调试能力</h2>
+
+<ul>
+<li>查看、修改View的层次关系。</li>
+<li>查看对象的属性和实例变量。</li>
+<li>动态修改属性和实例变量。</li>
+<li>动态调用实例和类方法。</li>
+<li>动态访问堆上的对象。</li>
+<li>访问APP的沙盒。</li>
+<li>除jAPP的所有类外，还能访问已链接的系统框架，包括私有的。</li>
+<li>快速访问一些常用的对象，比如<code>[UIApplication sharedApplication]</code>、App Delegate、Root View Controller等。</li>
+<li>动态查看、修改<code>NSUserDefaults</code>存储的值。</li>
+</ul>
+
+
+<p>和其它调试工具不同，FLEX完全运行在你的APP中，所以不需要连接到LLDB/Xcode或者远程调试的服务端，在模拟器和真机上都运行的很好。</p>
+
+<h2>用法</h2>
+
+<h3>简单版本</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[[FLEXManager sharedManager] showExplorer];</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>完整版本</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#if DEBUG
+</span><span class='line'>#import "FLEXManager.h"
+</span><span class='line'>#endif
+</span><span class='line'>
+</span><span class='line'>...
+</span><span class='line'>
+</span><span class='line'>- (void)handleSixFingerQuadrupleTap:(UITapGestureRecognizer *)tapRecognizer
+</span><span class='line'>{
+</span><span class='line'>#if DEBUG
+</span><span class='line'>    if (tapRecognizer.state == UIGestureRecognizerStateRecognized) {
+</span><span class='line'>        // This could also live in a handler for a keyboard shortcut, debug menu item, etc.
+</span><span class='line'>        [[FLEXManager sharedManager] showExplorer];
+</span><span class='line'>    }
+</span><span class='line'>#endif
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>功能示例</h2>
+
+<h3>修改视图</h3>
+
+<p>点击<code>views</code>，从工具栏下面弹出界面，显示视图的详细信息，并能修改属性值和调用方法。</p>
+
+<p><img src="https://camo.githubusercontent.com/950a2612b1dc796bc5cc3fd9909ed465166afc5b/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f616476616e6365642d766965772d65646974696e672e676966" alt="fff" /></p>
 </div>
 
 
@@ -137,7 +204,7 @@
   
 
 
-<time datetime="2014-07-30T09:04:15+08:00" pubdate data-updated="true">Jul 30<span>th</span>, 2014</time>
+<time datetime="2014-07-31T15:51:37+08:00" pubdate data-updated="true">Jul 31<span>st</span>, 2014</time>
       
 
 
@@ -145,7 +212,7 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://neater.github.io/blog/2014/07/30/tong-xun-xue-xi-xin-de/" data-via="" data-counturl="http://neater.github.io/blog/2014/07/30/tong-xun-xue-xi-xin-de/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://neater.github.io/blog/2014/07/31/flex%21iosdiao-shi-li-qi/" data-via="" data-counturl="http://neater.github.io/blog/2014/07/31/flex%21iosdiao-shi-li-qi/" >Tweet</a>
   
   
   
@@ -154,10 +221,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/07/29/xcodeji-qiao/" title="Previous Post: Xcode技巧">&laquo; Xcode技巧</a>
+        <a class="basic-alignment left" href="/blog/2014/07/30/mac-tips/" title="Previous Post: Mac Tips">&laquo; Mac Tips</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/07/30/mac-tips/" title="Next Post: Mac Tips">Mac Tips &raquo;</a>
       
     </p>
   </footer>
