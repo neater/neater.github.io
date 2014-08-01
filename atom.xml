@@ -4,7 +4,7 @@
   <title><![CDATA[Neater]]></title>
   <link href="http://neater.github.io/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2014-08-01T10:35:06+08:00</updated>
+  <updated>2014-08-01T13:48:44+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -43,13 +43,14 @@
 
 <h3>简单版本</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[[FLEXManager sharedManager] showExplorer];</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[[</span><span class="n">FLEXManager</span> <span class="n">sharedManager</span><span class="p">]</span> <span class="n">showExplorer</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>完整版本</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -64,21 +65,22 @@
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#if DEBUG
-</span><span class='line'>#import "FLEXManager.h"
-</span><span class='line'>#endif
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#if DEBUG</span>
+</span><span class='line'><span class="cp">#import &quot;FLEXManager.h&quot;</span>
+</span><span class='line'><span class="cp">#endif</span>
 </span><span class='line'>
-</span><span class='line'>...
+</span><span class='line'><span class="p">...</span>
 </span><span class='line'>
-</span><span class='line'>- (void)handleSixFingerQuadrupleTap:(UITapGestureRecognizer *)tapRecognizer
-</span><span class='line'>{
-</span><span class='line'>#if DEBUG
-</span><span class='line'>    if (tapRecognizer.state == UIGestureRecognizerStateRecognized) {
-</span><span class='line'>        // This could also live in a handler for a keyboard shortcut, debug menu item, etc.
-</span><span class='line'>        [[FLEXManager sharedManager] showExplorer];
-</span><span class='line'>    }
-</span><span class='line'>#endif
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">handleSixFingerQuadrupleTap:</span><span class="p">(</span><span class="n">UITapGestureRecognizer</span> <span class="o">*</span><span class="p">)</span><span class="n">tapRecognizer</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="cp">#if DEBUG</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">tapRecognizer</span><span class="p">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">UIGestureRecognizerStateRecognized</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// This could also live in a handler for a keyboard shortcut, debug menu item, etc.</span>
+</span><span class='line'>        <span class="p">[[</span><span class="n">FLEXManager</span> <span class="n">sharedManager</span><span class="p">]</span> <span class="n">showExplorer</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="cp">#endif</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>功能示例</h2>
@@ -106,6 +108,40 @@
 <p>深挖框架内部的class，创建相应的实例，并访问其状态。</p>
 
 <p><img src="https://camo.githubusercontent.com/c91fc34a63f05f803cdc0d23d72ae047d0b960bd/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f73797374656d2d6c69627261726965732d62726f777365722e676966" alt="System Library Exploration" /></p>
+
+<h3>编辑NSUserDefaults</h3>
+
+<p>FLEX允许修改NSUserDefaults的strings, numbers, arrays, and dictionaries，及其它们的组合，输入格式为json；如果使用其它数据作为key，如NSDate，则是只读的。</p>
+
+<p><img src="https://camo.githubusercontent.com/c9b72bf288f79993fbbc46cd4c0c37504fd8e11b/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f6e737573657264656661756c74732d656469746f722e676966" alt="NSUserDefaults" /></p>
+
+<h3>探索其它APP</h3>
+
+<p>代码注入留给大家去摸索了</p>
+
+<p><img src="https://camo.githubusercontent.com/de456cb9f822094e49b40692cd9720c8e99905d7/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f666c65782d726561646d652d726576657273652d312e706e67" alt="Injection" /><img src="https://camo.githubusercontent.com/44624ad09a907893fc95bf35283bc12439ae9d93/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f666c65782d726561646d652d726576657273652d322e706e67" alt="Injection" /></p>
+
+<h2>避免将FLEX编译到正式版本</h2>
+
+<p>尽管FLEX很适合在开发调试的时候使用，但它不应该让最终用户看到。在Xcode &ndash;> Project &ndash;> Build Setting，点<code>+</code>选择<code>Add User-Defined Setting</code>。</p>
+
+<p><img src="https://camo.githubusercontent.com/5b1cbb5cb14496ee12a8a8aeacc2c155a735a1c1/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f666c65782d726561646d652d6578636c7564652d312e706e67" alt="Excluding FLEX" /></p>
+
+<p>命名为<code>EXCLUDED_SOURCE_FILE_NAMES</code>，在<code>Release</code>配置中，填入<code>FLEX*</code>，将不会编译所有以FLEX开头的文件，<code>Debug</code>配置里空白就行了。</p>
+
+<p><img src="https://camo.githubusercontent.com/843997bca76f737561e1084293e9dfd90cda4d97/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f666c65782d726561646d652d6578636c7564652d322e706e67" alt="" /></p>
+
+<p>在所有集成FLEX代码的地方，确保将其嵌入到<code>#if DEBUG</code>中，更多相关信息，请参考官方示例。</p>
+
+<h2>注意</h2>
+
+<ul>
+<li>NSUserDefaults中，如果值的类型为<code>id</code>，FLEX将把输入的string转为json，目的是使用strings, numbers, arrays, and dictionaries的组合。如果值为string，则一定用字符串引号包裹起来，显示使用 <code>NSString</code> 的属性和实例变量，则不用引号。</li>
+<li>在使用FLEX时，你可能会取消异常断点。FLEX会拨出一些异常，当接收了某种不能处理的输入（如<code>NSGetSizeAndAlignment()</code>）, 为了防止程序崩溃，FLEX会捕获并将其抛出，但是这样会激活你的断点。</li>
+</ul>
+
+
+<p>译自 <a href="https://github.com/Flipboard/FLEX/">FLEX README.md</a></p>
 ]]></content>
   </entry>
   
