@@ -93,6 +93,6 @@ FLEX允许修改NSUserDefaults的strings, numbers, arrays, and dictionaries，�
 
 ## 注意
 * NSUserDefaults中，如果值的类型为`id`，FLEX将把输入的string转为json，目的是使用strings, numbers, arrays, and dictionaries的组合。如果值为string，则一定用字符串引号包裹起来，显示使用 `NSString` 的属性和实例变量，则不用引号。
-* 在使用FLEX时，你可能会取消异常断点。FLEX会拨出一些异常，当接收了某种不能处理的输入（如`NSGetSizeAndAlignment()`）, 为了防止程序崩溃，FLEX会捕获并将其抛出，但是这样会激活你的断点。
+* 在使用FLEX时，你可能会取消异常断点。FLEX会产生一些异常，当接收了某种不能处理的输入（如`NSGetSizeAndAlignment()`）, 为了防止程序崩溃，FLEX会捕获并将其抛出，但是这样会激活你的断点。
 
 译自 [FLEX README.md](https://github.com/Flipboard/FLEX/)
