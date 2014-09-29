@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Reactivecocoa | Neater]]></title>
+  <link href="http://neater.github.io/blog/categories/reactivecocoa/atom.xml" rel="self"/>
+  <link href="http://neater.github.io/"/>
+  <updated>2014-09-29T16:21:25+08:00</updated>
+  <id>http://neater.github.io/</id>
+  <author>
+    <name><![CDATA[Your Name]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ReactiveCocoa and Swift]]></title>
+    <link href="http://neater.github.io/blog/2014/09/24/reactivecocoa-and-swift/"/>
+    <updated>2014-09-24T15:21:40+08:00</updated>
+    <id>http://neater.github.io/blog/2014/09/24/reactivecocoa-and-swift</id>
+    <content type="html"><![CDATA[<p>Swift可以和Objective-C相互调用，所以，在用Swift编写的App中，可以直接使用Reactivecocoa。</p>
+
+<p>尽管如此，</p>
+
+<h3>Signals in Swift</h3>
+
+<p>通过桥接，ReactiveCocoa的API从Objective-C的块过渡到了Swift的闭包，来看一个例子，下面的Objective-C代码subscribe了UITextfield的<code>rac_textSignal</code>，用来查看当前的length。
+<code>
+[self.searchTextField.rac_textSignal subscribeNext:^(id x) {
+  NSString *text = (NSString *)x;
+  NSLog(text);
+}];
+</code>
+当在这个UITextfield中依次输入0 1 2 3 4 5时，Console中显示
+<code>
+0
+1
+2
+3
+4
+5
+</code>
+当然了，为了避免显示转换，可以把上面的Block签名中的参数类型，从<code>id</code>改为<code>NSString</code>:
+<code>
+[self.searchTextField.rac_textSignal subscribeNext:^(NSString *text) {
+  NSLog(text);
+}];
+</code>
+与之对应的Swift代码如下：
+```
+searchTextField.rac_textSignal().subscribeNext {
+  (next:AnyObject!) &ndash;> () in
+  if let text = next as? String {</p>
+
+<pre><code>println(countElements(text))
+</code></pre>
+
+<p>  }
+}
+<code>``
+不幸的是，当Swift和Objective-C进行调用的时候，会经常用到</code>as<code>操作符，从而变得更复杂了，我们不能进行显示转换，Swift生硬地插入了必须的类型为</code>(AnyObject!) &ndash;> ()`的函数。</p>
+
+<p>也可以使用<code>if-let</code>条件语句进行简化，因为<code>AnyObject</code>在当前情况下可以视为字符串。
+<code>
+searchTextField.rac_textSignal().subscribeNext {
+  (next:AnyObject!) -&gt; () in
+  let text = next as String
+  println(countElements(text))
+}
+</code>
+但是，这仍然还是要比Objective-C的版本复杂。
+还好有解决这个问题的方案！针对<code>RACSignal</code>进行扩展，把传入函数参数类型进行必须的转换:
+```
+extension RACSignal {<br/>
+  func subscribeNextAs<T>(nextClosure:(T) &ndash;> ()) &ndash;> () {</p>
+
+<pre><code>self.subscribeNext {
+  (next: AnyObject!) -&gt; () in
+  let nextAsT = next as T
+  nextClosure(nextAsT)
+}
+</code></pre>
+
+<p>  }
+}
+<code>
+上面的代码使用泛型进行类型转换，参数T的类型通过实际传入的参数进行推断，这引出了一些有趣的语法
+</code>
+searchTextField.rac_textSignal().subscribeNextAs {
+  (text:String) &ndash;> () in
+  println(countElements(text))
+}
+```
+好多了！</p>
+
+<h3>Bindings</h3>
+
+<p>ReactiveCocoa有一些宏用来绑定属性到signals，下面的代码，把viewModel的<code>searchText</code>属性绑定到一个UITextfield的<code>rac_textSignal</code>属性，当UITextfield中的内容更新了，这个signal忽略当前值，把新的值更新到viewModel的searchText
+<code>
+RAC(self.viewModel, searchText) = self.searchTextField.rac_textSignal;
+</code>
+Swift不支持宏，当然不能使用<code>RAC</code>了。
+下面的struct和operator替代了RAC macro:
+```
+// a struct that replaces the RAC macro
+struct RAC  {
+  var target : NSObject!
+  var keyPath : String!
+  var nilValue : AnyObject!</p>
+
+<p>  init(_ target: NSObject!, _ keyPath: String, nilValue: AnyObject? = nil) {</p>
+
+<pre><code>self.target = target
+self.keyPath = keyPath
+self.nilValue = nilValue
+</code></pre>
+
+<p>  }</p>
+
+<p>  func assignSignal(signal : RACSignal) {</p>
+
+<pre><code>signal.setKeyPath(self.keyPath, onObject: self.target, nilValue: self.nilValue)
+</code></pre>
+
+<p>  }
+}</p>
+
+<p>operator infix ~> {}
+@infix func ~> (signal: RACSignal, rac: RAC) {
+  rac.assignSignal(signal)
+}
+```</p>
+
+<p><code>
+searchTextField.rac_textSignal() ~&gt; RAC(viewModel, "searchText")
+</code>
+重写<code>RACObserve</code>宏显得容易些
+<code>
+func RACObserve(target: NSObject!, keyPath: String) -&gt; RACSignal  {
+  return target.rac_valuesForKeyPath(keyPath, observer: target)
+}
+</code></p>
+
+<h3>Cool Stuff!</h3>
+
+<p>我喜欢把已有的App移植一点一点地移植到Swift，为了减少Flickr的API调用，当photo显示一秒后，再调用相应的API获得相应的元数据(评论、点赞数)
+```
+// a signal that emits events when visibility changes
+let visibleStateChanged = RACObserve(self, &ldquo;isVisible&rdquo;).skip(1)</p>
+
+<p>// filtered into visible and hidden signals
+let visibleSignal = visibleStateChanged.filter { $0.boolValue }
+let hiddenSignal = visibleStateChanged.filter { !$0.boolValue }</p>
+
+<p>// a signal that emits when an item has been visible for 1 second
+let fetchMetadata = visibleSignal.delay(1).takeUntil(hiddenSignal)</p>
+
+<p>fetchMetadata.subscribeNext {
+  // fetch the meta-data
+}
+<code>``
+上面的代码监听viewModel的</code>isVisible`属性，当photo显示或隐藏时产生信号来发出相应的事件，通过组合的方式，延时一秒后产生一个信号来获得元数据。酷！</p>
+
+<h3>Conclusions</h3>
+
+<p>把app从Objectiv-C移植到Swift是很有趣的，有些地方显得有些让人困惑，但我认为，一般说来Swift的这种编程范式将来会变得越来越容易。</p>
+
+<p>译自 <a href="http://www.scottlogic.com/blog/2014/07/24/mvvm-reactivecocoa-swift.html">
+MVVM, Swift and ReactiveCocoa &ndash; It&rsquo;s all good!
+</a></p>
+]]></content>
+  </entry>
+  
+</feed>

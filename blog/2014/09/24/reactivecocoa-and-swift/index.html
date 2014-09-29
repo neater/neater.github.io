@@ -1,0 +1,462 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>ReactiveCocoa and Swift - Neater</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Swift可以和Objective-C相互调用，所以，在用Swift编写的App中，可以直接使用Reactivecocoa。 尽管如此， Signals in Swift 通过桥接，ReactiveCocoa的API从Objective-C的块过渡到了Swift的闭包，来看一个例子， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://neater.github.io/blog/2014/09/24/reactivecocoa-and-swift">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Neater" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <!--
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  -->
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--
+<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+
+<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+
+  
+
+</head>
+
+<!--
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+   <link href="/atom.xml" rel="alternate" title="技术小黑屋" type="application/atom+xml">
+   <script src="/javascripts/modernizr-2.0.js"></script>
+   <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+-->
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Neater</a></h1>
+  
+    <h2>Be A Warrior, Not A Worrier</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:neater.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">ReactiveCocoa and Swift</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-24T15:21:40+08:00" pubdate data-updated="true">Sep 24<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Swift可以和Objective-C相互调用，所以，在用Swift编写的App中，可以直接使用Reactivecocoa。</p>
+
+<p>尽管如此，</p>
+
+<h3>Signals in Swift</h3>
+
+<p>通过桥接，ReactiveCocoa的API从Objective-C的块过渡到了Swift的闭包，来看一个例子，下面的Objective-C代码subscribe了UITextfield的<code>rac_textSignal</code>，用来查看当前的length。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[self.searchTextField.rac_textSignal subscribeNext:^(id x) {
+</span><span class='line'>  NSString *text = (NSString *)x;
+</span><span class='line'>  NSLog(text);
+</span><span class='line'>}];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当在这个UITextfield中依次输入0 1 2 3 4 5时，Console中显示</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>0
+</span><span class='line'>1
+</span><span class='line'>2
+</span><span class='line'>3
+</span><span class='line'>4
+</span><span class='line'>5</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当然了，为了避免显示转换，可以把上面的Block签名中的参数类型，从<code>id</code>改为<code>NSString</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[self.searchTextField.rac_textSignal subscribeNext:^(NSString *text) {
+</span><span class='line'>  NSLog(text);
+</span><span class='line'>}];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>与之对应的Swift代码如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>searchTextField.rac_textSignal().subscribeNext {
+</span><span class='line'>  (next:AnyObject!) -&gt; () in
+</span><span class='line'>  if let text = next as? String {
+</span><span class='line'>    println(countElements(text))
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>不幸的是，当Swift和Objective-C进行调用的时候，会经常用到<code>as</code>操作符，从而变得更复杂了，我们不能进行显示转换，Swift生硬地插入了必须的类型为<code>(AnyObject!) -&gt; ()</code>的函数。</p>
+
+<p>也可以使用<code>if-let</code>条件语句进行简化，因为<code>AnyObject</code>在当前情况下可以视为字符串。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>searchTextField.rac_textSignal().subscribeNext {
+</span><span class='line'>  (next:AnyObject!) -&gt; () in
+</span><span class='line'>  let text = next as String
+</span><span class='line'>  println(countElements(text))
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但是，这仍然还是要比Objective-C的版本复杂。
+还好有解决这个问题的方案！针对<code>RACSignal</code>进行扩展，把传入函数参数类型进行必须的转换:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>extension RACSignal {  
+</span><span class='line'>  func subscribeNextAs&lt;T&gt;(nextClosure:(T) -&gt; ()) -&gt; () {
+</span><span class='line'>    self.subscribeNext {
+</span><span class='line'>      (next: AnyObject!) -&gt; () in
+</span><span class='line'>      let nextAsT = next as T
+</span><span class='line'>      nextClosure(nextAsT)
+</span><span class='line'>    }
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的代码使用泛型进行类型转换，参数T的类型通过实际传入的参数进行推断，这引出了一些有趣的语法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>searchTextField.rac_textSignal().subscribeNextAs {
+</span><span class='line'>  (text:String) -&gt; () in
+</span><span class='line'>  println(countElements(text))
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>好多了！</p>
+
+<h3>Bindings</h3>
+
+<p>ReactiveCocoa有一些宏用来绑定属性到signals，下面的代码，把viewModel的<code>searchText</code>属性绑定到一个UITextfield的<code>rac_textSignal</code>属性，当UITextfield中的内容更新了，这个signal忽略当前值，把新的值更新到viewModel的searchText</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>RAC(self.viewModel, searchText) = self.searchTextField.rac_textSignal;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Swift不支持宏，当然不能使用<code>RAC</code>了。
+下面的struct和operator替代了RAC macro:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// a struct that replaces the RAC macro
+</span><span class='line'>struct RAC  {
+</span><span class='line'>  var target : NSObject!
+</span><span class='line'>  var keyPath : String!
+</span><span class='line'>  var nilValue : AnyObject!
+</span><span class='line'>  
+</span><span class='line'>  init(_ target: NSObject!, _ keyPath: String, nilValue: AnyObject? = nil) {
+</span><span class='line'>    self.target = target
+</span><span class='line'>    self.keyPath = keyPath
+</span><span class='line'>    self.nilValue = nilValue
+</span><span class='line'>  }
+</span><span class='line'>  
+</span><span class='line'>  func assignSignal(signal : RACSignal) {
+</span><span class='line'>    signal.setKeyPath(self.keyPath, onObject: self.target, nilValue: self.nilValue)
+</span><span class='line'>  }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>operator infix ~&gt; {}
+</span><span class='line'>@infix func ~&gt; (signal: RACSignal, rac: RAC) {
+</span><span class='line'>  rac.assignSignal(signal)
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>searchTextField.rac_textSignal() ~&gt; RAC(viewModel, "searchText")</span></code></pre></td></tr></table></div></figure>
+
+
+<p>重写<code>RACObserve</code>宏显得容易些</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func RACObserve(target: NSObject!, keyPath: String) -&gt; RACSignal  {
+</span><span class='line'>  return target.rac_valuesForKeyPath(keyPath, observer: target)
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Cool Stuff!</h3>
+
+<p>我喜欢把已有的App移植一点一点地移植到Swift，为了减少Flickr的API调用，当photo显示一秒后，再调用相应的API获得相应的元数据(评论、点赞数)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// a signal that emits events when visibility changes
+</span><span class='line'>let visibleStateChanged = RACObserve(self, "isVisible").skip(1)
+</span><span class='line'>
+</span><span class='line'>// filtered into visible and hidden signals
+</span><span class='line'>let visibleSignal = visibleStateChanged.filter { $0.boolValue }
+</span><span class='line'>let hiddenSignal = visibleStateChanged.filter { !$0.boolValue }
+</span><span class='line'>
+</span><span class='line'>// a signal that emits when an item has been visible for 1 second
+</span><span class='line'>let fetchMetadata = visibleSignal.delay(1).takeUntil(hiddenSignal)
+</span><span class='line'>
+</span><span class='line'>fetchMetadata.subscribeNext {
+</span><span class='line'>  // fetch the meta-data
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的代码监听viewModel的<code>isVisible</code>属性，当photo显示或隐藏时产生信号来发出相应的事件，通过组合的方式，延时一秒后产生一个信号来获得元数据。酷！</p>
+
+<h3>Conclusions</h3>
+
+<p>把app从Objectiv-C移植到Swift是很有趣的，有些地方显得有些让人困惑，但我认为，一般说来Swift的这种编程范式将来会变得越来越容易。</p>
+
+<p>译自 <a href="http://www.scottlogic.com/blog/2014/07/24/mvvm-reactivecocoa-swift.html">
+MVVM, Swift and ReactiveCocoa &ndash; It&rsquo;s all good!
+</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-24T15:21:40+08:00" pubdate data-updated="true">Sep 24<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/reactivecocoa/'>Reactivecocoa</a>, <a class='category' href='/blog/categories/swift/'>Swift</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://neater.github.io/blog/2014/09/24/reactivecocoa-and-swift/" data-via="" data-counturl="http://neater.github.io/blog/2014/09/24/reactivecocoa-and-swift/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/08/04/100ge-ioskai-fa-zhe-xu-yao-guan-zhu-de-zi-yuan/" title="Previous Post: 100个iOS开发者需要关注的资源">&laquo; 100个iOS开发者需要关注的资源</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/09/29/git-tips/" title="Next Post: Git Tips">Git Tips &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/09/29/git-tips/">Git Tips</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/09/24/reactivecocoa-and-swift/">ReactiveCocoa and Swift</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/08/04/100ge-ioskai-fa-zhe-xu-yao-guan-zhu-de-zi-yuan/">100个iOS开发者需要关注的资源</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/07/31/flex%21iosdiao-shi-li-qi/">FLEX！iOS调试利器</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/07/30/mac-tips/">Mac Tips</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
