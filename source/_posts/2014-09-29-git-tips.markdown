@@ -1,0 +1,11 @@
+---
+layout: post
+title: "Git Tips"
+date: 2014-09-29 16:19:27 +0800
+comments: true
+categories: 
+---
+取消一次 git merge，比方说刚才执行了 git merge dev，发现各种崩溃，一大堆 conflict，想取消掉，那么就执行
+```
+git reset --merge dev 
+```

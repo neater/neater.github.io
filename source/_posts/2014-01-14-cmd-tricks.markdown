@@ -43,3 +43,8 @@ cat /dev/nll/unandom | gzip -9 > /dev/null &
 ***
 echo $0，当前使用的 shell
 
+vim打开剪贴板内容
+```
+alias vipb='xclip -selection clipboard -o | vim -' // Linux
+alias vipb="pbpaste | vim -" 	// Mac
+```
