@@ -48,3 +48,20 @@ vim打开剪贴板内容
 alias vipb='xclip -selection clipboard -o | vim -' // Linux
 alias vipb="pbpaste | vim -" 	// Mac
 ```
+显示sqlite文件内容
+```
+sqlite3 -line database.db 
+```
+修改SSH的RSA密码短语
+```
+ssh-keygen -f ~/.ssh/id_rsa -p 修改SSH的RSA密码短语
+```
+man -w/--path 
+```
+打印相关帮助文档的位置
+```
+使用-i参数默认的前面输出用{}代替，-I参数可以指定其他代替字符，如例子中的[] 
+
+```
+find . -name "file" | xargs -I [] cp []
+```

@@ -9,3 +9,33 @@ categories:
 ```
 git reset --merge dev 
 ```
+显示某个作者的提交
+```
+git log --name-status --author="[The Author's Name]" 
+```
+从仓库取出file覆盖当前分支
+```
+git checkout branch|tag|commit -- file_name
+```
+从暂存区去除文件覆盖工作区
+```
+git checkout -- .
+```
+
+##Branch
+查看各个分支最后一个提交对象的信息
+```
+git branch -v
+```
+查看已经合并到当前分支的分支
+```
+git branch --merge
+```
+查看未合并到当前分支的分支
+```
+git branch --no-merge
+```
+基于dev新建test分支，并切换
+```
+git checkout -b test dev
+```
