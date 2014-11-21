@@ -175,6 +175,30 @@ tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后
 </pre></td><td class='code'><pre><code class=''><span class='line'>alias vipb='xclip -selection clipboard -o | vim -' // Linux
 </span><span class='line'>alias vipb="pbpaste | vim -"  // Mac</span></code></pre></td></tr></table></div></figure>
 
+
+<p>显示sqlite文件内容</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sqlite3 -line database.db </span></code></pre></td></tr></table></div></figure>
+
+
+<p>修改SSH的RSA密码短语</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ssh-keygen -f ~/.ssh/id_rsa -p 修改SSH的RSA密码短语</span></code></pre></td></tr></table></div></figure>
+
+
+<p>man -w/&mdash;path</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>打印相关帮助文档的位置</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用-i参数默认的前面输出用{}代替，-I参数可以指定其他代替字符，如例子中的[]</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find . -name "file" | xargs -I [] cp []</span></code></pre></td></tr></table></div></figure>
+
 </div>
 
 
@@ -223,7 +247,7 @@ tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后
         <a class="basic-alignment left" href="/blog/2013/12/26/2013hui-gu-and-2014zhan-wang/" title="Previous Post: 2013回顾 &amp; 2014展望">&laquo; 2013回顾 &amp; 2014展望</a>
       
       
-        <a class="basic-alignment right" href="/blog/2014/01/22/quan-zhan-gong-cheng-shi-plus-plus/" title="Next Post: 全栈工程师++">全栈工程师++ &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2014/07/24/viewcontrollershou-shen/" title="Next Post: ViewController瘦身之 抽取View Logic">ViewController瘦身之 抽取View Logic &raquo;</a>
       
     </p>
   </footer>
@@ -238,6 +262,14 @@ tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/11/21/ioskai-fa-zui-jia-shi-jian/">iOS开发最佳实践</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/11/quan-zhan-kai-fa-zhe-de-chao-qi-chao-luo/">全栈开发者的潮起潮落</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/09/29/git-tips/">Git Tips</a>
       </li>
     
@@ -247,14 +279,6 @@ tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后
     
       <li class="post">
         <a href="/blog/2014/08/04/100ge-ioskai-fa-zhe-xu-yao-guan-zhu-de-zi-yuan/">100个iOS开发者需要关注的资源</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/07/31/flex%21iosdiao-shi-li-qi/">FLEX！iOS调试利器</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/07/30/mac-tips/">Mac Tips</a>
       </li>
     
   </ul>

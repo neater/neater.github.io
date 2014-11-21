@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 命令行 | Neater]]></title>
   <link href="http://neater.github.io/blog/categories/ming-ling-xing/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2014-09-29T16:21:25+08:00</updated>
+  <updated>2014-11-21T15:29:49+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -65,6 +65,23 @@ cat /dev/nll/unandom | gzip -9 > /dev/null &amp;
 <code>
 alias vipb='xclip -selection clipboard -o | vim -' // Linux
 alias vipb="pbpaste | vim -"    // Mac
+</code>
+显示sqlite文件内容
+<code>
+sqlite3 -line database.db
+</code>
+修改SSH的RSA密码短语
+<code>
+ssh-keygen -f ~/.ssh/id_rsa -p 修改SSH的RSA密码短语
+</code>
+man -w/&mdash;path
+<code>
+打印相关帮助文档的位置
+</code>
+使用-i参数默认的前面输出用{}代替，-I参数可以指定其他代替字符，如例子中的[]</p>
+
+<p><code>
+find . -name "file" | xargs -I [] cp []
 </code></p>
 ]]></content>
   </entry>

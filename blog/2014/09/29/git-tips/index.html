@@ -10,7 +10,8 @@
 
   
   <meta name="description" content="取消一次 git merge，比方说刚才执行了 git merge dev，发现各种崩溃，一大堆 conflict，想取消掉，那么就执行 1
-git reset --merge dev ">
+git reset --merge dev 显示某个作者的提交 1
+git log --name-status --author="[The Author' &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -116,6 +117,50 @@ git reset --merge dev ">
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>git reset --merge dev </span></code></pre></td></tr></table></div></figure>
 
+
+<p>显示某个作者的提交</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git log --name-status --author="[The Author's Name]" </span></code></pre></td></tr></table></div></figure>
+
+
+<p>从仓库取出file覆盖当前分支</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git checkout branch|tag|commit -- file_name</span></code></pre></td></tr></table></div></figure>
+
+
+<p>从暂存区去除文件覆盖工作区</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git checkout -- .</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Branch</h2>
+
+<p>查看各个分支最后一个提交对象的信息</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git branch -v</span></code></pre></td></tr></table></div></figure>
+
+
+<p>查看已经合并到当前分支的分支</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git branch --merge</span></code></pre></td></tr></table></div></figure>
+
+
+<p>查看未合并到当前分支的分支</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git branch --no-merge</span></code></pre></td></tr></table></div></figure>
+
+
+<p>基于dev新建test分支，并切换</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git checkout -b test dev</span></code></pre></td></tr></table></div></figure>
+
 </div>
 
 
@@ -158,6 +203,8 @@ git reset --merge dev ">
         <a class="basic-alignment left" href="/blog/2014/09/24/reactivecocoa-and-swift/" title="Previous Post: ReactiveCocoa and Swift">&laquo; ReactiveCocoa and Swift</a>
       
       
+        <a class="basic-alignment right" href="/blog/2014/11/11/quan-zhan-kai-fa-zhe-de-chao-qi-chao-luo/" title="Next Post: 全栈开发者的潮起潮落">全栈开发者的潮起潮落 &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -171,6 +218,14 @@ git reset --merge dev ">
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/11/21/ioskai-fa-zui-jia-shi-jian/">iOS开发最佳实践</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/11/quan-zhan-kai-fa-zhe-de-chao-qi-chao-luo/">全栈开发者的潮起潮落</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/09/29/git-tips/">Git Tips</a>
       </li>
     
@@ -180,14 +235,6 @@ git reset --merge dev ">
     
       <li class="post">
         <a href="/blog/2014/08/04/100ge-ioskai-fa-zhe-xu-yao-guan-zhu-de-zi-yuan/">100个iOS开发者需要关注的资源</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/07/31/flex%21iosdiao-shi-li-qi/">FLEX！iOS调试利器</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/07/30/mac-tips/">Mac Tips</a>
       </li>
     
   </ul>
