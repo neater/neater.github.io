@@ -4,7 +4,7 @@
   <title><![CDATA[Neater]]></title>
   <link href="http://neater.github.io/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2014-11-21T15:29:49+08:00</updated>
+  <updated>2014-11-28T17:27:58+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -18,7 +18,316 @@
     <link href="http://neater.github.io/blog/2014/11/21/ioskai-fa-zui-jia-shi-jian/"/>
     <updated>2014-11-21T11:49:45+08:00</updated>
     <id>http://neater.github.io/blog/2014/11/21/ioskai-fa-zui-jia-shi-jian</id>
-    <content type="html"><![CDATA[<h2>起因</h2>
+    <content type="html"><![CDATA[<p>和软件一样，这篇文章离不开大家的贡献，哪怕打开一个Issue或者发一个PR。</p>
+
+<p>如果对Android感兴趣，请看这里 <a href="https://github.com/futurice/android-best-practices">Android开发最佳实践</a></p>
+
+<h2>起因</h2>
+
+<p>遗憾地是，iOS开发的门槛挺高的，Swift和Objective-C都没有在iOS/Mac以外的系统广泛使用，而且有自己的命名方式，想让代码跑在苹果的设备上并不容易（译者注：各种编译和开发环境问题），不论你刚接触Cocoa还是对iOS开发最佳实践感兴趣，都能在这里找到答案。下面列出的只是一些建议，如果你有更好的实践可以进行相应的替换。</p>
+
+<h2>开始</h2>
+
+<h3>Xcode</h3>
+
+<p>Xcode是绝大多数iOS开发者选择的IDE，并且是苹果官方唯一支持的。当然也有其它的，AppCode可以说其中最著名的，不过如果你还不是一个iOS开发的老手，还是使用Xcode吧，不管怎么样，它在可用性方面还是不错的。</p>
+
+<p>可以在Mac App Store下载最新的SDK和模拟器，在Preferences > Downloads中可以下载更多的文档。</p>
+
+<h3>项目设置</h3>
+
+<p>刚开始开发iOS项目有个很常见的问题，纯代码?Storybard?还是XIB，用哪一个来开发UI，Both are known to occasionally result in working software。但是，还要从下面几个方面来考虑：</p>
+
+<h4>纯代码？</h4>
+
+<ul>
+<li>Xcode5中，通用型App使用不同的Storyboard区分iPhone和iPad，这导致了许多不必要的重复，Xcode6引入了Size Classes来解决这个问题。</li>
+<li>Xcode5中，Storyboard不支持自定义字体和UI元素， but will have a generic appearance instead，Xcode6再次解决了它。</li>
+<li>Storyboard使用了复杂的XML，在版本控制中，更容易产生冲突。</li>
+</ul>
+
+
+<h4>Storyboards?</h4>
+
+<ul>
+<li>or the less technically inclined, Storyboards在操作方式上做的最好，比如，直接修改颜色或者布局约束，当然这需要一些时间来学习。</li>
+</ul>
+
+
+<h3>Ignores</h3>
+
+<p>把项目加入版本控制的时候，最好也加入.gitignore文件，这样不会把不需要的文件（用户自己的配置和临时文件等）加入。幸运地是，GitHub已经为我们提供了<a href="https://github.com/github/gitignore/blob/master/Objective-C.gitignore">Objective-C</a>和<a href="https://github.com/github/gitignore/blob/master/Swift.gitignore">Swift</a>的版本(译者注：还有个好用的网站，<a href="https://www.gitignore.io/">gitignore.io</a>)</p>
+
+<h3>CocoaPods</h3>
+
+<p>在管理第三方库方面，CocoaPods无疑首当其冲，安装的命令：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo gem install cocoapods</span></code></pre></td></tr></table></div></figure>
+
+
+<p>进入项目主目录，运行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pod init</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这会生成Podfile文件，统一进行管理依赖，再运行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pod install</span></code></pre></td></tr></table></div></figure>
+
+
+<p>主工程和这些第三方库组成的库会放置在Workspace中，这以后，要通过.xcworkspace而不是.xcproject来打开项目，否则会产生编译错误。</p>
+
+<h3>工程结构</h3>
+
+<p>随着源文件日益增多，项目目录越发凌乱，有必要将它们按用途分类，下面是一个实例：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>├─ Models
+</span><span class='line'>├─ Views
+</span><span class='line'>├─ Controllers
+</span><span class='line'>├─ Stores
+</span><span class='line'>├─ Helpers</span></code></pre></td></tr></table></div></figure>
+
+
+<p>First, create them as groups (little yellow &ldquo;folders&rdquo;) within the group with your project&rsquo;s name in Xcode&rsquo;s Project Navigator. Then, for each of the groups, link them to an actual directory in your project path by opening their File Inspector on the right, hitting the little gray folder icon, and creating a new subfolder with the name of the group in your project directory.</p>
+
+<h2>网络</h2>
+
+<h3>传统方式：使用自定义回调Block</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// GigStore.h
+</span><span class='line'>
+</span><span class='line'>typedef void (^FetchGigsBlock)(NSArray *gigs, NSError *error);
+</span><span class='line'>
+</span><span class='line'>- (void)fetchGigsForArtist:(Artist *)artist completion:(FetchGigsBlock)completion
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>// GigsViewController.m
+</span><span class='line'>
+</span><span class='line'>[[GigStore sharedStore] fetchGigsForArtist:artist completion:^(NSArray *gigs, NSError *error) {
+</span><span class='line'>    if (!error) {
+</span><span class='line'>        // Do something with gigs
+</span><span class='line'>    }
+</span><span class='line'>    else {
+</span><span class='line'>        // :(
+</span><span class='line'>    }
+</span><span class='line'>];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This works, but can quickly lead to callback hell if you need to chain multiple requests. In that case, have a look at ReactiveCocoa (RAC). It&rsquo;s a versatile and multi-purpose library that can change the way people write entire apps, but you can also use it sparingly where it fits the task.</p>
+
+<p>There are good introductions to the concept of RAC (and FRP in general) on Teehan+Lax and NSHipster.</p>
+
+<h3>Reactive方式: 使用RAC signals</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// GigStore.h
+</span><span class='line'>
+</span><span class='line'>- (RACSignal *)gigsForArtist:(Artist *)artist;
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>// GigsViewController.m
+</span><span class='line'>
+</span><span class='line'>[[GigStore sharedStore] gigsForArtist:artist]
+</span><span class='line'>    subscribeNext:^(NSArray *gigs) {
+</span><span class='line'>        // Do something with gigs
+</span><span class='line'>    } error:^(NSError *error) {
+</span><span class='line'>        // :(
+</span><span class='line'>    }
+</span><span class='line'>];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>通过将gig的signal和其它signal组合，在显示之前，我们可以转换或者过滤掉gips。</p>
+
+<h3>结构化</h3>
+
+<p>Pragma marks能够很好地将方法进行分组归类，尤其在View controller文件中，下面是一些常用的分组结构：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#import "SomeModel.h"
+</span><span class='line'>#import "SomeView.h"
+</span><span class='line'>#import "SomeController.h"
+</span><span class='line'>#import "SomeStore.h"
+</span><span class='line'>#import "SomeHelper.h"
+</span><span class='line'>#import &lt;SomeExternalLibrary/SomeExternalLibraryHeader.h&gt;
+</span><span class='line'>
+</span><span class='line'>static NSString * const XYZFooStringConstant = @"FoobarConstant";
+</span><span class='line'>static CGFloat const XYZFooFloatConstant = 1234.5;
+</span><span class='line'>
+</span><span class='line'>@interface XYZFooViewController () &lt;XYZBarDelegate&gt;
+</span><span class='line'>
+</span><span class='line'>@property (nonatomic, copy)
+</span><span class='line'>
+</span><span class='line'>@end
+</span><span class='line'>
+</span><span class='line'>@implementation XYZFooViewController
+</span><span class='line'>
+</span><span class='line'>#pragma mark - Lifecycle
+</span><span class='line'>
+</span><span class='line'>- (instancetype)initWithFoo:(Foo *)foo;
+</span><span class='line'>- (void)dealloc;
+</span><span class='line'>
+</span><span class='line'>#pragma mark - View Lifecycle
+</span><span class='line'>
+</span><span class='line'>- (void)viewDidLoad;
+</span><span class='line'>- (void)viewWillAppear:(BOOL)animated;
+</span><span class='line'>
+</span><span class='line'>#pragma mark - Auto Layout
+</span><span class='line'>
+</span><span class='line'>- (void)makeViewConstraints;
+</span><span class='line'>
+</span><span class='line'>#pragma mark - Public Interface
+</span><span class='line'>
+</span><span class='line'>- (void)startFooing;
+</span><span class='line'>- (void)stopFooing;
+</span><span class='line'>
+</span><span class='line'>#pragma mark - User Interaction
+</span><span class='line'>
+</span><span class='line'>- (void)foobarButtonTapped;
+</span><span class='line'>
+</span><span class='line'>#pragma mark - XYZFoobarDelegate
+</span><span class='line'>
+</span><span class='line'>- (void)foobar:(Foobar *)foobar didSomethingWithFoo:(Foo *)foo;
+</span><span class='line'>
+</span><span class='line'>#pragma mark - Internal Helpers
+</span><span class='line'>
+</span><span class='line'>- (NSString *)displayNameForFoo:(Foo *)foo;
+</span><span class='line'>
+</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最重要的是在工程中的所有文件保持上面的一致性。</p>
+
+<h2>部署</h2>
+
+<p>iOS上部署并不方便，话虽如此, 了解下面几点会很有帮助的。</p>
+
+<p>每当你想将开发的App安装的真实设备而非模拟器时，都需要用苹果颁发的证书对其签名。每个证书都对应着一对公钥/私钥，私钥存储在Mac中的钥匙链中，证书有2种形式：</p>
+
+<ul>
+<li>开发证书：团队中的每个开发者都有属于自己的，根据需要生成。在开发调试时需要这种证书，最好由我们手动进行选择设置，而不是让Xcode中的&#8221;Fix issue&#8221; 来帮我们解决问题。</li>
+<li>发布证书：可以有多个，但最好每个组织保持一个，通过某种方式共享私钥，这种证书用于提前到App Store或者企业内部的发布系统。</li>
+</ul>
+
+
+<p>除了证书，还有Provisioning配置文件，用于连接设备和证书，也有开发和发布2种形式：
+&ndash; 开发provisioning：包含所有被受权安装的设备列表，该文件也能对应多个开发证书，意味着多个开发者可以使用它，可以将它用于专有App，但最常用的用途是将它以wildcard的形式共享于多个App，当然App ID必须以通配符*结尾。
+&ndash; 分发provisioning：根据用途有3种发布方式，每种provisioning都对应一个发布证书，证书如果过期，它也将无效。</p>
+
+<pre><code>- Ad-Hoc: 如同开发provisioning，它有个可安装设备列表的白名单，这种provisioning常用于Beta测试（TestFlight）。由于TestFlight被苹果收购，2014年底这种方式可能会有所变化。
+- App Store: 该provisioning没有设备列表，任何人都能在App Store上安装它，所有在App Store上发布的应用都要用到它。
+- Enterprise: 它也没有设备白名单，任何访问企业内部发布网站的人都能下载安装它，该provisioning仅适用于企业开发账号。
+</code></pre>
+
+<p>要想同步所有证书和provisioning，需要在Xcode中打开Accounts标签，添加开发者账号，然后双击Team名称，底部将会出现刷新按钮，但有时需要重启Xcde才会生效。</p>
+
+<h2>More Ideas</h2>
+
+<ul>
+<li><a href="https://github.com/vsouza/awesome-ios">https://github.com/vsouza/awesome-ios</a></li>
+<li>Update for Xcode 6
+
+<ul>
+<li>No automatic precompiled header</li>
+</ul>
+</li>
+<li>Pod usage: pod install vs pod update</li>
+<li>iTunes Connect etc.</li>
+<li>3x assets, iPhone 6 screen sizes explained</li>
+<li>Add @interface and constants to VC Structure</li>
+<li>Add list of suggested compiler warnings</li>
+<li>Ask IT about automated Jenkins build machine</li>
+<li>Add section on Testing</li>
+<li>Add section on Debugging, e.g. exception breakpoints</li>
+<li>Add &ldquo;proven don&#8217;ts</li>
+</ul>
+
 
 <p>译自：<a href="https://github.com/futurice/ios-good-practices">iOS Good Practices</a></p>
 ]]></content>
