@@ -9,11 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="输出文件的指定行 1
-sed -n 'x,yp' file; awk 'NF &gt; x && NF &gt; y' file 从x行开始，输出y行 1
-2
-3
-tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后10行 tail &hellip;">
+  <meta name="description" content="Edit all in Scope 适合进行大批量的修改变量和方法；选定一个想要修改的字符串，然后选择Edit－Edit all in Scope，然后在你输入的时候，所有该字符出现的地方都进行同步更改。 在文件上执行‘Command + Option + Shift + Left-click’ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -94,6 +90,342 @@ tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/07/29/xcodeji-qiao/">Xcode技巧</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-29T14:05:32+08:00" pubdate data-updated="true">Jul 29<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h4>Edit all in Scope</h4>
+
+<p>适合进行大批量的修改变量和方法；选定一个想要修改的字符串，然后选择<strong>Edit－Edit all in Scope</strong>，然后在你输入的时候，所有该字符出现的地方都进行同步更改。</p>
+
+<p>在文件上执行‘Command + Option + Shift + Left-click’操作，该组合键可展示一个小尺寸的弹出视图，可以查看你想要打开它的地方，比如辅助编辑器、标签或者窗口等。</p>
+
+<p>CTRL + 1，该快捷键可打开&#8217;Show Related Items‘弹出菜单’。倘若你已经将光标放在了任何方法中，并点击‘CTRL + 1 ’就可以很方便地通过弹出的视图访问该方法的所有调用者和被调用者。</p>
+
+<p>Command + Shift + J快捷操作，可展示当前你在工程导航器中打开的文件</p>
+
+<p>文档和参考: Command + Shift + 0</p>
+
+<p>在辅助编辑器中打开文件:在项目导航器中选中文件执行Option+左键点击操作</p>
+
+<p>option+点击Project Navigator中选中的文件：在辅助编辑窗口中打开选中文件。</p>
+
+<p>option+command+点击Editor中选中的符号：在辅助编辑窗口中打开符号定义（jump to definition in assistant editor）。</p>
+
+<p>option+control+command+↑/↓：在辅助窗口中打开对应的头文件（<em>.h）/实现文件（</em>.m,<em>.mm,</em>.cc）。</p>
+
+<p>若在按下option的同时按下shift通常会出现一个导航窗格，可选择在new window/tab/assistant-editor显示打开。</p>
+
+<h3>#</h3>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/24/viewcontrollershou-shen/">ViewController瘦身之 抽取View Logic</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-24T16:45:58+08:00" pubdate data-updated="true">Jul 24<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>面对日益臃肿的ViewController，测试、重构、增加新的需求将越来越困难，怎么破？</p>
+
+<p>通常我们会在ViewController里加载并控制View（通过Xib或者loadView方法），这样VC就会关心View的内部细节，如layout、Animation、如何填充、响应子视图的事件等，使VC更难以理解，而且增加了和View的耦合。</p>
+
+<p>VC主要负责与用户的交互，主要是控制内部View以及用户操作时产生的事件，而不是用来实现View，如果View使用了UITableView或者UICollectionView，那么VC不得不关心View的内部细节，就像一只冲出牢笼的野兽，变得难以驾驭，应该避免这样。</p>
+
+<p>下面是如何设计View的实践：</p>
+
+<h3>为Views创建Class</h3>
+
+<p>首先，为Views创建类，它封装了View的所有内部细节，并为VC提供抽象接口，用来提供改变View状态的方法或者获得其内部信息，这样一来，VC实现了与View的解耦，不用关心View的内部实现，只需要访问View提供的接口即可。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &lt;UIKit/UIKit.h&gt;</span>
+</span><span class='line'><span class="k">@class</span> <span class="nc">JPLoginViewModel</span>;
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">JPLoginView</span> : <span class="nc">UIView</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">JPLoginViewModel</span> <span class="o">*</span><span class="n">viewModel</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">showAppearanceAnimation</span><span class="p">;</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">showNoConnectionFeedback:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">shouldShow</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">JPLoginViewModel</span> : <span class="nc">NSObject</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">userName</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">password</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以看出，这个.h文件没有IBOutlets和subViews的信息，因为他们都是内部细节；如果不这样的话，VC将能访问这样内部细节，设想将来你想使用UITextFields和UILabels，而不是现在的UITableView来显示login和password，修改VC将是无法避免的。</p>
+
+<h3>使用View Model封闭View信息</h3>
+
+<p>上面的代码中的JPLoginViewModel封闭了View显示的细节，其中定义了2个字符串，而不在View中这样做，是因为View Model可以作为两者沟通的桥梁。
+View Model一般定义在View中，并提供操作的接口，VC创建View Model，并给其赋值，当然也能再获得这样值，再把这个View Model的引用赋给View。通过KVO，VC可以实现对View属性的监控。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSString</span> <span class="o">*</span><span class="n">userName</span> <span class="o">=</span> <span class="s">@&quot;&quot;</span><span class="p">;</span> <span class="c1">//Retreive it from your bussiness logic</span>
+</span><span class='line'>    <span class="n">NSString</span> <span class="o">*</span><span class="n">password</span> <span class="o">=</span> <span class="s">@&quot;&quot;</span><span class="p">;</span> <span class="c1">//Retreive it from your bussiness logic</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">JPLoginViewModel</span> <span class="o">*</span><span class="n">viewModel</span> <span class="o">=</span> <span class="p">[[</span><span class="n">JPLoginViewModel</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">viewModel</span><span class="p">.</span><span class="n">userName</span> <span class="o">=</span> <span class="n">userName</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">viewModel</span><span class="p">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">password</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">loginView</span><span class="p">.</span><span class="n">viewModel</span> <span class="o">=</span> <span class="n">viewModel</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidAppear:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">animated</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="nl">viewDidAppear:</span><span class="n">animated</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">loginView</span><span class="p">.</span><span class="n">viewModel</span> <span class="nl">addObserver:</span><span class="n">self</span> <span class="nl">forKeyPath:</span><span class="s">@&quot;password&quot;</span> <span class="nl">options:</span><span class="n">kNilOptions</span> <span class="nl">context:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidDisappear:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">animated</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="nl">viewDidDisappear:</span><span class="n">animated</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="nl">removeObserver:</span><span class="n">self</span> <span class="nl">forKeyPath:</span><span class="s">@&quot;password&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样一来，VC就知道什么时候View什么时候修改了View Model的数据，而不用通过蛋疼的Delegate，同时与View实现了解耦，View Model的这种简单清晰的方式，实现了VC与View之间的数据同步。</p>
+
+<h3>在内部接口中引用Subviews</h3>
+
+<p>当你需要引用内部的Subviews，例如UILable，UITableView等视图时，所有这些内部细节对任何其它类来说都应该是不可见的，应该把这些细节定义为View的内部属性。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &quot;JPLoginView.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">JPLoginView</span><span class="p">()</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="n">UILabel</span> <span class="o">*</span><span class="n">titleLabel</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="n">UITableView</span> <span class="o">*</span><span class="n">fieldsTableView</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="n">UIButton</span> <span class="o">*</span><span class="n">loginButton</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="n">UIProgressView</span> <span class="o">*</span><span class="n">connectionIssueProgressView</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">JPLoginView</span>
+</span><span class='line'><span class="c1">//...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以看到，将来如果想把UITableView改成UILabels和UITextFields，不用修改VC，改这个类就可以了，删除也是一样。</p>
+
+<h3>使用XIBs定义Layout</h3>
+
+<p>定义View的最佳方式是使用XIBs，而不是在VC里面，这可能会让人不解，XIBs自动创建UIView和Layout，VC使用它初始化View。</p>
+
+<p>定义界面时，XIBs可以减少代码量，而且表现得很出色。通过IBOutlets来连接View的内部属性和XIBs创建的Subviews，也就是常说的连线。在Interface Builder中，可以指定View的具体类型，通过这种方式，Framework自动创建具体类型的View。</p>
+
+<p><img src="http://jpellat.com/wp-content/uploads/2014/05/Screenshot-2014-05-18-01.02.28-300x129.png" alt="fdfs" />
+<img src="http://jpellat.com/wp-content/uploads/2014/05/connect-300x136.png" alt="fdfs" /></p>
+
+<h3>使用Delegate响应View的异步事件</h3>
+
+<p>当用户点击登陆按钮时，我们应该让VC马上响应这一事件，并不是说VC应该关心登陆的逻辑实现，下面谈谈如何让VC在这种情况下实现解耦。</p>
+
+<p>Delegate应该定义在View的头文件中，因为是View产生了事件。可以为View定义一个Delegate的属性，而让VC为它赋值，方式可以是通过XIBs，或者在viewDidLoad方法中。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@protocol</span> <span class="nc">JPLoginViewDelegate</span>;
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">JPLoginView</span> : <span class="nc">UIView</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">JPLoginViewModel</span> <span class="o">*</span><span class="n">viewModel</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">weak</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="kt">id</span><span class="o">&lt;</span><span class="n">JPLoginViewDelegate</span><span class="o">&gt;</span> <span class="n">delegate</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//methods</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@protocol</span> <span class="nc">JPLoginViewDelegate</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">didTapLoginAtLoginView:</span><span class="p">(</span><span class="n">JPLoginView</span> <span class="o">*</span><span class="p">)</span><span class="n">loginView</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Delegate的所有方法，可以集中在VC中，如果使用Block的话，viewDidLoad会充斥大量的代码，影响可读性，这方面，无疑Delegate做得更好。
+也可以使用Delegate验证View内部的文本格式以及数据的有效性，VC可以调用框架的许多API，来验证Model中的相关数据。</p>
+
+<h3>为异步操作使用Block</h3>
+
+<p>View有许多操作都是异步的，比如显示动画、显示需要客户确认，这时应该使用Block，这样可以增加可读性，使代码更紧凑。</p>
+
+<p>应该将不同的操作分离成Block。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">typedef</span> <span class="nf">BOOL</span><span class="p">(</span><span class="o">^</span><span class="n">JPLoginViewConfirmationCompletion</span><span class="p">)();</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">JPLoginView</span> : <span class="nc">UIView</span>
+</span><span class='line'><span class="c1">//...</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">showUserConfirmationWithCompletionBlock:</span><span class="p">(</span><span class="n">JPLoginViewConfirmationCompletion</span><span class="p">)</span><span class="nv">completion</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这种策略有利于测试，可以创建一对测试View，仅仅调用block，而不用为两个View分别模拟测试数据。</p>
+
+<h3>Datasources置于View中而不是ViewController</h3>
+
+<p>众所周之，VC通常实现Datasources，Apple的示例代码也是这么做的，但是仔细想想，当把UITableView的内部View改成UILabel或者UITextfield时，不可避免地要修改VC，无疑增加了耦合。</p>
+
+<p>另外，如果View Model所需要的数据已经由专门的Class提供，为什么还要VC充当这个角色？TableView只需要关心视图的细节。</p>
+
+<p>View所要做的仅仅是实例化分离出来的Datasources，并且将View Model赋值给它。将Cell的创建和配置信息封装起来，增加了可读性；分离Datasoures，方便进行单独测试，比如：number of cells、number of sections。</p>
+
+<h4>结论</h4>
+
+<p>有些人可能认为，这些不符合Apple的标准，但Apple Guideline并没有明确禁止把View从View Controller分离出来，也没有说只能在VC中定义IBOutlet，Guideline适用的场景是在比较小的系统中，当应用场景变的越来越大、越来越复杂，那就必须分离逻辑，好处是增加了可读性和可测试性。</p>
+
+<p>当然，增加额外的层会影响性能，但考虑到这样做所带来的好处，比如更易读、更快的查找，这点性能上的损失是绝对值得的。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/01/14/cmd-tricks/">CMD Tricks</a></h1>
     
     
@@ -126,11 +458,30 @@ tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后
 <p>从x行开始，输出y行</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>tail +x file | head -y
-</span><span class='line'>
-</span><span class='line'>head和tail 参数 -n的不同，head -n -10 除去最后10行 tail -n +10 从第10行开始</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tail +x file | head -y</span></code></pre></td></tr></table></div></figure>
+
+
+<p>head和tail 参数 -n的不同：</p>
+
+<ul>
+<li>head -n -10 除去最后10行</li>
+<li>tail -n +10 从第10行开始</li>
+<li>tail -n 1000：显示最后1000行；</li>
+<li>tail -n +1000：从1000行开始显示，显示1000行以后的</li>
+<li>head -n 1000：显示前面1000行</li>
+</ul>
+
+
+<p>从第3000行开始，显示1000行。即显示3000~3999行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cat filename | tail -n +3000 | head -n 1000</span></code></pre></td></tr></table></div></figure>
+
+
+<p>显示1000行到3000行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cat filename| head -n 3000 | tail -n +1000</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Mac下获取UDID</h4>
@@ -201,6 +552,35 @@ tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>find . -name "file" | xargs -I [] cp []</span></code></pre></td></tr></table></div></figure>
+
+
+<p>查看某个选项的当前值</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:set option?</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Readline Key Bindings(man bash中的查找字段)</h3>
+
+<p>键盘宏命令</p>
+
+<ul>
+<li>开始录制宏 <code>ctrl + x (</code></li>
+<li>结束录制宏 <code>ctrl + x )</code></li>
+<li>运行宏 <code>ctrl + x e</code></li>
+</ul>
+
+
+<p>其他命令</p>
+
+<ul>
+<li>显示当前shell的版本信息 <code>ctrl + x ctrl + v</code></li>
+<li>设置标记 <code>ctrl + @</code></li>
+<li>交换标记和光标的位置: <code>ctrl + x ctrl + x</code></li>
+<li>启动编辑器编辑命令，编辑完成后执行   <code>ctrl + x ctrl + e</code></li>
+<li>撤销前面的操作 <code>ctrl + x ctrl + u</code></li>
+<li>重新读取配置文件  <code>ctrl + x ctrl + r</code></li>
+</ul>
 
 </div>
   
@@ -303,6 +683,14 @@ tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/03/18/androidshi-yong-shi-jian-part1/">Android实用实践Part1: 架构</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/11/ioszhong-de-hit-testin/">iOS中的Hit-Testin</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/11/21/ioskai-fa-zui-jia-shi-jian/">iOS开发最佳实践</a>
       </li>
     
@@ -312,14 +700,6 @@ tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后
     
       <li class="post">
         <a href="/blog/2014/09/29/git-tips/">Git Tips</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/09/24/reactivecocoa-and-swift/">ReactiveCocoa and Swift</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/08/04/100ge-ioskai-fa-zhe-xu-yao-guan-zhu-de-zi-yuan/">100个iOS开发者需要关注的资源</a>
       </li>
     
   </ul>
@@ -335,7 +715,7 @@ tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - Your Name -
+  Copyright &copy; 2015 - Your Name -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

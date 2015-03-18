@@ -118,78 +118,83 @@
 
 <p>通过桥接，ReactiveCocoa的API从Objective-C的块过渡到了Swift的闭包，来看一个例子，下面的Objective-C代码subscribe了UITextfield的<code>rac_textSignal</code>，用来查看当前的length。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[self.searchTextField.rac_textSignal subscribeNext:^(id x) {
-</span><span class='line'>  NSString *text = (NSString *)x;
-</span><span class='line'>  NSLog(text);
-</span><span class='line'>}];</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="nb">self</span><span class="o">.</span><span class="n">searchTextField</span><span class="o">.</span><span class="n">rac_textSignal</span> <span class="ss">subscribeNext</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="nb">id</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="no">NSString</span> <span class="o">*</span><span class="n">text</span> <span class="o">=</span> <span class="p">(</span><span class="no">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">x</span><span class="p">;</span>
+</span><span class='line'>  <span class="no">NSLog</span><span class="p">(</span><span class="n">text</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span><span class="o">]</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>当在这个UITextfield中依次输入0 1 2 3 4 5时，Console中显示</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>0
-</span><span class='line'>1
-</span><span class='line'>2
-</span><span class='line'>3
-</span><span class='line'>4
-</span><span class='line'>5</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">0</span>
+</span><span class='line'><span class="mi">1</span>
+</span><span class='line'><span class="mi">2</span>
+</span><span class='line'><span class="mi">3</span>
+</span><span class='line'><span class="mi">4</span>
+</span><span class='line'><span class="mi">5</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>当然了，为了避免显示转换，可以把上面的Block签名中的参数类型，从<code>id</code>改为<code>NSString</code>:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[self.searchTextField.rac_textSignal subscribeNext:^(NSString *text) {
-</span><span class='line'>  NSLog(text);
-</span><span class='line'>}];</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="nb">self</span><span class="o">.</span><span class="n">searchTextField</span><span class="o">.</span><span class="n">rac_textSignal</span> <span class="ss">subscribeNext</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="no">NSString</span> <span class="o">*</span><span class="n">text</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="no">NSLog</span><span class="p">(</span><span class="n">text</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span><span class="o">]</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>与之对应的Swift代码如下：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>searchTextField.rac_textSignal().subscribeNext {
-</span><span class='line'>  (next:AnyObject!) -&gt; () in
-</span><span class='line'>  if let text = next as? String {
-</span><span class='line'>    println(countElements(text))
-</span><span class='line'>  }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">searchTextField</span><span class="o">.</span><span class="n">rac_textSignal</span><span class="p">()</span><span class="o">.</span><span class="n">subscribeNext</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">next</span><span class="ss">:AnyObject!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="k">in</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">let</span> <span class="n">text</span> <span class="o">=</span> <span class="k">next</span> <span class="n">as?</span> <span class="nb">String</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="n">countElements</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>不幸的是，当Swift和Objective-C进行调用的时候，会经常用到<code>as</code>操作符，从而变得更复杂了，我们不能进行显示转换，Swift生硬地插入了必须的类型为<code>(AnyObject!) -&gt; ()</code>的函数。</p>
 
 <p>也可以使用<code>if-let</code>条件语句进行简化，因为<code>AnyObject</code>在当前情况下可以视为字符串。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>searchTextField.rac_textSignal().subscribeNext {
-</span><span class='line'>  (next:AnyObject!) -&gt; () in
-</span><span class='line'>  let text = next as String
-</span><span class='line'>  println(countElements(text))
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">searchTextField</span><span class="o">.</span><span class="n">rac_textSignal</span><span class="p">()</span><span class="o">.</span><span class="n">subscribeNext</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">next</span><span class="ss">:AnyObject!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="k">in</span>
+</span><span class='line'>  <span class="n">let</span> <span class="n">text</span> <span class="o">=</span> <span class="k">next</span> <span class="n">as</span> <span class="nb">String</span>
+</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="n">countElements</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>但是，这仍然还是要比Objective-C的版本复杂。
 还好有解决这个问题的方案！针对<code>RACSignal</code>进行扩展，把传入函数参数类型进行必须的转换:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -198,27 +203,29 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>extension RACSignal {  
-</span><span class='line'>  func subscribeNextAs&lt;T&gt;(nextClosure:(T) -&gt; ()) -&gt; () {
-</span><span class='line'>    self.subscribeNext {
-</span><span class='line'>      (next: AnyObject!) -&gt; () in
-</span><span class='line'>      let nextAsT = next as T
-</span><span class='line'>      nextClosure(nextAsT)
-</span><span class='line'>    }
-</span><span class='line'>  }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">extension</span> <span class="no">RACSignal</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">func</span> <span class="n">subscribeNextAs</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="ss">nextClosure</span><span class="p">:(</span><span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">())</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">subscribeNext</span> <span class="p">{</span>
+</span><span class='line'>      <span class="p">(</span><span class="k">next</span><span class="p">:</span> <span class="no">AnyObject</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="k">in</span>
+</span><span class='line'>      <span class="n">let</span> <span class="n">nextAsT</span> <span class="o">=</span> <span class="k">next</span> <span class="n">as</span> <span class="n">T</span>
+</span><span class='line'>      <span class="n">nextClosure</span><span class="p">(</span><span class="n">nextAsT</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>上面的代码使用泛型进行类型转换，参数T的类型通过实际传入的参数进行推断，这引出了一些有趣的语法</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>searchTextField.rac_textSignal().subscribeNextAs {
-</span><span class='line'>  (text:String) -&gt; () in
-</span><span class='line'>  println(countElements(text))
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">searchTextField</span><span class="o">.</span><span class="n">rac_textSignal</span><span class="p">()</span><span class="o">.</span><span class="n">subscribeNextAs</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">(</span><span class="ss">text</span><span class="p">:</span><span class="nb">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="k">in</span>
+</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="n">countElements</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>好多了！</p>
@@ -227,14 +234,15 @@
 
 <p>ReactiveCocoa有一些宏用来绑定属性到signals，下面的代码，把viewModel的<code>searchText</code>属性绑定到一个UITextfield的<code>rac_textSignal</code>属性，当UITextfield中的内容更新了，这个signal忽略当前值，把新的值更新到viewModel的searchText</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>RAC(self.viewModel, searchText) = self.searchTextField.rac_textSignal;</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">RAC</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">viewModel</span><span class="p">,</span> <span class="n">searchText</span><span class="p">)</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">searchTextField</span><span class="o">.</span><span class="n">rac_textSignal</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Swift不支持宏，当然不能使用<code>RAC</code>了。
 下面的struct和operator替代了RAC macro:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -255,50 +263,53 @@
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// a struct that replaces the RAC macro
-</span><span class='line'>struct RAC  {
-</span><span class='line'>  var target : NSObject!
-</span><span class='line'>  var keyPath : String!
-</span><span class='line'>  var nilValue : AnyObject!
-</span><span class='line'>  
-</span><span class='line'>  init(_ target: NSObject!, _ keyPath: String, nilValue: AnyObject? = nil) {
-</span><span class='line'>    self.target = target
-</span><span class='line'>    self.keyPath = keyPath
-</span><span class='line'>    self.nilValue = nilValue
-</span><span class='line'>  }
-</span><span class='line'>  
-</span><span class='line'>  func assignSignal(signal : RACSignal) {
-</span><span class='line'>    signal.setKeyPath(self.keyPath, onObject: self.target, nilValue: self.nilValue)
-</span><span class='line'>  }
-</span><span class='line'>}
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sr">//</span> <span class="n">a</span> <span class="n">struct</span> <span class="n">that</span> <span class="n">replaces</span> <span class="n">the</span> <span class="no">RAC</span> <span class="n">macro</span>
+</span><span class='line'><span class="n">struct</span> <span class="no">RAC</span>  <span class="p">{</span>
+</span><span class='line'>  <span class="n">var</span> <span class="n">target</span> <span class="p">:</span> <span class="no">NSObject</span><span class="o">!</span>
+</span><span class='line'>  <span class="n">var</span> <span class="n">keyPath</span> <span class="p">:</span> <span class="nb">String</span><span class="o">!</span>
+</span><span class='line'>  <span class="n">var</span> <span class="n">nilValue</span> <span class="p">:</span> <span class="no">AnyObject</span><span class="o">!</span>
 </span><span class='line'>
-</span><span class='line'>operator infix ~&gt; {}
-</span><span class='line'>@infix func ~&gt; (signal: RACSignal, rac: RAC) {
-</span><span class='line'>  rac.assignSignal(signal)
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>  <span class="n">init</span><span class="p">(</span><span class="n">_</span> <span class="ss">target</span><span class="p">:</span> <span class="no">NSObject</span><span class="o">!</span><span class="p">,</span> <span class="n">_</span> <span class="ss">keyPath</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="ss">nilValue</span><span class="p">:</span> <span class="no">AnyObject</span><span class="p">?</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">target</span> <span class="o">=</span> <span class="n">target</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">keyPath</span> <span class="o">=</span> <span class="n">keyPath</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">nilValue</span> <span class="o">=</span> <span class="n">nilValue</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">func</span> <span class="n">assignSignal</span><span class="p">(</span><span class="n">signal</span> <span class="p">:</span> <span class="no">RACSignal</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">signal</span><span class="o">.</span><span class="n">setKeyPath</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">keyPath</span><span class="p">,</span> <span class="ss">onObject</span><span class="p">:</span> <span class="nb">self</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="ss">nilValue</span><span class="p">:</span> <span class="nb">self</span><span class="o">.</span><span class="n">nilValue</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">operator</span> <span class="n">infix</span> <span class="o">~&gt;</span> <span class="p">{}</span>
+</span><span class='line'><span class="vi">@infix</span> <span class="n">func</span> <span class="o">~&gt;</span> <span class="p">(</span><span class="ss">signal</span><span class="p">:</span> <span class="no">RACSignal</span><span class="p">,</span> <span class="ss">rac</span><span class="p">:</span> <span class="no">RAC</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">rac</span><span class="o">.</span><span class="n">assignSignal</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>searchTextField.rac_textSignal() ~&gt; RAC(viewModel, "searchText")</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">searchTextField</span><span class="o">.</span><span class="n">rac_textSignal</span><span class="p">()</span> <span class="o">~&gt;</span> <span class="no">RAC</span><span class="p">(</span><span class="n">viewModel</span><span class="p">,</span> <span class="s2">&quot;searchText&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>重写<code>RACObserve</code>宏显得容易些</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>func RACObserve(target: NSObject!, keyPath: String) -&gt; RACSignal  {
-</span><span class='line'>  return target.rac_valuesForKeyPath(keyPath, observer: target)
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">func</span> <span class="no">RACObserve</span><span class="p">(</span><span class="ss">target</span><span class="p">:</span> <span class="no">NSObject</span><span class="o">!</span><span class="p">,</span> <span class="ss">keyPath</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="no">RACSignal</span>  <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">target</span><span class="o">.</span><span class="n">rac_valuesForKeyPath</span><span class="p">(</span><span class="n">keyPath</span><span class="p">,</span> <span class="ss">observer</span><span class="p">:</span> <span class="n">target</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>Cool Stuff!</h3>
 
 <p>我喜欢把已有的App移植一点一点地移植到Swift，为了减少Flickr的API调用，当photo显示一秒后，再调用相应的API获得相应的元数据(评论、点赞数)</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -311,19 +322,20 @@
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// a signal that emits events when visibility changes
-</span><span class='line'>let visibleStateChanged = RACObserve(self, "isVisible").skip(1)
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sr">//</span> <span class="n">a</span> <span class="n">signal</span> <span class="n">that</span> <span class="n">emits</span> <span class="n">events</span> <span class="k">when</span> <span class="n">visibility</span> <span class="n">changes</span>
+</span><span class='line'><span class="n">let</span> <span class="n">visibleStateChanged</span> <span class="o">=</span> <span class="no">RACObserve</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="s2">&quot;isVisible&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 </span><span class='line'>
-</span><span class='line'>// filtered into visible and hidden signals
-</span><span class='line'>let visibleSignal = visibleStateChanged.filter { $0.boolValue }
-</span><span class='line'>let hiddenSignal = visibleStateChanged.filter { !$0.boolValue }
+</span><span class='line'><span class="sr">//</span> <span class="n">filtered</span> <span class="n">into</span> <span class="n">visible</span> <span class="ow">and</span> <span class="n">hidden</span> <span class="n">signals</span>
+</span><span class='line'><span class="n">let</span> <span class="n">visibleSignal</span> <span class="o">=</span> <span class="n">visibleStateChanged</span><span class="o">.</span><span class="n">filter</span> <span class="p">{</span> <span class="vg">$0</span><span class="o">.</span><span class="n">boolValue</span> <span class="p">}</span>
+</span><span class='line'><span class="n">let</span> <span class="n">hiddenSignal</span> <span class="o">=</span> <span class="n">visibleStateChanged</span><span class="o">.</span><span class="n">filter</span> <span class="p">{</span> <span class="o">!</span><span class="vg">$0</span><span class="o">.</span><span class="n">boolValue</span> <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>// a signal that emits when an item has been visible for 1 second
-</span><span class='line'>let fetchMetadata = visibleSignal.delay(1).takeUntil(hiddenSignal)
+</span><span class='line'><span class="sr">//</span> <span class="n">a</span> <span class="n">signal</span> <span class="n">that</span> <span class="n">emits</span> <span class="k">when</span> <span class="n">an</span> <span class="n">item</span> <span class="n">has</span> <span class="n">been</span> <span class="n">visible</span> <span class="k">for</span> <span class="mi">1</span> <span class="n">second</span>
+</span><span class='line'><span class="n">let</span> <span class="n">fetchMetadata</span> <span class="o">=</span> <span class="n">visibleSignal</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">takeUntil</span><span class="p">(</span><span class="n">hiddenSignal</span><span class="p">)</span>
 </span><span class='line'>
-</span><span class='line'>fetchMetadata.subscribeNext {
-</span><span class='line'>  // fetch the meta-data
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="n">fetchMetadata</span><span class="o">.</span><span class="n">subscribeNext</span> <span class="p">{</span>
+</span><span class='line'>  <span class="sr">//</span> <span class="n">fetch</span> <span class="n">the</span> <span class="n">meta</span><span class="o">-</span><span class="n">data</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>上面的代码监听viewModel的<code>isVisible</code>属性，当photo显示或隐藏时产生信号来发出相应的事件，通过组合的方式，延时一秒后产生一个信号来获得元数据。酷！</p>
@@ -398,6 +410,14 @@ MVVM, Swift and ReactiveCocoa &ndash; It&rsquo;s all good!
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/03/18/androidshi-yong-shi-jian-part1/">Android实用实践Part1: 架构</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/11/ioszhong-de-hit-testin/">iOS中的Hit-Testin</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/11/21/ioskai-fa-zui-jia-shi-jian/">iOS开发最佳实践</a>
       </li>
     
@@ -407,14 +427,6 @@ MVVM, Swift and ReactiveCocoa &ndash; It&rsquo;s all good!
     
       <li class="post">
         <a href="/blog/2014/09/29/git-tips/">Git Tips</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/09/24/reactivecocoa-and-swift/">ReactiveCocoa and Swift</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/08/04/100ge-ioskai-fa-zhe-xu-yao-guan-zhu-de-zi-yuan/">100个iOS开发者需要关注的资源</a>
       </li>
     
   </ul>
@@ -431,7 +443,7 @@ MVVM, Swift and ReactiveCocoa &ndash; It&rsquo;s all good!
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - Your Name -
+  Copyright &copy; 2015 - Your Name -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
