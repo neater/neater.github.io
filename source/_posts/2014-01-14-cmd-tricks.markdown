@@ -13,11 +13,29 @@ categories: 命令行
 sed -n 'x,yp' file;   awk 'NF > x && NF > y' file
 ```
 从x行开始，输出y行
+
 ```
 tail +x file | head -y
-
-head和tail 参数 -n的不同，head -n -10 除去最后10行 tail -n +10 从第10行开始
 ```
+head和tail 参数 -n的不同：
+
+- head -n -10 除去最后10行
+- tail -n +10 从第10行开始
+- tail -n 1000：显示最后1000行；
+- tail -n +1000：从1000行开始显示，显示1000行以后的
+- head -n 1000：显示前面1000行
+
+从第3000行开始，显示1000行。即显示3000~3999行
+
+```
+cat filename | tail -n +3000 | head -n 1000
+```
+显示1000行到3000行
+
+```
+cat filename| head -n 3000 | tail -n +1000
+```
+
 
 #### Mac下获取UDID
 ```
@@ -65,3 +83,25 @@ man -w/--path
 ```
 find . -name "file" | xargs -I [] cp []
 ```
+查看某个选项的当前值
+
+```
+:set option?
+```
+
+###Readline Key Bindings(man bash中的查找字段)
+
+键盘宏命令
+
+- 开始录制宏 `ctrl + x (`
+- 结束录制宏 `ctrl + x )`
+- 运行宏 `ctrl + x e`
+
+其他命令
+
+- 显示当前shell的版本信息 `ctrl + x ctrl + v`
+- 设置标记 `ctrl + @`
+- 交换标记和光标的位置: `ctrl + x ctrl + x`
+- 启动编辑器编辑命令，编辑完成后执行	`ctrl + x ctrl + e`
+- 撤销前面的操作	`ctrl + x ctrl + u`
+- 重新读取配置文件	`ctrl + x ctrl + r`

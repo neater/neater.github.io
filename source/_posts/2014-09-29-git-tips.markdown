@@ -39,3 +39,8 @@ git branch --no-merge
 ```
 git checkout -b test dev
 ```
+##Others
+停止追逐现在已经追踪的文件
+```
+git rm --cached
+```

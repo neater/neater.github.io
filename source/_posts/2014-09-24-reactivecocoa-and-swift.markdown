@@ -12,7 +12,7 @@ Swift可以和Objective-C相互调用，所以，在用Swift编写的App中，�
 
 ### Signals in Swift
 通过桥接，ReactiveCocoa的API从Objective-C的块过渡到了Swift的闭包，来看一个例子，下面的Objective-C代码subscribe了UITextfield的`rac_textSignal`，用来查看当前的length。
-```
+```swift
 [self.searchTextField.rac_textSignal subscribeNext:^(id x) {
   NSString *text = (NSString *)x;
   NSLog(text);
