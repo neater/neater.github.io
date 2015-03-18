@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Reactivecocoa | Neater]]></title>
   <link href="http://neater.github.io/blog/categories/reactivecocoa/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2014-11-28T17:27:58+08:00</updated>
+  <updated>2015-03-18T16:50:59+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -25,7 +25,7 @@
 <h3>Signals in Swift</h3>
 
 <p>通过桥接，ReactiveCocoa的API从Objective-C的块过渡到了Swift的闭包，来看一个例子，下面的Objective-C代码subscribe了UITextfield的<code>rac_textSignal</code>，用来查看当前的length。
-<code>
+<code>swift
 [self.searchTextField.rac_textSignal subscribeNext:^(id x) {
   NSString *text = (NSString *)x;
   NSLog(text);

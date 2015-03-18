@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 命令行 | Neater]]></title>
   <link href="http://neater.github.io/blog/categories/ming-ling-xing/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2014-11-28T17:27:58+08:00</updated>
+  <updated>2015-03-18T16:50:59+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -23,12 +23,32 @@
 <p><code>
 sed -n 'x,yp' file;   awk 'NF &gt; x &amp;&amp; NF &gt; y' file
 </code>
-从x行开始，输出y行
-```
-tail +x file | head -y</p>
+从x行开始，输出y行</p>
 
-<p>head和tail 参数 -n的不同，head -n -10 除去最后10行 tail -n +10 从第10行开始
-```</p>
+<p><code>
+tail +x file | head -y
+</code>
+head和tail 参数 -n的不同：</p>
+
+<ul>
+<li>head -n -10 除去最后10行</li>
+<li>tail -n +10 从第10行开始</li>
+<li>tail -n 1000：显示最后1000行；</li>
+<li>tail -n +1000：从1000行开始显示，显示1000行以后的</li>
+<li>head -n 1000：显示前面1000行</li>
+</ul>
+
+
+<p>从第3000行开始，显示1000行。即显示3000~3999行</p>
+
+<p><code>
+cat filename | tail -n +3000 | head -n 1000
+</code>
+显示1000行到3000行</p>
+
+<p><code>
+cat filename| head -n 3000 | tail -n +1000
+</code></p>
 
 <h4>Mac下获取UDID</h4>
 
@@ -82,7 +102,35 @@ man -w/&mdash;path
 
 <p><code>
 find . -name "file" | xargs -I [] cp []
+</code>
+查看某个选项的当前值</p>
+
+<p><code>
+:set option?
 </code></p>
+
+<h3>Readline Key Bindings(man bash中的查找字段)</h3>
+
+<p>键盘宏命令</p>
+
+<ul>
+<li>开始录制宏 <code>ctrl + x (</code></li>
+<li>结束录制宏 <code>ctrl + x )</code></li>
+<li>运行宏 <code>ctrl + x e</code></li>
+</ul>
+
+
+<p>其他命令</p>
+
+<ul>
+<li>显示当前shell的版本信息 <code>ctrl + x ctrl + v</code></li>
+<li>设置标记 <code>ctrl + @</code></li>
+<li>交换标记和光标的位置: <code>ctrl + x ctrl + x</code></li>
+<li>启动编辑器编辑命令，编辑完成后执行   <code>ctrl + x ctrl + e</code></li>
+<li>撤销前面的操作 <code>ctrl + x ctrl + u</code></li>
+<li>重新读取配置文件  <code>ctrl + x ctrl + r</code></li>
+</ul>
+
 ]]></content>
   </entry>
   

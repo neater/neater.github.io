@@ -194,7 +194,7 @@
 
 <h3>传统方式：使用自定义回调Block</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -211,23 +211,24 @@
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// GigStore.h
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// GigStore.h</span>
 </span><span class='line'>
-</span><span class='line'>typedef void (^FetchGigsBlock)(NSArray *gigs, NSError *error);
+</span><span class='line'><span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="o">^</span><span class="n">FetchGigsBlock</span><span class="p">)(</span><span class="n">NSArray</span> <span class="o">*</span><span class="n">gigs</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">);</span>
 </span><span class='line'>
-</span><span class='line'>- (void)fetchGigsForArtist:(Artist *)artist completion:(FetchGigsBlock)completion
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">fetchGigsForArtist:</span><span class="p">(</span><span class="n">Artist</span> <span class="o">*</span><span class="p">)</span><span class="nv">artist</span> <span class="nf">completion:</span><span class="p">(</span><span class="n">FetchGigsBlock</span><span class="p">)</span><span class="nv">completion</span>
 </span><span class='line'>
 </span><span class='line'>
-</span><span class='line'>// GigsViewController.m
+</span><span class='line'><span class="c1">// GigsViewController.m</span>
 </span><span class='line'>
-</span><span class='line'>[[GigStore sharedStore] fetchGigsForArtist:artist completion:^(NSArray *gigs, NSError *error) {
-</span><span class='line'>    if (!error) {
-</span><span class='line'>        // Do something with gigs
-</span><span class='line'>    }
-</span><span class='line'>    else {
-</span><span class='line'>        // :(
-</span><span class='line'>    }
-</span><span class='line'>];</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="p">[[</span><span class="n">GigStore</span> <span class="n">sharedStore</span><span class="p">]</span> <span class="nl">fetchGigsForArtist:</span><span class="n">artist</span> <span class="nl">completion:</span><span class="o">^</span><span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="n">gigs</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// Do something with gigs</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// :(</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>This works, but can quickly lead to callback hell if you need to chain multiple requests. In that case, have a look at ReactiveCocoa (RAC). It&rsquo;s a versatile and multi-purpose library that can change the way people write entire apps, but you can also use it sparingly where it fits the task.</p>
@@ -236,7 +237,7 @@
 
 <h3>Reactive方式: 使用RAC signals</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -250,20 +251,21 @@
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// GigStore.h
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// GigStore.h</span>
 </span><span class='line'>
-</span><span class='line'>- (RACSignal *)gigsForArtist:(Artist *)artist;
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">RACSignal</span> <span class="o">*</span><span class="p">)</span><span class="nf">gigsForArtist:</span><span class="p">(</span><span class="n">Artist</span> <span class="o">*</span><span class="p">)</span><span class="nv">artist</span><span class="p">;</span>
 </span><span class='line'>
 </span><span class='line'>
-</span><span class='line'>// GigsViewController.m
+</span><span class='line'><span class="c1">// GigsViewController.m</span>
 </span><span class='line'>
-</span><span class='line'>[[GigStore sharedStore] gigsForArtist:artist]
-</span><span class='line'>    subscribeNext:^(NSArray *gigs) {
-</span><span class='line'>        // Do something with gigs
-</span><span class='line'>    } error:^(NSError *error) {
-</span><span class='line'>        // :(
-</span><span class='line'>    }
-</span><span class='line'>];</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="p">[[</span><span class="n">GigStore</span> <span class="n">sharedStore</span><span class="p">]</span> <span class="nl">gigsForArtist:</span><span class="n">artist</span><span class="p">]</span>
+</span><span class='line'>    <span class="nl">subscribeNext:</span><span class="o">^</span><span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="n">gigs</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// Do something with gigs</span>
+</span><span class='line'>    <span class="p">}</span> <span class="nl">error:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// :(</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>通过将gig的signal和其它signal组合，在显示之前，我们可以转换或者过滤掉gips。</p>
@@ -272,7 +274,7 @@
 
 <p>Pragma marks能够很好地将方法进行分组归类，尤其在View controller文件中，下面是一些常用的分组结构：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -322,56 +324,57 @@
 <span class='line-number'>48</span>
 <span class='line-number'>49</span>
 <span class='line-number'>50</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#import "SomeModel.h"
-</span><span class='line'>#import "SomeView.h"
-</span><span class='line'>#import "SomeController.h"
-</span><span class='line'>#import "SomeStore.h"
-</span><span class='line'>#import "SomeHelper.h"
-</span><span class='line'>#import &lt;SomeExternalLibrary/SomeExternalLibraryHeader.h&gt;
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &quot;SomeModel.h&quot;</span>
+</span><span class='line'><span class="cp">#import &quot;SomeView.h&quot;</span>
+</span><span class='line'><span class="cp">#import &quot;SomeController.h&quot;</span>
+</span><span class='line'><span class="cp">#import &quot;SomeStore.h&quot;</span>
+</span><span class='line'><span class="cp">#import &quot;SomeHelper.h&quot;</span>
+</span><span class='line'><span class="cp">#import &lt;SomeExternalLibrary/SomeExternalLibraryHeader.h&gt;</span>
 </span><span class='line'>
-</span><span class='line'>static NSString * const XYZFooStringConstant = @"FoobarConstant";
-</span><span class='line'>static CGFloat const XYZFooFloatConstant = 1234.5;
+</span><span class='line'><span class="k">static</span> <span class="n">NSString</span> <span class="o">*</span> <span class="k">const</span> <span class="n">XYZFooStringConstant</span> <span class="o">=</span> <span class="s">@&quot;FoobarConstant&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="k">static</span> <span class="n">CGFloat</span> <span class="k">const</span> <span class="n">XYZFooFloatConstant</span> <span class="o">=</span> <span class="mf">1234.5</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>@interface XYZFooViewController () &lt;XYZBarDelegate&gt;
+</span><span class='line'><span class="k">@interface</span> <span class="nc">XYZFooViewController</span> <span class="p">()</span> <span class="o">&lt;</span><span class="n">XYZBarDelegate</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'>@property (nonatomic, copy)
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span>
 </span><span class='line'>
-</span><span class='line'>@end
+</span><span class='line'><span class="k">@end</span>
 </span><span class='line'>
-</span><span class='line'>@implementation XYZFooViewController
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">XYZFooViewController</span>
 </span><span class='line'>
-</span><span class='line'>#pragma mark - Lifecycle
+</span><span class='line'><span class="cp">#pragma mark - Lifecycle</span>
 </span><span class='line'>
-</span><span class='line'>- (instancetype)initWithFoo:(Foo *)foo;
-</span><span class='line'>- (void)dealloc;
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithFoo:</span><span class="p">(</span><span class="n">Foo</span> <span class="o">*</span><span class="p">)</span><span class="nv">foo</span><span class="p">;</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">dealloc</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>#pragma mark - View Lifecycle
+</span><span class='line'><span class="cp">#pragma mark - View Lifecycle</span>
 </span><span class='line'>
-</span><span class='line'>- (void)viewDidLoad;
-</span><span class='line'>- (void)viewWillAppear:(BOOL)animated;
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span><span class="p">;</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewWillAppear:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">animated</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>#pragma mark - Auto Layout
+</span><span class='line'><span class="cp">#pragma mark - Auto Layout</span>
 </span><span class='line'>
-</span><span class='line'>- (void)makeViewConstraints;
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">makeViewConstraints</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>#pragma mark - Public Interface
+</span><span class='line'><span class="cp">#pragma mark - Public Interface</span>
 </span><span class='line'>
-</span><span class='line'>- (void)startFooing;
-</span><span class='line'>- (void)stopFooing;
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startFooing</span><span class="p">;</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">stopFooing</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>#pragma mark - User Interaction
+</span><span class='line'><span class="cp">#pragma mark - User Interaction</span>
 </span><span class='line'>
-</span><span class='line'>- (void)foobarButtonTapped;
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">foobarButtonTapped</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>#pragma mark - XYZFoobarDelegate
+</span><span class='line'><span class="cp">#pragma mark - XYZFoobarDelegate</span>
 </span><span class='line'>
-</span><span class='line'>- (void)foobar:(Foobar *)foobar didSomethingWithFoo:(Foo *)foo;
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">foobar:</span><span class="p">(</span><span class="n">Foobar</span> <span class="o">*</span><span class="p">)</span><span class="nv">foobar</span> <span class="nf">didSomethingWithFoo:</span><span class="p">(</span><span class="n">Foo</span> <span class="o">*</span><span class="p">)</span><span class="nv">foo</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>#pragma mark - Internal Helpers
+</span><span class='line'><span class="cp">#pragma mark - Internal Helpers</span>
 </span><span class='line'>
-</span><span class='line'>- (NSString *)displayNameForFoo:(Foo *)foo;
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">displayNameForFoo:</span><span class="p">(</span><span class="n">Foo</span> <span class="o">*</span><span class="p">)</span><span class="nv">foo</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>最重要的是在工程中的所有文件保持上面的一致性。</p>
