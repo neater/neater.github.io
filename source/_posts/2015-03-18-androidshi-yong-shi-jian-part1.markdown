@@ -18,7 +18,7 @@ Github上有示例代码，并配有视频。
 ![](http://res.cloudinary.com/dttcwxrjo/image/upload/v1422988952/1_ntqfre.png)
 
 #架构:
-
+<!--more-->
 正如前面所说，本项目基于的Model View Presenter是Model View Controller的变种。MVP试图抽取表示层中的逻辑，因为Android的Framework很容易把两者混合在数据层中，如Adapters或者CursorLoaders。
 
 这种架构在修改视图时，不用修改逻辑层和数据层，这有既利于逻辑的重用又方便数据源的修改，比如将它从数据库更改为REST API。
@@ -59,7 +59,7 @@ ps：app模块是Android工程模块。
 领域模块包含了应用的业务逻辑，比如用户用例和一些实现。并且完全独立于Android的框架。它依赖于模型层和公共模块。
 比如：从影片各个分类的排名榜中，找出是受欢迎的类别；对模型层提供的信息进行统计。
 
-```
+```java
 dependencies {
     compile project (':common')
     compile project (':model')

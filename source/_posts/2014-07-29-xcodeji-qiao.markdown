@@ -26,5 +26,14 @@ option+command+点击Editor中选中的符号：在辅助编辑窗口中打开�
 option+control+command+↑/↓：在辅助窗口中打开对应的头文件（*.h）/实现文件（*.m,*.mm,*.cc）。
 
 若在按下option的同时按下shift通常会出现一个导航窗格，可选择在new window/tab/assistant-editor显示打开。
-####
+
+###真机截屏
+
+```
+debug -> viewDebugging -> Take sceencast of Active Devics,
+即使当前程序没有运行，也可以直接截取手机上的图片直接到桌面。
+```
+另外Show View Frams和Show Alignment Rectangles，也可显示视图边框和对齐矩形，方便UI调试。如下图
+
+![view frame](../images/viewframe.png)
 

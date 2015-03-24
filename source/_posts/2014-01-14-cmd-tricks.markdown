@@ -6,7 +6,19 @@ comments: true
 categories: 命令行
 ---
 
+####删除一个大文件
+```
+/path/to/file.log (清空)
+rm /path/to/file.log
+```
 
+####变量CDPATH定义了目录的搜索路径
+cd */var/www/html/ 这样长了，我可以直接输入下面的命令进入 /var/www/html
+
+```
+export CDPATH=/var/www
+cd html
+```
 
 #### 输出文件的指定行
 ```
