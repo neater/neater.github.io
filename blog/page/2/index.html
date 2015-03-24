@@ -135,7 +135,17 @@
 
 <p>若在按下option的同时按下shift通常会出现一个导航窗格，可选择在new window/tab/assistant-editor显示打开。</p>
 
-<h3>#</h3>
+<h3>真机截屏</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>debug -&gt; viewDebugging -&gt; Take sceencast of Active Devics,
+</span><span class='line'>即使当前程序没有运行，也可以直接截取手机上的图片直接到桌面。</span></code></pre></td></tr></table></div></figure>
+
+
+<p>另外Show View Frams和Show Alignment Rectangles，也可显示视图边框和对齐矩形，方便UI调试。如下图</p>
+
+<p><img src="../images/viewframe.png" alt="view frame" /></p>
 </div>
   
   
@@ -449,7 +459,25 @@ View Model一般定义在View中，并提供操作的接口，VC创建View Model
   </header>
 
 
-  <div class="entry-content"><h4>输出文件的指定行</h4>
+  <div class="entry-content"><h4>删除一个大文件</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/path/to/file.log (清空)
+</span><span class='line'>rm /path/to/file.log</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>变量CDPATH定义了目录的搜索路径</h4>
+
+<p>cd */var/www/html/ 这样长了，我可以直接输入下面的命令进入 /var/www/html</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>export CDPATH=/var/www
+</span><span class='line'>cd html</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>输出文件的指定行</h4>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>sed -n 'x,yp' file;   awk 'NF &gt; x && NF &gt; y' file</span></code></pre></td></tr></table></div></figure>
@@ -687,7 +715,7 @@ View Model一般定义在View中，并提供操作的接口，VC创建View Model
       </li>
     
       <li class="post">
-        <a href="/blog/2015/03/11/ioszhong-de-hit-testin/">iOS中的Hit-Testin</a>
+        <a href="/blog/2015/03/11/ioszhong-de-hit-testin/">iOS中的Hit-Testing</a>
       </li>
     
       <li class="post">

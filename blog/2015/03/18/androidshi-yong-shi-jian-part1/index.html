@@ -9,8 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="
-">
+  <meta name="description" content="本文是这一系列的开篇，主要涉及一些基础环境设置，目的是能开发出及扩展、及维护和易测试的项目，而本系列将会涵盖一些模式和库，它们会或多或少改善让Android开发者的体验。 场景 本篇使用的Android项目救命，是个电影类别的原型，可以标记是否已经观看， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -111,7 +110,470 @@
   </header>
 
 
-<div class="entry-content">
+<div class="entry-content"><p>本文是这一系列的开篇，主要涉及一些基础环境设置，目的是能开发出及扩展、及维护和易测试的项目，而本系列将会涵盖一些模式和库，它们会或多或少改善让Android开发者的体验。</p>
+
+<h1>场景</h1>
+
+<p>本篇使用的Android项目救命，是个电影类别的原型，可以标记是否已经观看，影片的信息可以通过themoviedb提供的API获得，<a href="http://docs.themoviedb.apiary.io/">Apiary</a>上有相关的文档，这个工程基于MVP模式，遵循了Material Design，如转场、结构、动画、动画等。</p>
+
+<p>Github上有示例代码，并配有视频。</p>
+
+<p><img src="http://res.cloudinary.com/dttcwxrjo/image/upload/v1422988952/1_ntqfre.png" alt="" /></p>
+
+<h1>架构:</h1>
+
+<!--more-->
+
+
+<p>正如前面所说，本项目基于的Model View Presenter是Model View Controller的变种。MVP试图抽取表示层中的逻辑，因为Android的Framework很容易把两者混合在数据层中，如Adapters或者CursorLoaders。</p>
+
+<p>这种架构在修改视图时，不用修改逻辑层和数据层，这有既利于逻辑的重用又方便数据源的修改，比如将它从数据库更改为REST API。</p>
+
+<h2>概观</h2>
+
+<p>整个结构分为下面3层：</p>
+
+<ul>
+<li><strong>表示层</strong></li>
+<li><strong>模型层</strong></li>
+<li><strong>领域层</strong></li>
+</ul>
+
+
+<p><img src="http://res.cloudinary.com/dttcwxrjo/image/upload/v1422988949/0B62SZ3WRM2R2eGczcWh3MERkRGc-e1422883852292_hfs4r6.png" alt="" /></p>
+
+<h3>表示层</h3>
+
+<p>表示层负责显示图形界面并为提供要显示的内容。</p>
+
+<h3>模型层</h3>
+
+<p>表示层通常和领域逻辑联系，而模型层只负责提供数据，它可以连接数据库、REST API或者其它形式的持久化方式。</p>
+
+<p>该层也实现了应用的实体，比如用来表示一部电影，一个类别等等。</p>
+
+<h3>领域层</h3>
+
+<p>领域层完全独立于表示层，应用的业务逻辑都归类在这里。</p>
+
+<h2>实现</h2>
+
+<p>下图显示了一个Android项目的目录结构（虚拟），模型层和领域层置于两个模块（module）中，而表示层出现在了app模块中，其它的模块包含了一些公用库和工具。
+ps：app模块是Android工程模块。</p>
+
+<p><img src="http://res.cloudinary.com/dttcwxrjo/image/upload/v1422988944/0B62SZ3WRM2R2elJfT0JiZnlTcE01_ospwxi.png" alt="" /></p>
+
+<h3>领域模块</h3>
+
+<p>领域模块包含了应用的业务逻辑，比如用户用例和一些实现。并且完全独立于Android的框架。它依赖于模型层和公共模块。
+比如：从影片各个分类的排名榜中，找出是受欢迎的类别；对模型层提供的信息进行统计。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">dependencies</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">compile</span> <span class="nf">project</span> <span class="o">(</span><span class="err">&#39;</span><span class="o">:</span><span class="n">common</span><span class="err">&#39;</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">compile</span> <span class="nf">project</span> <span class="o">(</span><span class="err">&#39;</span><span class="o">:</span><span class="n">model</span><span class="err">&#39;</span><span class="o">)</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>模型模块</h3>
+
+<p>负责管理数据（增、删、改、查）。在目前的1.0版本中，只有一些电影信息的API。它还实现了实体，比如用TvMovie类表示一部电影。现在它只依赖common模块，用来发起API调用，我还使用了Retrofit（Square开发），随后的文章中我会再谈谈Retrofit。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">dependencies</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">compile</span> <span class="nf">project</span><span class="o">(</span><span class="err">&#39;</span><span class="o">:</span><span class="n">common</span><span class="err">&#39;</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">compile</span> <span class="err">&#39;</span><span class="n">com</span><span class="o">.</span><span class="na">squareup</span><span class="o">.</span><span class="na">retrofit</span><span class="o">:</span><span class="nl">retrofit:</span><span class="mf">1.9</span><span class="o">.</span><span class="mi">0</span><span class="err">&#39;</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>表示层模块</h3>
+
+<p>其实就是一个Andorid应用本身了，比如一些资源、逻辑等。</p>
+
+<p>它常常和业务逻辑交互，比如显示在某个时间点上显示所有电影的排期、获得某部影片的信息。
+Presenter和视图也出现在这里。
+每个Activity, Fragment, Dialog都实现了在MVPView接口中，声明了电影相关的显示、隐藏、绘制方法，任何与电影相关的表示层组件（Activity, Fragment, Dialog），都必须实现该接口。</p>
+
+<p>下图示例,PopularMoviesView视图接口,声明了用来显示电影列表的一些方法，而在MoviesActivity中实现了这些方法。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">PopularMoviesView</span> <span class="kd">extends</span> <span class="n">MVPView</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">void</span> <span class="nf">showMovies</span> <span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">TvMovie</span><span class="o">&gt;</span> <span class="n">movieList</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">void</span> <span class="nf">showLoading</span> <span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">void</span> <span class="nf">hideLoading</span> <span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">void</span> <span class="nf">showError</span> <span class="o">(</span><span class="n">String</span> <span class="n">error</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">void</span> <span class="nf">hideError</span> <span class="o">();</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>MVP模式目的是让视图尽可能的简单，让presenter决定视图的行为。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MoviesActivity</span> <span class="kd">extends</span> <span class="n">ActionBarActivity</span> <span class="kd">implements</span>
+</span><span class='line'>    <span class="n">PopularMoviesView</span><span class="o">,</span> <span class="o">...</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="o">...</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">PopularShowsPresenter</span> <span class="n">popularShowsPresenter</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">RecyclerView</span> <span class="n">popularMoviesRecycler</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">ProgressBar</span> <span class="n">loadingProgressBar</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">MoviesAdapter</span> <span class="n">moviesAdapter</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">TextView</span> <span class="n">errorTextView</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="o">...</span>
+</span><span class='line'>        <span class="n">popularShowsPresenter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PopularShowsPresenterImpl</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">popularShowsPresenter</span><span class="o">.</span><span class="na">onCreate</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onStop</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kd">super</span><span class="o">.</span><span class="na">onStop</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">popularShowsPresenter</span><span class="o">.</span><span class="na">onStop</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">Context</span> <span class="nf">getContext</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">showMovies</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">TvMovie</span><span class="o">&gt;</span> <span class="n">movieList</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">moviesAdapter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MoviesAdapter</span><span class="o">(</span><span class="n">movieList</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">popularMoviesRecycler</span><span class="o">.</span><span class="na">setAdapter</span><span class="o">(</span><span class="n">moviesAdapter</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">showLoading</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">loadingProgressBar</span><span class="o">.</span><span class="na">setVisibility</span><span class="o">(</span><span class="n">View</span><span class="o">.</span><span class="na">VISIBLE</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">hideLoading</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">loadingProgressBar</span><span class="o">.</span><span class="na">setVisibility</span><span class="o">(</span><span class="n">View</span><span class="o">.</span><span class="na">GONE</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">showError</span><span class="o">(</span><span class="n">String</span> <span class="n">error</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">errorTextView</span><span class="o">.</span><span class="na">setVisibility</span><span class="o">(</span><span class="n">View</span><span class="o">.</span><span class="na">VISIBLE</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">errorTextView</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">error</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">hideError</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">errorTextView</span><span class="o">.</span><span class="na">setVisibility</span><span class="o">(</span><span class="n">View</span><span class="o">.</span><span class="na">GONE</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="o">...</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>下面的示例中，都是由presenters来执行，负责接收事件并管理视图的行为。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PopularShowsPresenterImpl</span> <span class="kd">implements</span> <span class="n">PopularShowsPresenter</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">final</span> <span class="n">PopularMoviesView</span> <span class="n">popularMoviesView</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">PopularShowsPresenterImpl</span><span class="o">(</span><span class="n">PopularMoviesView</span> <span class="n">popularMoviesView</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">popularMoviesView</span> <span class="o">=</span> <span class="n">popularMoviesView</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="o">...</span>
+</span><span class='line'>        <span class="n">popularMoviesView</span><span class="o">.</span><span class="na">showLoading</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">Usecase</span> <span class="n">getPopularShows</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GetMoviesUsecaseController</span><span class="o">(</span><span class="n">GetMoviesUsecase</span><span class="o">.</span><span class="na">TV_MOVIES</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">getPopularShows</span><span class="o">.</span><span class="na">execute</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onStop</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="o">...</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onPopularMoviesReceived</span><span class="o">(</span><span class="n">PopularMoviesApiResponse</span> <span class="n">popularMovies</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">popularMoviesView</span><span class="o">.</span><span class="na">hideLoading</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">popularMoviesView</span><span class="o">.</span><span class="na">showMovies</span><span class="o">(</span><span class="n">popularMovies</span><span class="o">.</span><span class="na">getResults</span><span class="o">());</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>通讯</h3>
+
+<p>这里也选用了<strong>消息队列</strong>，它既让广播事件变得好用又能方便组件间的通讯，从上面的例子就能看得出来。
+事件会发往一个队列，所有订阅这一事件的类都会接收到这一事件。这一系统降低了模块间的耦合。</p>
+
+<p>我采用了<strong>Square</strong>开发的<strong>Otto</strong>库来实现这个系统</p>
+
+<p>我声明了2个队列，一个用来和REST API通讯，另一个则向presentation层发送事件。</p>
+
+<p><code>REST_BUS</code>在另一个线程中处理事件，而<code>UI_BUS</code>则在默认线程中发送事件，也就是主线程。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BusProvider</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Bus</span> <span class="n">REST_BUS</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Bus</span><span class="o">(</span><span class="n">ThreadEnforcer</span><span class="o">.</span><span class="na">ANY</span><span class="o">);</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Bus</span> <span class="n">UI_BUS</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Bus</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="nf">BusProvider</span><span class="o">()</span> <span class="o">{};</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Bus</span> <span class="nf">getRestBusInstance</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="n">REST_BUS</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Bus</span> <span class="nf">getUIBusInstance</span> <span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="n">UI_BUS</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>BusProvider类放置在common模块中，因为所有模块都要和它进行数据交换。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">dependencies</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">compile</span> <span class="err">&#39;</span><span class="n">com</span><span class="o">.</span><span class="na">squareup</span><span class="o">:</span><span class="nl">otto:</span><span class="mf">1.3</span><span class="o">.</span><span class="mi">5</span><span class="err">&#39;</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最后来看一个例子，用户打开应用查看最受欢迎的影片列表。</p>
+
+<p>在<code>onCreate</code>方法中，presenter<strong>subscribe</strong>了<code>UI_BUS</code>发出的事件，并且在<code>onStop</code>被调用时，进行对应的unsubscribe操作，然后presenter调用了GetMoviesUseCase。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Override</span>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">BusProvider</span><span class="o">.</span><span class="na">getUIBusInstance</span><span class="o">().</span><span class="na">register</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">Usecase</span> <span class="n">getPopularShows</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GetMoviesUsecaseController</span><span class="o">(</span><span class="n">GetMoviesUsecase</span><span class="o">.</span><span class="na">TV_MOVIES</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">getPopularShows</span><span class="o">.</span><span class="na">execute</span><span class="o">();</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">...</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@Override</span>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">onStop</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">BusProvider</span><span class="o">.</span><span class="na">getUIBusInstance</span><span class="o">().</span><span class="na">unregister</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>要接收事件，presenter必须实现相应的方法，并且遵循下面的约定：</p>
+
+<ul>
+<li>方法中的参数类型要和发送时事件的类型相同</li>
+<li>使用@Subscribe注解</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Subscribe</span>
+</span><span class='line'><span class="nd">@Override</span>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">onPopularMoviesReceived</span><span class="o">(</span><span class="n">PopularMoviesApiResponse</span> <span class="n">popularMovies</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">popularMoviesView</span><span class="o">.</span><span class="na">hideLoading</span><span class="o">();</span>
+</span><span class='line'>    <span class="n">popularMoviesView</span><span class="o">.</span><span class="na">showMovies</span><span class="o">(</span><span class="n">popularMovies</span><span class="o">.</span><span class="na">getResults</span><span class="o">());</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>相关资源:</h3>
+
+<ul>
+<li><a href="http://fernandocejas.com/2014/09/03/architecting-android-the-clean-way/">Architecting Android…The clean way?</a> &ndash; Fernando Cejas</li>
+<li><a href="https://github.com/pedrovgs/EffectiveAndroidUI">Effective Android UI</a> &ndash; Pedro Vicente Gómez Sanchez</li>
+<li><a href="http://csaba.palfi.me/reactive-and-buses-for-mobile/">Reactive programming and message buses for mobile</a> &ndash; Csaba Palfi</li>
+<li><a href="http://blog.8thlight.com/uncle-bob/2012/08/13/the-clean-architecture.html">The clean architecturel</a> &ndash; Uncle Bob</li>
+<li><a href="http://antonioleiva.com/mvp-android/">MVP Android</a> &ndash; Antonio Leiva</li>
+</ul>
+
+
+<p>译自：<a href="http://saulmm.github.io/2015/02/02/A%20useful%20stack%20on%20android%20%231,%20architecture/">A useful stack on android #1, architecture</a></p>
 </div>
 
 
@@ -137,6 +599,12 @@
 <time datetime="2015-03-18T16:48:26+08:00" pubdate data-updated="true">Mar 18<span>th</span>, 2015</time>
       
 
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/android/'>Android</a>
+  
+</span>
+
 
     </p>
     
@@ -151,7 +619,7 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/03/11/ioszhong-de-hit-testin/" title="Previous Post: iOS中的Hit-Testin">&laquo; iOS中的Hit-Testin</a>
+        <a class="basic-alignment left" href="/blog/2015/03/11/ioszhong-de-hit-testin/" title="Previous Post: iOS中的Hit-Testing">&laquo; iOS中的Hit-Testing</a>
       
       
     </p>
@@ -171,7 +639,7 @@
       </li>
     
       <li class="post">
-        <a href="/blog/2015/03/11/ioszhong-de-hit-testin/">iOS中的Hit-Testin</a>
+        <a href="/blog/2015/03/11/ioszhong-de-hit-testin/">iOS中的Hit-Testing</a>
       </li>
     
       <li class="post">

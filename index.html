@@ -9,8 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="
-">
+  <meta name="description" content="本文是这一系列的开篇，主要涉及一些基础环境设置，目的是能开发出及扩展、及维护和易测试的项目，而本系列将会涵盖一些模式和库，它们会或多或少改善让Android开发者的体验。 场景 本篇使用的Android项目救命，是个电影类别的原型，可以标记是否已经观看， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -114,9 +113,24 @@
   </header>
 
 
-  <div class="entry-content">
+  <div class="entry-content"><p>本文是这一系列的开篇，主要涉及一些基础环境设置，目的是能开发出及扩展、及维护和易测试的项目，而本系列将会涵盖一些模式和库，它们会或多或少改善让Android开发者的体验。</p>
+
+<h1>场景</h1>
+
+<p>本篇使用的Android项目救命，是个电影类别的原型，可以标记是否已经观看，影片的信息可以通过themoviedb提供的API获得，<a href="http://docs.themoviedb.apiary.io/">Apiary</a>上有相关的文档，这个工程基于MVP模式，遵循了Material Design，如转场、结构、动画、动画等。</p>
+
+<p>Github上有示例代码，并配有视频。</p>
+
+<p><img src="http://res.cloudinary.com/dttcwxrjo/image/upload/v1422988952/1_ntqfre.png" alt="" /></p>
+
+<h1>架构:</h1>
+
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/03/18/androidshi-yong-shi-jian-part1/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -127,7 +141,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/03/11/ioszhong-de-hit-testin/">iOS中的Hit-Testin</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/03/11/ioszhong-de-hit-testin/">iOS中的Hit-Testing</a></h1>
     
     
       <p class="meta">
@@ -155,37 +169,12 @@
 <p>解释Hit-Testing原理之前，先来看看它产生的时机，下面的示意图说明了一次touch从手指触碰屏幕到离开的过程
 <img src="http://smnh.me/images/hit-test-touch-event-flow.png" alt="" /></p>
 
-<p>如图所示，每次触屏都会产生hit-testing，并且在相应的视图或者手势识别器接收<code>UIEvent</code>事件之前产生的。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>注意：由于未知的原因，hit-testing接连产生多产，而确定的hit-test view 保持不变。</span></code></pre></td></tr></table></div></figure>
-
-
-<p>hit-testing完成后，找到了触碰点在其上面并处在最前端的视图。该视图会接收所有阶段（开始、移动、结束或者取消）的UITouch事件，当然它的手势识别器和子视图也可以和这些事件产生关联，然后，hit-test就开始接收一系列的UItouch事件了。</p>
-
-<p>有一点要注意，即使手指从hit-test视图移到移动到另一个视图上，hit-test视图仍然会继续收到touch事件，直到该组touch结束</p>
-
-<blockquote><p>“The touch object is associated with its hit-test view for its lifetime, even if the touch later moves outside the view.”</p>
-
-<p><a href="https://developer.apple.com/library/ios/documentation/EventHandling/Conceptual/EventHandlingiPhoneOS/event_delivery_responder_chain/event_delivery_responder_chain.html#//apple_ref/doc/uid/TP40009541-CH4-SW4">Event Handling Guide for iOS, iOS Developer Library</a></p></blockquote>
-
-<p>As mentioned earlier the hit-testing uses depth-first traversal in reverse pre-order (first visiting the root node and then traversing its subtrees from higher to lower indexes). This kind of traversal allows reducing the number of traversal iterations and stopping the search process once the first deepest descendant view that contains the touch-point is found. This is possible since a subview is always rendered in front of its superview and sibling view is always rendered in front of its sibling views with a lower index into the subviews array. Such that, when multiple overlapping views contain specific point, the deepest view in the rightmost subtree will be the frontmost view.</p>
-
-<blockquote><p>“Visually, the content of a subview obscures all or part of the content of its parent view. Each superview stores its subviews in an ordered array and the order in that array also affects the visibility of each subview. If two sibling subviews overlap each other, the one that was added last (or was moved to the end of the subview array) appears on top of the other.”</p>
-
-<p><a href="https://developer.apple.com/library/ios/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/WindowsandViews/WindowsandViews.html#//apple_ref/doc/uid/TP40009503-CH2-SW24">View Programming Guide for iOS, iOS Developer Library</a></p></blockquote>
-
-<p>下图显示了一个视图继承树并展示与其对应的真机模拟图。从左至右的的排列方式显示出了子视图的排列关系（右边的视图离用户越近）。</p>
-
-<p><img src="http://smnh.me/images/hit-test-view-hierarchy.png" alt="view hierarchy tree" /></p>
-
-<p>As it can be seen, “View A” and “View B” as well as their children, “View A.2” and “View B.1”, are overlapping. But since “View B” has a subview index higher than that of “View A”, “View B” and its subviews are rendered above “View A” and its subviews. Therefore, “View B.1” should be returned by hit-testing when user’s finger touches “View B.1” in the area where it overlaps with “View A.2”.</p>
-
-<p>By applying depth-first traversal in reverse pre-order allows stopping the traversal once the first deepest descendant view that contains the touch-point is found:</p>
-
-<p><img src="http://smnh.me/images/hit-test-depth-first-traversal.png" alt="" /></p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/03/11/ioszhong-de-hit-testin/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -1319,7 +1308,7 @@ MVVM, Swift and ReactiveCocoa &ndash; It&rsquo;s all good!
       </li>
     
       <li class="post">
-        <a href="/blog/2015/03/11/ioszhong-de-hit-testin/">iOS中的Hit-Testin</a>
+        <a href="/blog/2015/03/11/ioszhong-de-hit-testin/">iOS中的Hit-Testing</a>
       </li>
     
       <li class="post">

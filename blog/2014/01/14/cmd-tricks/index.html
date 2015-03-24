@@ -9,10 +9,12 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="输出文件的指定行 1
-sed -n 'x,yp' file; awk 'NF &gt; x && NF &gt; y' file 从x行开始，输出y行 1
-tail +x file | head -y head和tail 参数 -n的不同： head -n -10 除去最后10行
-tail -n &hellip;">
+  <meta name="description" content="删除一个大文件 1
+2
+/path/to/file.log (清空)
+rm /path/to/file.log 变量CDPATH定义了目录的搜索路径 cd */var/www/html/ 这样长了，我可以直接输入下面的命令进入 /var/www/html 1
+2
+export CDPATH=/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -113,7 +115,25 @@ tail -n &hellip;">
   </header>
 
 
-<div class="entry-content"><h4>输出文件的指定行</h4>
+<div class="entry-content"><h4>删除一个大文件</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/path/to/file.log (清空)
+</span><span class='line'>rm /path/to/file.log</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>变量CDPATH定义了目录的搜索路径</h4>
+
+<p>cd */var/www/html/ 这样长了，我可以直接输入下面的命令进入 /var/www/html</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>export CDPATH=/var/www
+</span><span class='line'>cd html</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>输出文件的指定行</h4>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>sed -n 'x,yp' file;   awk 'NF &gt; x && NF &gt; y' file</span></code></pre></td></tr></table></div></figure>
@@ -313,7 +333,7 @@ tail -n &hellip;">
       </li>
     
       <li class="post">
-        <a href="/blog/2015/03/11/ioszhong-de-hit-testin/">iOS中的Hit-Testin</a>
+        <a href="/blog/2015/03/11/ioszhong-de-hit-testin/">iOS中的Hit-Testing</a>
       </li>
     
       <li class="post">
