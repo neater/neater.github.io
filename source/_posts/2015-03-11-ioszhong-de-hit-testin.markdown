@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "iOS中的Hit-Testin"
+title: "iOS中的Hit-Testing"
 date: 2015-03-11 16:15:49 +0800
 comments: true
 categories: 
@@ -9,7 +9,7 @@ Hit-Testing决定了一个触控点是否和屏幕上的视图相关，iOS使用
 
 解释Hit-Testing原理之前，先来看看它产生的时机，下面的示意图说明了一次touch从手指触碰屏幕到离开的过程
 ![](http://smnh.me/images/hit-test-touch-event-flow.png)
-
+<!--more-->
 如图所示，每次触屏都会产生hit-testing，并且在相应的视图或者手势识别器接收`UIEvent`事件之前产生的。
 
 ```
