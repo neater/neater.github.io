@@ -4,7 +4,7 @@
   <title><![CDATA[Neater]]></title>
   <link href="http://neater.github.io/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2015-03-24T16:50:13+08:00</updated>
+  <updated>2015-03-24T16:51:12+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -1407,19 +1407,6 @@ MVVM, Swift and ReactiveCocoa &ndash; It&rsquo;s all good!
 <li>⌘ + ⇧ + G &ndash;> 输入要跳转的路径，按 ⇥ 自动补全。</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[通讯学习心得]]></title>
-    <link href="http://neater.github.io/blog/2014/07/30/tong-xun-xue-xi-xin-de/"/>
-    <updated>2014-07-30T09:04:15+08:00</updated>
-    <id>http://neater.github.io/blog/2014/07/30/tong-xun-xue-xi-xin-de</id>
-    <content type="html"><![CDATA[<p>眼下正在大力普及4G，但听说韩国已经在部署5G计划了，互联网和通讯行业发展迅猛，一大波术语让人困惑，比如 4G、5G、GPRS、CDMA、LTE。再读几本入门书籍后，有了感性的认识，分别是《大话通信》、《大话移动通信》、《大话无线通信》。</p>
-
-<h3>信号</h3>
-
-<p>以前大量使用模拟信号（连续的随时间变化的波形信号），优点是避免失真，如电影胶片；而数字信号，最大的优点是对跑嗓声的处理，另外还有加密、校验。</p>
 ]]></content>
   </entry>
   

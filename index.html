@@ -1254,7 +1254,7 @@ MVVM, Swift and ReactiveCocoa &ndash; It&rsquo;s all good!
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/07/30/tong-xun-xue-xi-xin-de/">通讯学习心得</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/07/29/xcodeji-qiao/">Xcode技巧</a></h1>
     
     
       <p class="meta">
@@ -1270,18 +1270,46 @@ MVVM, Swift and ReactiveCocoa &ndash; It&rsquo;s all good!
   
 
 
-<time datetime="2014-07-30T09:04:15+08:00" pubdate data-updated="true">Jul 30<span>th</span>, 2014</time>
+<time datetime="2014-07-29T14:05:32+08:00" pubdate data-updated="true">Jul 29<span>th</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>眼下正在大力普及4G，但听说韩国已经在部署5G计划了，互联网和通讯行业发展迅猛，一大波术语让人困惑，比如 4G、5G、GPRS、CDMA、LTE。再读几本入门书籍后，有了感性的认识，分别是《大话通信》、《大话移动通信》、《大话无线通信》。</p>
+  <div class="entry-content"><h4>Edit all in Scope</h4>
 
-<h3>信号</h3>
+<p>适合进行大批量的修改变量和方法；选定一个想要修改的字符串，然后选择<strong>Edit－Edit all in Scope</strong>，然后在你输入的时候，所有该字符出现的地方都进行同步更改。</p>
 
-<p>以前大量使用模拟信号（连续的随时间变化的波形信号），优点是避免失真，如电影胶片；而数字信号，最大的优点是对跑嗓声的处理，另外还有加密、校验。</p>
+<p>在文件上执行‘Command + Option + Shift + Left-click’操作，该组合键可展示一个小尺寸的弹出视图，可以查看你想要打开它的地方，比如辅助编辑器、标签或者窗口等。</p>
+
+<p>CTRL + 1，该快捷键可打开&#8217;Show Related Items‘弹出菜单’。倘若你已经将光标放在了任何方法中，并点击‘CTRL + 1 ’就可以很方便地通过弹出的视图访问该方法的所有调用者和被调用者。</p>
+
+<p>Command + Shift + J快捷操作，可展示当前你在工程导航器中打开的文件</p>
+
+<p>文档和参考: Command + Shift + 0</p>
+
+<p>在辅助编辑器中打开文件:在项目导航器中选中文件执行Option+左键点击操作</p>
+
+<p>option+点击Project Navigator中选中的文件：在辅助编辑窗口中打开选中文件。</p>
+
+<p>option+command+点击Editor中选中的符号：在辅助编辑窗口中打开符号定义（jump to definition in assistant editor）。</p>
+
+<p>option+control+command+↑/↓：在辅助窗口中打开对应的头文件（<em>.h）/实现文件（</em>.m,<em>.mm,</em>.cc）。</p>
+
+<p>若在按下option的同时按下shift通常会出现一个导航窗格，可选择在new window/tab/assistant-editor显示打开。</p>
+
+<h3>真机截屏</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>debug -&gt; viewDebugging -&gt; Take sceencast of Active Devics,
+</span><span class='line'>即使当前程序没有运行，也可以直接截取手机上的图片直接到桌面。</span></code></pre></td></tr></table></div></figure>
+
+
+<p>另外Show View Frams和Show Alignment Rectangles，也可显示视图边框和对齐矩形，方便UI调试。如下图</p>
+
+<p><img src="../images/viewframe.png" alt="view frame" /></p>
 </div>
   
   
