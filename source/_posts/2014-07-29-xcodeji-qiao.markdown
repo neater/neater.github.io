@@ -37,3 +37,8 @@ debug -> viewDebugging -> Take sceencast of Active Devics,
 
 ![view frame](../images/viewframe.png)
 
+__unused关键字，用来suppress 那种讨厌的unused parameter warning.
+
+`__unused int i;`
+
+NSLog(@"%@",@(array.count));

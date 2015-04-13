@@ -117,3 +117,9 @@ find . -name "file" | xargs -I [] cp []
 - 启动编辑器编辑命令，编辑完成后执行	`ctrl + x ctrl + e`
 - 撤销前面的操作	`ctrl + x ctrl + u`
 - 重新读取配置文件	`ctrl + x ctrl + r`
+
+###Vimperator
+y: 复制当前页的url到剪贴板。Y：复制选中文字到剪贴板
+
+"B显示书签列表
+:map B :dia bookmarks<cr>
