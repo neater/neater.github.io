@@ -23,6 +23,9 @@ FLEX (Flipboard Explorer)是一系列集成在APP内部的用于iOS调试的工�
 * 动态查看、修改`NSUserDefaults`存储的值。
 
 和其它调试工具不同，FLEX完全运行在你的APP中，所以不需要连接到LLDB/Xcode或者远程调试的服务端，在模拟器和真机上都运行的很好。
+
+<!--more-->
+
 ## 用法
 ### 简单版本
 ```objective-c

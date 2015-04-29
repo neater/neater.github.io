@@ -75,6 +75,8 @@ searchTextField.rac_textSignal().subscribeNextAs {
 ```
 好多了！
 
+<!--more-->
+
 ### Bindings
 ReactiveCocoa有一些宏用来绑定属性到signals，下面的代码，把viewModel的`searchText`属性绑定到一个UITextfield的`rac_textSignal`属性，当UITextfield中的内容更新了，这个signal忽略当前值，把新的值更新到viewModel的searchText
 ```

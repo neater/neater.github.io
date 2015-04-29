@@ -35,6 +35,8 @@ Xcode是绝大多数iOS开发者选择的IDE，并且是苹果官方唯一支持
 ###Ignores
 把项目加入版本控制的时候，最好也加入.gitignore文件，这样不会把不需要的文件（用户自己的配置和临时文件等）加入。幸运地是，GitHub已经为我们提供了[Objective-C](https://github.com/github/gitignore/blob/master/Objective-C.gitignore)和[Swift](https://github.com/github/gitignore/blob/master/Swift.gitignore)的版本(译者注：还有个好用的网站，[gitignore.io](https://www.gitignore.io/))
 
+<!--more-->
+
 ###CocoaPods
 在管理第三方库方面，CocoaPods无疑首当其冲，安装的命令：
 ```

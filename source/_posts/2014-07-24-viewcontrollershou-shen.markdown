@@ -36,6 +36,8 @@ VC主要负责与用户的交互，主要是控制内部View以及用户操作�
 ```
 可以看出，这个.h文件没有IBOutlets和subViews的信息，因为他们都是内部细节；如果不这样的话，VC将能访问这样内部细节，设想将来你想使用UITextFields和UILabels，而不是现在的UITableView来显示login和password，修改VC将是无法避免的。
 
+<!--more-->
+
 ###使用View Model封闭View信息
 上面的代码中的JPLoginViewModel封闭了View显示的细节，其中定义了2个字符串，而不在View中这样做，是因为View Model可以作为两者沟通的桥梁。
 View Model一般定义在View中，并提供操作的接口，VC创建View Model，并给其赋值，当然也能再获得这样值，再把这个View Model的引用赋给View。通过KVO，VC可以实现对View属性的监控。
