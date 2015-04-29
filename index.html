@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="本文是这一系列的开篇，主要涉及一些基础环境设置，目的是能开发出及扩展、及维护和易测试的项目，而本系列将会涵盖一些模式和库，它们会或多或少改善让Android开发者的体验。 场景 本篇使用的Android项目救命，是个电影类别的原型，可以标记是否已经观看， &hellip;">
+  <meta name="description" content="Keyboard Maestro是一款类似Alfred的App，但一点也不逊色后者，它对Automator进行了封装，方便用户的使用。 Firefox快捷设置 使用浏览器时，我个人非常不习惯网页的白色背景，感觉非常刺眼，于是手动调成灰色，但个别网页不能正常显示，这时只能手动来切换， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -84,6 +84,248 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/04/29/bing-qi-pu-zhi-keyboard-maestro/">兵器谱之Keyboard Maestro</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-29T15:12:45+08:00" pubdate data-updated="true">Apr 29<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Keyboard Maestro是一款类似Alfred的App，但一点也不逊色后者，它对Automator进行了封装，方便用户的使用。</p>
+
+<h1>Firefox快捷设置</h1>
+
+<p>使用浏览器时，我个人非常不习惯网页的白色背景，感觉非常刺眼，于是手动调成灰色，但个别网页不能正常显示，这时只能手动来切换，不管是鼠标点击还是键盘操作都非常烦锁。</p>
+
+<p>Duang！有请Keyboard Maestro（简写成KM）出场，先在KM的编辑器里为我使用的Firefox添加一个Group并命名，在Avaliable in the following applications下拉菜单中选中Firefox，这样之后的操作只会在Firefox中生效，减少全局冲突；接着在中间的Macros栏中点击加号按钮添加一个Macro，取名为<code>Backgroud Color White</code>
+<img src="../images/group.png" alt="group" /></p>
+
+<p>KM有许多触发动作的机制，这里我设置一个快捷键<code>⌃⌘I</code>，当切换到Firefox中并按下这个快捷捷，就会触发一系列自定义的action。点击<code>New Action</code>，弹出选择列表，作为一个键盘党，按照Firefox修改背景颜色的键盘顺序，添加<code>Interface Control</code>中的<code>Type a keystroke</code>就可以了。问题来了，当我进入<code>常规</code>选项卡里进行设置后，再触发前面设置的快捷键，预设的一系列键盘操作就会在<code>常规</code>里面跳转。</p>
+
+<p>看来只能用鼠标了，为了统一基准坐标，我把设置窗口拖动到左上角，与Firfox窗口重合，<code>Interface Control</code>的<code>Move or Click Mouse</code>支持鼠标的操作，再添加了相关的action后再试，问题又来了，预先的操作有时成功、有时失败，通过一次次的窗口操作，发现了原因：平时我们手动操作的时候，每一步之间都有间隔时间的，而KM自动执行这一系列action之间则没有间隔时间（后来知道KM支持Debug功能，不用这么费力的调试了），幸好在<code>Control Flow</code>里找到了<code>Pause</code>，再每个action之间添加它，并设置间隔时间为0.2秒，这回终于正常了。
+<img src="../images/white.gif" alt="white" /></p>
+
+<p>上面手动添加action还是挺费力了，幸好KM支持Macros的录制功能，刚才是把背景色改为白色，那就录个换回灰色的Macro吧。
+<img src="../images/gray.gif" alt="white" /></p>
+
+<p>最终生成的action列表
+<img src="../images/actions.png" alt="" /></p>
+
+<p>点击<code>edit</code>按钮，可以看到action的文字说明
+<img src="../images/edit.png" alt="" /></p>
+
+<p>KM内置了上百种功能强大的action，而且也支持自定义action，接下来好好看看官方的文档，写几个自定义的action！</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/04/15/alfred2-workflowre-shen/">Alfred2 Workflow热身</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-15T16:43:27+08:00" pubdate data-updated="true">Apr 15<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Mac下的大杀器Alfred2用了好久，Workflow也收集了不少，那为什么不自己写一个呢？第一次就写了玩具workflow吧，比如显示当天的日期</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/04/13/yong-rubyxie-alfred2de-workflow/">用Ruby写Alfred2的Workflow</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-13T15:25:57+08:00" pubdate data-updated="true">Apr 13<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Mac下的大杀器Alfred2用了好久，Workflow也收集了不少，那为什么不自己写一个呢？当添加一个Workflow时发现，竟然支持这么多的语言，那就用我的最爱Ruby开工吧！</p>
+
+<p><img src="../images/languages.png" alt="view frame" /></p>
+
+<p>第一次就拿ASCII码转换练练手吧，可以将十进制ASCII码转换成字符</p>
+
+<p><img src="http://ytliu.info/images/2014-04-14-1.png" alt="" /></p>
+
+<p>还可以将16进制ASCII转换成字符</p>
+
+<p><img src="http://ytliu.info/images/2014-04-14-2.png" alt="" /></p>
+
+<p>或者把字符转换成ASCII码</p>
+
+<p><img src="http://ytliu.info/images/2014-04-14-3.png" alt="" /></p>
+
+<p>这里使用了<a href="http://zhaocai.github.io/alfred2-ruby-template/">alfred2-ruby-template</a>模板，使用过程如下</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git clone https://github.com/zhaocai/alfred2-ruby-template.git
+</span><span class='line'><span class="nv">$ </span>mv alfred2-ruby-template alfred2-ascii-translator
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>alfred2-ascii-translator
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>更新config.yml的<code>domain</code>, <code>id</code>, <code>path</code>字段：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="c1"># bundle_id = &quot;domain.id&quot;</span>
+</span><span class='line'><span class="c1"># path is the relative path to the workflow in the project root</span>
+</span><span class='line'><span class="nn">---</span>
+</span><span class='line'><span class="l-Scalar-Plain">path</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">ascii</span>
+</span><span class='line'><span class="l-Scalar-Plain">domain</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">me.ytliu</span>
+</span><span class='line'><span class="l-Scalar-Plain">id</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">alfred2-ascii-translator</span>
+</span><span class='line'><span class="c1"># If you are using Alfred&#39;s advanced Dropbox sync, indicate the path shown in</span>
+</span><span class='line'><span class="c1"># Alfred Preferences &gt; Advanced &gt; Syncing:</span>
+</span><span class='line'><span class="l-Scalar-Plain">dropbox</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">~/Dropbox/Alfred</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/03/25/wei-mbprogresshudtian-jia-qu-xiao-gong-neng/">为MBProgressHUD添加取消功能</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-25T16:48:25+08:00" pubdate data-updated="true">Mar 25<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>MBProgressHUD是一个显示HUD窗口的第三方类库，用于在执行一些后台任务时，在程序中显示一个表示进度的loading视图和两个可选的文本提示的HUD窗口。</p>
+
+<p>在现实的需求中，可能存在这种情况：比如一个网络操作，在发送请求等待响应的过程中，我们会显示一个HUD窗口以显示一个loading框。但如果我们想在等待响应的过程中，在当前视图中取消这个网络请求，就没有相应的处理方式，MBProgressHUD没有为我们提供这样的交互操作。</p>
+
+<p>简单看了下MBProgressHUD的源码，发现使用了NSOperationQueue来调度任务，便有了下面代码。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="nf">requestData</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>   <span class="n">self</span><span class="p">.</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFHTTPRequestOperationManager</span> <span class="n">manager</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">UITapGestureRecognizer</span> <span class="o">*</span><span class="n">tapRecognizer</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UITapGestureRecognizer</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget:</span><span class="n">self</span> <span class="nl">action:</span><span class="k">@selector</span><span class="p">(</span><span class="n">cancelRequest</span><span class="p">)];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">cancelRequest</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">manager</span><span class="p">.</span><span class="n">operationQueue</span> <span class="n">cancelAllOperations</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -956,367 +1198,6 @@ MVVM, Swift and ReactiveCocoa &ndash; It&rsquo;s all good!
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/08/04/100ge-ioskai-fa-zhe-xu-yao-guan-zhu-de-zi-yuan/">100个iOS开发者需要关注的资源</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-08-04T10:41:58+08:00" pubdate data-updated="true">Aug 4<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>iOS App的市场无疑获得了极大的增长，当然少不了平台流行的功劳。下面的的资源，对App开发感兴趣的人是很有帮助的。</p>
-
-<p>无论是在App Store推广你的App，还是设计一款漂亮的App，这些书、工具、社区绝对能帮助你。这100多个在线服务、社区、工具，帮助开发者更好的构思一款App并实现它，你所要做的就是好好使用它们。</p>
-
-<h3>在线服务</h3>
-
-<p><img src="http://dailytekk.com/wp-content/uploads/2014/02/unbabel.jpg" alt="Service" /></p>
-
-<ol>
-<li><a href="http://www.iubenda.com/en/mobile">Iubenda</a> &ndash; Mobile app privacy policy</li>
-<li><a href="http://www.joppar.com/mobile-app-cms">Content</a> -Content management system for native iOS apps</li>
-<li><a href="https://www.unbabel.co/">Unbabel</a> &ndash; App Localization</li>
-<li><a href="http://joppar.com/mobile-app-feature-switching">Switch</a> -Toggle your app features off and on in real-time</li>
-<li><a href="https://heatmaps.io/">Heatmaps</a> &ndash; iOS heatmap</li>
-<li><a href="http://www.iubenda.com/en/mobile">Bitbucket</a> &ndash; Private code repositories</li>
-<li><a href="http://www.iubenda.com/en/mobile">Media Toolkit</a> &ndash; Monitors mentions of your app</li>
-<li><a href="http://www.iubenda.com/en/mobile">Alau.me</a> &ndash; Like bit.ly for apps</li>
-<li><a href="http://www.iubenda.com/en/mobile">Ap Salar</a> &ndash; Data driven mobile ad platform</li>
-<li><a href="http://www.iubenda.com/en/mobile">Google</a> &ndash; Mobile backend</li>
-</ol>
-
-
-<h3>社区</h3>
-
-<p><img src="http://dailytekk.com/wp-content/uploads/2014/02/F9brVEii2vJ1V8psswIKt6gmaE2SxFV9yLsyeuCbBqQ.jpg" alt="Communities" /></p>
-
-<ol>
-<li><a href="https://plus.google.com/communities/112026628790708717979">iOS Developers Group</a> &ndash; iOS Google+ community</li>
-<li><a href="http://ios.meetup.com/">iOS Meetup Groups</a> &ndash; Get together with like-minded people</li>
-<li><a href="https://www.quora.com/iOS-Development/">iOS Development Quora</a> &ndash; iOS Development Quora group</li>
-<li><a href="http://stackoverflow.com/questions/tagged/ios">iOS Stackoverflow</a> &ndash; iOS Stackoverflow group</li>
-<li><a href="http://forum.iphone-developers.com/">iPhone Developer Forum</a> &ndash; iOS Dev Forums</li>
-<li><a href="http://www.reddit.com/r/iOSProgramming/">iOS Programming</a> &ndash; iOS Reddit group</li>
-<li><a href="http://cocoalit.com/">Cocoa Lit</a> &ndash; List of Cocoa tutorials</li>
-<li><a href="http://nsscreencast.com/">NS Screencast</a> &ndash; iOS development screencasts</li>
-<li><a href="http://iosdevelopertips.com/">iOS Developer Tips</a> &ndash; Tips and tutorials for iOS Developers</li>
-<li><a href="https://clarity.fm/">Clarity.fm</a> &ndash; Call an expert for iOS help</li>
-</ol>
-
-
-<p>译自
-<a href="http://dailytekk.com/2014/02/20/100-great-resources-for-ios-developers/">100 Great Resources for iOS Developers</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/07/31/flex%21iosdiao-shi-li-qi/">FLEX！iOS调试利器</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-31T15:51:37+08:00" pubdate data-updated="true">Jul 31<span>st</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>FLEX (Flipboard Explorer)是一系列集成在APP内部的用于iOS调试的工具集，以工具栏的形式显示在应用中，通过它，可以查看并修改几乎所有的APP运行状态。</p>
-
-<p><img src="https://camo.githubusercontent.com/9986601c5e4306f7935032465911c0f70596e046/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f62617369632d766965772d6578706c6f726174696f6e2e676966" alt="dfd" /></p>
-
-<h2>强大的调试能力</h2>
-
-<ul>
-<li>查看、修改View的层次关系。</li>
-<li>查看对象的属性和实例变量。</li>
-<li>动态修改属性和实例变量。</li>
-<li>动态调用实例和类方法。</li>
-<li>动态访问堆上的对象。</li>
-<li>访问APP的沙盒。</li>
-<li>除jAPP的所有类外，还能访问已链接的系统框架，包括私有的。</li>
-<li>快速访问一些常用的对象，比如<code>[UIApplication sharedApplication]</code>、App Delegate、Root View Controller等。</li>
-<li>动态查看、修改<code>NSUserDefaults</code>存储的值。</li>
-</ul>
-
-
-<p>和其它调试工具不同，FLEX完全运行在你的APP中，所以不需要连接到LLDB/Xcode或者远程调试的服务端，在模拟器和真机上都运行的很好。</p>
-
-<h2>用法</h2>
-
-<h3>简单版本</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[[</span><span class="n">FLEXManager</span> <span class="n">sharedManager</span><span class="p">]</span> <span class="n">showExplorer</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>完整版本</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#if DEBUG</span>
-</span><span class='line'><span class="cp">#import &quot;FLEXManager.h&quot;</span>
-</span><span class='line'><span class="cp">#endif</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">...</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">handleSixFingerQuadrupleTap:</span><span class="p">(</span><span class="n">UITapGestureRecognizer</span> <span class="o">*</span><span class="p">)</span><span class="n">tapRecognizer</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="cp">#if DEBUG</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">tapRecognizer</span><span class="p">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">UIGestureRecognizerStateRecognized</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="c1">// This could also live in a handler for a keyboard shortcut, debug menu item, etc.</span>
-</span><span class='line'>        <span class="p">[[</span><span class="n">FLEXManager</span> <span class="n">sharedManager</span><span class="p">]</span> <span class="n">showExplorer</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="cp">#endif</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>功能示例</h2>
-
-<h3>修改视图</h3>
-
-<p>点击<code>views</code>，从工具栏下面弹出界面，显示视图的详细信息，并能修改属性值和调用方法。</p>
-
-<p><img src="https://camo.githubusercontent.com/950a2612b1dc796bc5cc3fd9909ed465166afc5b/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f616476616e6365642d766965772d65646974696e672e676966" alt="Views" /></p>
-
-<h3>查看对象</h3>
-
-<p>FLEX在malloc分配的内存块中查找相关的对象，如下：</p>
-
-<p><img src="https://camo.githubusercontent.com/573692941c2901c0fd1ce0f085c101f6b4d3ae3b/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f686561702d62726f777365722e676966" alt="Object in Heap" /></p>
-
-<h3>文件浏览</h3>
-
-<p>查看APP沙盒内的文件系统，包括文件大小、图片预览、以友好的方式显示json和plist文件。也能将文本和图片文件拷贝和剪贴板中，</p>
-
-<p><img src="https://camo.githubusercontent.com/df6e924a21ecaf8080342d80f384e88f8249c3fe/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f66696c652d62726f777365722e676966" alt="File Browser" /></p>
-
-<h3>探索系统库资源</h3>
-
-<p>深挖框架内部的class，创建相应的实例，并访问其状态。</p>
-
-<p><img src="https://camo.githubusercontent.com/c91fc34a63f05f803cdc0d23d72ae047d0b960bd/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f73797374656d2d6c69627261726965732d62726f777365722e676966" alt="System Library Exploration" /></p>
-
-<h3>编辑NSUserDefaults</h3>
-
-<p>FLEX允许修改NSUserDefaults的strings, numbers, arrays, and dictionaries，及其它们的组合，输入格式为json；如果使用其它数据作为key，如NSDate，则是只读的。</p>
-
-<p><img src="https://camo.githubusercontent.com/c9b72bf288f79993fbbc46cd4c0c37504fd8e11b/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f6e737573657264656661756c74732d656469746f722e676966" alt="NSUserDefaults" /></p>
-
-<h3>探索其它APP</h3>
-
-<p>代码注入留给大家去摸索了</p>
-
-<p><img src="https://camo.githubusercontent.com/de456cb9f822094e49b40692cd9720c8e99905d7/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f666c65782d726561646d652d726576657273652d312e706e67" alt="Injection" /><img src="https://camo.githubusercontent.com/44624ad09a907893fc95bf35283bc12439ae9d93/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f666c65782d726561646d652d726576657273652d322e706e67" alt="Injection" /></p>
-
-<h2>避免将FLEX编译到正式版本</h2>
-
-<p>尽管FLEX很适合在开发调试的时候使用，但它不应该让最终用户看到。在Xcode &ndash;> Project &ndash;> Build Setting，点<code>+</code>选择<code>Add User-Defined Setting</code>。</p>
-
-<p><img src="https://camo.githubusercontent.com/5b1cbb5cb14496ee12a8a8aeacc2c155a735a1c1/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f666c65782d726561646d652d6578636c7564652d312e706e67" alt="Excluding FLEX" /></p>
-
-<p>命名为<code>EXCLUDED_SOURCE_FILE_NAMES</code>，在<code>Release</code>配置中，填入<code>FLEX*</code>，将不会编译所有以FLEX开头的文件，<code>Debug</code>配置里空白就行了。</p>
-
-<p><img src="https://camo.githubusercontent.com/843997bca76f737561e1084293e9dfd90cda4d97/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f666c65782d726561646d652d6578636c7564652d322e706e67" alt="" /></p>
-
-<p>在所有集成FLEX代码的地方，确保将其嵌入到<code>#if DEBUG</code>中，更多相关信息，请参考官方示例。</p>
-
-<h2>注意</h2>
-
-<ul>
-<li>NSUserDefaults中，如果值的类型为<code>id</code>，FLEX将把输入的string转为json，目的是使用strings, numbers, arrays, and dictionaries的组合。如果值为string，则一定用字符串引号包裹起来，显示使用 <code>NSString</code> 的属性和实例变量，则不用引号。</li>
-<li>在使用FLEX时，你可能会取消异常断点。FLEX会产生一些异常，当接收了某种不能处理的输入（如<code>NSGetSizeAndAlignment()</code>）, 为了防止程序崩溃，FLEX会捕获并将其抛出，但是这样会激活你的断点。</li>
-</ul>
-
-
-<p>译自 <a href="https://github.com/Flipboard/FLEX/">FLEX README.md</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/07/30/mac-tips/">Mac Tips</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-30T15:37:40+08:00" pubdate data-updated="true">Jul 30<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h4>Mac下打开最近访问项</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>⌘ + ⇥ 切换App的时候，⌘不放，再按↑，将会显示该App最近打开的文件。使用↑↓←→进行选择，按 ↩ 打开。</span></code></pre></td></tr></table></div></figure>
-
-
-<p>虽然CMD中有很多快捷键，但无法大范围移动光标，OS X 下，按住option，然后鼠标点击当前行，光标会移动到该处。</p>
-
-<h3>键盘操控对话框</h3>
-
-<p>以未保存对话框为例
-<img src="https://farm3.staticflickr.com/2897/14005766309_e55ffb73ac_z.jpg" alt="" /></p>
-
-<ul>
-<li>回车 —> Save</li>
-<li>⌘ + . &ndash;> Cancel</li>
-<li>⌘ + Del &ndash;> Delete</li>
-<li>⌘ + ⇧ + H &ndash;> 跳转至主目录</li>
-<li>⌘ + D   &ndash;>  跳转至桌面</li>
-<li>⌘ + ⇧ + G &ndash;> 输入要跳转的路径，按 ⇥ 自动补全。</li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/07/29/xcodeji-qiao/">Xcode技巧</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-29T14:05:32+08:00" pubdate data-updated="true">Jul 29<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h4>Edit all in Scope</h4>
-
-<p>适合进行大批量的修改变量和方法；选定一个想要修改的字符串，然后选择<strong>Edit－Edit all in Scope</strong>，然后在你输入的时候，所有该字符出现的地方都进行同步更改。</p>
-
-<p>在文件上执行‘Command + Option + Shift + Left-click’操作，该组合键可展示一个小尺寸的弹出视图，可以查看你想要打开它的地方，比如辅助编辑器、标签或者窗口等。</p>
-
-<p>CTRL + 1，该快捷键可打开&#8217;Show Related Items‘弹出菜单’。倘若你已经将光标放在了任何方法中，并点击‘CTRL + 1 ’就可以很方便地通过弹出的视图访问该方法的所有调用者和被调用者。</p>
-
-<p>Command + Shift + J快捷操作，可展示当前你在工程导航器中打开的文件</p>
-
-<p>文档和参考: Command + Shift + 0</p>
-
-<p>在辅助编辑器中打开文件:在项目导航器中选中文件执行Option+左键点击操作</p>
-
-<p>option+点击Project Navigator中选中的文件：在辅助编辑窗口中打开选中文件。</p>
-
-<p>option+command+点击Editor中选中的符号：在辅助编辑窗口中打开符号定义（jump to definition in assistant editor）。</p>
-
-<p>option+control+command+↑/↓：在辅助窗口中打开对应的头文件（<em>.h）/实现文件（</em>.m,<em>.mm,</em>.cc）。</p>
-
-<p>若在按下option的同时按下shift通常会出现一个导航窗格，可选择在new window/tab/assistant-editor显示打开。</p>
-
-<h3>真机截屏</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>debug -&gt; viewDebugging -&gt; Take sceencast of Active Devics,
-</span><span class='line'>即使当前程序没有运行，也可以直接截取手机上的图片直接到桌面。</span></code></pre></td></tr></table></div></figure>
-
-
-<p>另外Show View Frams和Show Alignment Rectangles，也可显示视图边框和对齐矩形，方便UI调试。如下图</p>
-
-<p><img src="../images/viewframe.png" alt="view frame" /></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1332,23 +1213,23 @@ MVVM, Swift and ReactiveCocoa &ndash; It&rsquo;s all good!
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/04/29/bing-qi-pu-zhi-keyboard-maestro/">兵器谱之Keyboard Maestro</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/15/alfred2-workflowre-shen/">Alfred2 Workflow热身</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/13/yong-rubyxie-alfred2de-workflow/">用Ruby写Alfred2的Workflow</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/25/wei-mbprogresshudtian-jia-qu-xiao-gong-neng/">为MBProgressHUD添加取消功能</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/03/18/androidshi-yong-shi-jian-part1/">Android实用实践Part1: 架构</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/03/11/ioszhong-de-hit-testin/">iOS中的Hit-Testing</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/21/ioskai-fa-zui-jia-shi-jian/">iOS开发最佳实践</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/11/quan-zhan-kai-fa-zhe-de-chao-qi-chao-luo/">全栈开发者的潮起潮落</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/09/29/git-tips/">Git Tips</a>
       </li>
     
   </ul>

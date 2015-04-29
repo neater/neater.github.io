@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>100个iOS开发者需要关注的资源 - Neater</title>
+  <title>为MBProgressHUD添加取消功能 - Neater</title>
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="iOS App的市场无疑获得了极大的增长，当然少不了平台流行的功劳。下面的的资源，对App开发感兴趣的人是很有帮助的。 无论是在App Store推广你的App，还是设计一款漂亮的App，这些书、工具、社区绝对能帮助你。这100多个在线服务、社区、工具，帮助开发者更好的构思一款App并实现它， &hellip;">
+  <meta name="description" content="MBProgressHUD是一个显示HUD窗口的第三方类库，用于在执行一些后台任务时，在程序中显示一个表示进度的loading视图和两个可选的文本提示的HUD窗口。 在现实的需求中，可能存在这种情况：比如一个网络操作，在发送请求等待响应的过程中，我们会显示一个HUD窗口以显示一个loading框。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://neater.github.io/blog/2014/08/04/100ge-ioskai-fa-zhe-xu-yao-guan-zhu-de-zi-yuan">
+  <link rel="canonical" href="http://neater.github.io/blog/2015/03/25/wei-mbprogresshudtian-jia-qu-xiao-gong-neng">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Neater" type="application/atom+xml">
@@ -87,7 +87,7 @@
   
   <header>
     
-      <h1 class="entry-title">100个iOS开发者需要关注的资源</h1>
+      <h1 class="entry-title">为MBProgressHUD添加取消功能</h1>
     
     
       <p class="meta">
@@ -103,55 +103,41 @@
   
 
 
-<time datetime="2014-08-04T10:41:58+08:00" pubdate data-updated="true">Aug 4<span>th</span>, 2014</time>
+<time datetime="2015-03-25T16:48:25+08:00" pubdate data-updated="true">Mar 25<span>th</span>, 2015</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>iOS App的市场无疑获得了极大的增长，当然少不了平台流行的功劳。下面的的资源，对App开发感兴趣的人是很有帮助的。</p>
+<div class="entry-content"><p>MBProgressHUD是一个显示HUD窗口的第三方类库，用于在执行一些后台任务时，在程序中显示一个表示进度的loading视图和两个可选的文本提示的HUD窗口。</p>
 
-<p>无论是在App Store推广你的App，还是设计一款漂亮的App，这些书、工具、社区绝对能帮助你。这100多个在线服务、社区、工具，帮助开发者更好的构思一款App并实现它，你所要做的就是好好使用它们。</p>
+<p>在现实的需求中，可能存在这种情况：比如一个网络操作，在发送请求等待响应的过程中，我们会显示一个HUD窗口以显示一个loading框。但如果我们想在等待响应的过程中，在当前视图中取消这个网络请求，就没有相应的处理方式，MBProgressHUD没有为我们提供这样的交互操作。</p>
 
-<h3>在线服务</h3>
+<p>简单看了下MBProgressHUD的源码，发现使用了NSOperationQueue来调度任务，便有了下面代码。</p>
 
-<p><img src="http://dailytekk.com/wp-content/uploads/2014/02/unbabel.jpg" alt="Service" /></p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="nf">requestData</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>   <span class="n">self</span><span class="p">.</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFHTTPRequestOperationManager</span> <span class="n">manager</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">UITapGestureRecognizer</span> <span class="o">*</span><span class="n">tapRecognizer</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UITapGestureRecognizer</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget:</span><span class="n">self</span> <span class="nl">action:</span><span class="k">@selector</span><span class="p">(</span><span class="n">cancelRequest</span><span class="p">)];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">cancelRequest</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">manager</span><span class="p">.</span><span class="n">operationQueue</span> <span class="n">cancelAllOperations</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<ol>
-<li><a href="http://www.iubenda.com/en/mobile">Iubenda</a> &ndash; Mobile app privacy policy</li>
-<li><a href="http://www.joppar.com/mobile-app-cms">Content</a> -Content management system for native iOS apps</li>
-<li><a href="https://www.unbabel.co/">Unbabel</a> &ndash; App Localization</li>
-<li><a href="http://joppar.com/mobile-app-feature-switching">Switch</a> -Toggle your app features off and on in real-time</li>
-<li><a href="https://heatmaps.io/">Heatmaps</a> &ndash; iOS heatmap</li>
-<li><a href="http://www.iubenda.com/en/mobile">Bitbucket</a> &ndash; Private code repositories</li>
-<li><a href="http://www.iubenda.com/en/mobile">Media Toolkit</a> &ndash; Monitors mentions of your app</li>
-<li><a href="http://www.iubenda.com/en/mobile">Alau.me</a> &ndash; Like bit.ly for apps</li>
-<li><a href="http://www.iubenda.com/en/mobile">Ap Salar</a> &ndash; Data driven mobile ad platform</li>
-<li><a href="http://www.iubenda.com/en/mobile">Google</a> &ndash; Mobile backend</li>
-</ol>
-
-
-<h3>社区</h3>
-
-<p><img src="http://dailytekk.com/wp-content/uploads/2014/02/F9brVEii2vJ1V8psswIKt6gmaE2SxFV9yLsyeuCbBqQ.jpg" alt="Communities" /></p>
-
-<ol>
-<li><a href="https://plus.google.com/communities/112026628790708717979">iOS Developers Group</a> &ndash; iOS Google+ community</li>
-<li><a href="http://ios.meetup.com/">iOS Meetup Groups</a> &ndash; Get together with like-minded people</li>
-<li><a href="https://www.quora.com/iOS-Development/">iOS Development Quora</a> &ndash; iOS Development Quora group</li>
-<li><a href="http://stackoverflow.com/questions/tagged/ios">iOS Stackoverflow</a> &ndash; iOS Stackoverflow group</li>
-<li><a href="http://forum.iphone-developers.com/">iPhone Developer Forum</a> &ndash; iOS Dev Forums</li>
-<li><a href="http://www.reddit.com/r/iOSProgramming/">iOS Programming</a> &ndash; iOS Reddit group</li>
-<li><a href="http://cocoalit.com/">Cocoa Lit</a> &ndash; List of Cocoa tutorials</li>
-<li><a href="http://nsscreencast.com/">NS Screencast</a> &ndash; iOS development screencasts</li>
-<li><a href="http://iosdevelopertips.com/">iOS Developer Tips</a> &ndash; Tips and tutorials for iOS Developers</li>
-<li><a href="https://clarity.fm/">Clarity.fm</a> &ndash; Call an expert for iOS help</li>
-</ol>
-
-
-<p>译自
-<a href="http://dailytekk.com/2014/02/20/100-great-resources-for-ios-developers/">100 Great Resources for iOS Developers</a></p>
 </div>
 
 
@@ -174,7 +160,7 @@
   
 
 
-<time datetime="2014-08-04T10:41:58+08:00" pubdate data-updated="true">Aug 4<span>th</span>, 2014</time>
+<time datetime="2015-03-25T16:48:25+08:00" pubdate data-updated="true">Mar 25<span>th</span>, 2015</time>
       
 
 
@@ -182,7 +168,7 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://neater.github.io/blog/2014/08/04/100ge-ioskai-fa-zhe-xu-yao-guan-zhu-de-zi-yuan/" data-via="" data-counturl="http://neater.github.io/blog/2014/08/04/100ge-ioskai-fa-zhe-xu-yao-guan-zhu-de-zi-yuan/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://neater.github.io/blog/2015/03/25/wei-mbprogresshudtian-jia-qu-xiao-gong-neng/" data-via="" data-counturl="http://neater.github.io/blog/2015/03/25/wei-mbprogresshudtian-jia-qu-xiao-gong-neng/" >Tweet</a>
   
   
   
@@ -191,10 +177,10 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/07/31/flex%21iosdiao-shi-li-qi/" title="Previous Post: FLEX！iOS调试利器">&laquo; FLEX！iOS调试利器</a>
+        <a class="basic-alignment left" href="/blog/2015/03/18/androidshi-yong-shi-jian-part1/" title="Previous Post: Android实用实践Part1: 架构">&laquo; Android实用实践Part1: 架构</a>
       
       
-        <a class="basic-alignment right" href="/blog/2014/09/24/reactivecocoa-and-swift/" title="Next Post: ReactiveCocoa and Swift">ReactiveCocoa and Swift &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2015/04/13/yong-rubyxie-alfred2de-workflow/" title="Next Post: 用Ruby写Alfred2的Workflow">用Ruby写Alfred2的Workflow &raquo;</a>
       
     </p>
   </footer>

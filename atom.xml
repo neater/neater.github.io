@@ -4,7 +4,7 @@
   <title><![CDATA[Neater]]></title>
   <link href="http://neater.github.io/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2015-03-24T16:51:12+08:00</updated>
+  <updated>2015-04-29T17:05:40+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -12,6 +12,140 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[兵器谱之Keyboard Maestro]]></title>
+    <link href="http://neater.github.io/blog/2015/04/29/bing-qi-pu-zhi-keyboard-maestro/"/>
+    <updated>2015-04-29T15:12:45+08:00</updated>
+    <id>http://neater.github.io/blog/2015/04/29/bing-qi-pu-zhi-keyboard-maestro</id>
+    <content type="html"><![CDATA[<p>Keyboard Maestro是一款类似Alfred的App，但一点也不逊色后者，它对Automator进行了封装，方便用户的使用。</p>
+
+<h1>Firefox快捷设置</h1>
+
+<p>使用浏览器时，我个人非常不习惯网页的白色背景，感觉非常刺眼，于是手动调成灰色，但个别网页不能正常显示，这时只能手动来切换，不管是鼠标点击还是键盘操作都非常烦锁。</p>
+
+<p>Duang！有请Keyboard Maestro（简写成KM）出场，先在KM的编辑器里为我使用的Firefox添加一个Group并命名，在Avaliable in the following applications下拉菜单中选中Firefox，这样之后的操作只会在Firefox中生效，减少全局冲突；接着在中间的Macros栏中点击加号按钮添加一个Macro，取名为<code>Backgroud Color White</code>
+<img src="../images/group.png" alt="group" /></p>
+
+<p>KM有许多触发动作的机制，这里我设置一个快捷键<code>⌃⌘I</code>，当切换到Firefox中并按下这个快捷捷，就会触发一系列自定义的action。点击<code>New Action</code>，弹出选择列表，作为一个键盘党，按照Firefox修改背景颜色的键盘顺序，添加<code>Interface Control</code>中的<code>Type a keystroke</code>就可以了。问题来了，当我进入<code>常规</code>选项卡里进行设置后，再触发前面设置的快捷键，预设的一系列键盘操作就会在<code>常规</code>里面跳转。</p>
+
+<p>看来只能用鼠标了，为了统一基准坐标，我把设置窗口拖动到左上角，与Firfox窗口重合，<code>Interface Control</code>的<code>Move or Click Mouse</code>支持鼠标的操作，再添加了相关的action后再试，问题又来了，预先的操作有时成功、有时失败，通过一次次的窗口操作，发现了原因：平时我们手动操作的时候，每一步之间都有间隔时间的，而KM自动执行这一系列action之间则没有间隔时间（后来知道KM支持Debug功能，不用这么费力的调试了），幸好在<code>Control Flow</code>里找到了<code>Pause</code>，再每个action之间添加它，并设置间隔时间为0.2秒，这回终于正常了。
+<img src="../images/white.gif" alt="white" /></p>
+
+<p>上面手动添加action还是挺费力了，幸好KM支持Macros的录制功能，刚才是把背景色改为白色，那就录个换回灰色的Macro吧。
+<img src="../images/gray.gif" alt="white" /></p>
+
+<p>最终生成的action列表
+<img src="../images/actions.png" alt="" /></p>
+
+<p>点击<code>edit</code>按钮，可以看到action的文字说明
+<img src="../images/edit.png" alt="" /></p>
+
+<p>KM内置了上百种功能强大的action，而且也支持自定义action，接下来好好看看官方的文档，写几个自定义的action！</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Alfred2 Workflow热身]]></title>
+    <link href="http://neater.github.io/blog/2015/04/15/alfred2-workflowre-shen/"/>
+    <updated>2015-04-15T16:43:27+08:00</updated>
+    <id>http://neater.github.io/blog/2015/04/15/alfred2-workflowre-shen</id>
+    <content type="html"><![CDATA[<p>Mac下的大杀器Alfred2用了好久，Workflow也收集了不少，那为什么不自己写一个呢？第一次就写了玩具workflow吧，比如显示当天的日期</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[用Ruby写Alfred2的Workflow]]></title>
+    <link href="http://neater.github.io/blog/2015/04/13/yong-rubyxie-alfred2de-workflow/"/>
+    <updated>2015-04-13T15:25:57+08:00</updated>
+    <id>http://neater.github.io/blog/2015/04/13/yong-rubyxie-alfred2de-workflow</id>
+    <content type="html"><![CDATA[<p>Mac下的大杀器Alfred2用了好久，Workflow也收集了不少，那为什么不自己写一个呢？当添加一个Workflow时发现，竟然支持这么多的语言，那就用我的最爱Ruby开工吧！</p>
+
+<p><img src="../images/languages.png" alt="view frame" /></p>
+
+<p>第一次就拿ASCII码转换练练手吧，可以将十进制ASCII码转换成字符</p>
+
+<p><img src="http://ytliu.info/images/2014-04-14-1.png" alt="" /></p>
+
+<p>还可以将16进制ASCII转换成字符</p>
+
+<p><img src="http://ytliu.info/images/2014-04-14-2.png" alt="" /></p>
+
+<p>或者把字符转换成ASCII码</p>
+
+<p><img src="http://ytliu.info/images/2014-04-14-3.png" alt="" /></p>
+
+<p>这里使用了<a href="http://zhaocai.github.io/alfred2-ruby-template/">alfred2-ruby-template</a>模板，使用过程如下</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git clone https://github.com/zhaocai/alfred2-ruby-template.git
+</span><span class='line'><span class="nv">$ </span>mv alfred2-ruby-template alfred2-ascii-translator
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>alfred2-ascii-translator
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>更新config.yml的<code>domain</code>, <code>id</code>, <code>path</code>字段：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="c1"># bundle_id = &quot;domain.id&quot;</span>
+</span><span class='line'><span class="c1"># path is the relative path to the workflow in the project root</span>
+</span><span class='line'><span class="nn">---</span>
+</span><span class='line'><span class="l-Scalar-Plain">path</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">ascii</span>
+</span><span class='line'><span class="l-Scalar-Plain">domain</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">me.ytliu</span>
+</span><span class='line'><span class="l-Scalar-Plain">id</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">alfred2-ascii-translator</span>
+</span><span class='line'><span class="c1"># If you are using Alfred&#39;s advanced Dropbox sync, indicate the path shown in</span>
+</span><span class='line'><span class="c1"># Alfred Preferences &gt; Advanced &gt; Syncing:</span>
+</span><span class='line'><span class="l-Scalar-Plain">dropbox</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">~/Dropbox/Alfred</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[为MBProgressHUD添加取消功能]]></title>
+    <link href="http://neater.github.io/blog/2015/03/25/wei-mbprogresshudtian-jia-qu-xiao-gong-neng/"/>
+    <updated>2015-03-25T16:48:25+08:00</updated>
+    <id>http://neater.github.io/blog/2015/03/25/wei-mbprogresshudtian-jia-qu-xiao-gong-neng</id>
+    <content type="html"><![CDATA[<p>MBProgressHUD是一个显示HUD窗口的第三方类库，用于在执行一些后台任务时，在程序中显示一个表示进度的loading视图和两个可选的文本提示的HUD窗口。</p>
+
+<p>在现实的需求中，可能存在这种情况：比如一个网络操作，在发送请求等待响应的过程中，我们会显示一个HUD窗口以显示一个loading框。但如果我们想在等待响应的过程中，在当前视图中取消这个网络请求，就没有相应的处理方式，MBProgressHUD没有为我们提供这样的交互操作。</p>
+
+<p>简单看了下MBProgressHUD的源码，发现使用了NSOperationQueue来调度任务，便有了下面代码。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="nf">requestData</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>   <span class="n">self</span><span class="p">.</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFHTTPRequestOperationManager</span> <span class="n">manager</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">UITapGestureRecognizer</span> <span class="o">*</span><span class="n">tapRecognizer</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UITapGestureRecognizer</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget:</span><span class="n">self</span> <span class="nl">action:</span><span class="k">@selector</span><span class="p">(</span><span class="n">cancelRequest</span><span class="p">)];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">cancelRequest</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">manager</span><span class="p">.</span><span class="n">operationQueue</span> <span class="n">cancelAllOperations</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Android实用实践Part1: 架构]]></title>
@@ -1448,6 +1582,12 @@ MVVM, Swift and ReactiveCocoa &ndash; It&rsquo;s all good!
 <p>另外Show View Frams和Show Alignment Rectangles，也可显示视图边框和对齐矩形，方便UI调试。如下图</p>
 
 <p><img src="../images/viewframe.png" alt="view frame" /></p>
+
+<p>__unused关键字，用来suppress 那种讨厌的unused parameter warning.</p>
+
+<p><code>__unused int i;</code></p>
+
+<p>NSLog(@&ldquo;%@&rdquo;,@(array.count));</p>
 ]]></content>
   </entry>
   
@@ -1858,6 +1998,13 @@ View Model一般定义在View中，并提供操作的接口，VC创建View Model
 <li>重新读取配置文件  <code>ctrl + x ctrl + r</code></li>
 </ul>
 
+
+<h3>Vimperator</h3>
+
+<p>y: 复制当前页的url到剪贴板。Y：复制选中文字到剪贴板</p>
+
+<p>&ldquo;B显示书签列表
+:map B :dia bookmarks<cr></p>
 ]]></content>
   </entry>
   

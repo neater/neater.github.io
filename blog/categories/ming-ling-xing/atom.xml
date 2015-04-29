@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 命令行 | Neater]]></title>
   <link href="http://neater.github.io/blog/categories/ming-ling-xing/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2015-03-24T16:51:12+08:00</updated>
+  <updated>2015-04-29T17:05:40+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -147,6 +147,13 @@ find . -name "file" | xargs -I [] cp []
 <li>重新读取配置文件  <code>ctrl + x ctrl + r</code></li>
 </ul>
 
+
+<h3>Vimperator</h3>
+
+<p>y: 复制当前页的url到剪贴板。Y：复制选中文字到剪贴板</p>
+
+<p>&ldquo;B显示书签列表
+:map B :dia bookmarks<cr></p>
 ]]></content>
   </entry>
   
