@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Reactivecocoa | Neater]]></title>
   <link href="http://neater.github.io/blog/categories/reactivecocoa/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2015-04-29T17:05:40+08:00</updated>
+  <updated>2015-04-29T17:22:24+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -92,6 +92,9 @@ searchTextField.rac_textSignal().subscribeNextAs {
 }
 ```
 好多了！</p>
+
+<!--more-->
+
 
 <h3>Bindings</h3>
 

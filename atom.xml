@@ -4,7 +4,7 @@
   <title><![CDATA[Neater]]></title>
   <link href="http://neater.github.io/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2015-04-29T17:05:40+08:00</updated>
+  <updated>2015-04-29T17:22:24+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -29,6 +29,9 @@
 
 <p>KM有许多触发动作的机制，这里我设置一个快捷键<code>⌃⌘I</code>，当切换到Firefox中并按下这个快捷捷，就会触发一系列自定义的action。点击<code>New Action</code>，弹出选择列表，作为一个键盘党，按照Firefox修改背景颜色的键盘顺序，添加<code>Interface Control</code>中的<code>Type a keystroke</code>就可以了。问题来了，当我进入<code>常规</code>选项卡里进行设置后，再触发前面设置的快捷键，预设的一系列键盘操作就会在<code>常规</code>里面跳转。</p>
 
+<!--more-->
+
+
 <p>看来只能用鼠标了，为了统一基准坐标，我把设置窗口拖动到左上角，与Firfox窗口重合，<code>Interface Control</code>的<code>Move or Click Mouse</code>支持鼠标的操作，再添加了相关的action后再试，问题又来了，预先的操作有时成功、有时失败，通过一次次的窗口操作，发现了原因：平时我们手动操作的时候，每一步之间都有间隔时间的，而KM自动执行这一系列action之间则没有间隔时间（后来知道KM支持Debug功能，不用这么费力的调试了），幸好在<code>Control Flow</code>里找到了<code>Pause</code>，再每个action之间添加它，并设置间隔时间为0.2秒，这回终于正常了。
 <img src="../images/white.gif" alt="white" /></p>
 
@@ -42,15 +45,6 @@
 <img src="../images/edit.png" alt="" /></p>
 
 <p>KM内置了上百种功能强大的action，而且也支持自定义action，接下来好好看看官方的文档，写几个自定义的action！</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Alfred2 Workflow热身]]></title>
-    <link href="http://neater.github.io/blog/2015/04/15/alfred2-workflowre-shen/"/>
-    <updated>2015-04-15T16:43:27+08:00</updated>
-    <id>http://neater.github.io/blog/2015/04/15/alfred2-workflowre-shen</id>
-    <content type="html"><![CDATA[<p>Mac下的大杀器Alfred2用了好久，Workflow也收集了不少，那为什么不自己写一个呢？第一次就写了玩具workflow吧，比如显示当天的日期</p>
 ]]></content>
   </entry>
   
@@ -74,6 +68,9 @@
 <p>或者把字符转换成ASCII码</p>
 
 <p><img src="http://ytliu.info/images/2014-04-14-3.png" alt="" /></p>
+
+<!--more-->
+
 
 <p>这里使用了<a href="http://zhaocai.github.io/alfred2-ruby-template/">alfred2-ruby-template</a>模板，使用过程如下</p>
 
@@ -709,6 +706,9 @@ Presenter和视图也出现在这里。
 
 <p>把项目加入版本控制的时候，最好也加入.gitignore文件，这样不会把不需要的文件（用户自己的配置和临时文件等）加入。幸运地是，GitHub已经为我们提供了<a href="https://github.com/github/gitignore/blob/master/Objective-C.gitignore">Objective-C</a>和<a href="https://github.com/github/gitignore/blob/master/Swift.gitignore">Swift</a>的版本(译者注：还有个好用的网站，<a href="https://www.gitignore.io/">gitignore.io</a>)</p>
 
+<!--more-->
+
+
 <h3>CocoaPods</h3>
 
 <p>在管理第三方库方面，CocoaPods无疑首当其冲，安装的命令：</p>
@@ -1212,6 +1212,9 @@ Presenter和视图也出现在这里。
 
 <p>好多了！</p>
 
+<!--more-->
+
+
 <h3>Bindings</h3>
 
 <p>ReactiveCocoa有一些宏用来绑定属性到signals，下面的代码，把viewModel的<code>searchText</code>属性绑定到一个UITextfield的<code>rac_textSignal</code>属性，当UITextfield中的内容更新了，这个signal忽略当前值，把新的值更新到viewModel的searchText</p>
@@ -1407,6 +1410,9 @@ MVVM, Swift and ReactiveCocoa &ndash; It&rsquo;s all good!
 
 
 <p>和其它调试工具不同，FLEX完全运行在你的APP中，所以不需要连接到LLDB/Xcode或者远程调试的服务端，在模拟器和真机上都运行的很好。</p>
+
+<!--more-->
+
 
 <h2>用法</h2>
 
@@ -1648,6 +1654,9 @@ MVVM, Swift and ReactiveCocoa &ndash; It&rsquo;s all good!
 
 
 <p>可以看出，这个.h文件没有IBOutlets和subViews的信息，因为他们都是内部细节；如果不这样的话，VC将能访问这样内部细节，设想将来你想使用UITextFields和UILabels，而不是现在的UITableView来显示login和password，修改VC将是无法避免的。</p>
+
+<!--more-->
+
 
 <h3>使用View Model封闭View信息</h3>
 

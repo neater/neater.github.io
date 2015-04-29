@@ -163,6 +163,9 @@
 
 <p>可以看出，这个.h文件没有IBOutlets和subViews的信息，因为他们都是内部细节；如果不这样的话，VC将能访问这样内部细节，设想将来你想使用UITextFields和UILabels，而不是现在的UITableView来显示login和password，修改VC将是无法避免的。</p>
 
+<!--more-->
+
+
 <h3>使用View Model封闭View信息</h3>
 
 <p>上面的代码中的JPLoginViewModel封闭了View显示的细节，其中定义了2个字符串，而不在View中这样做，是因为View Model可以作为两者沟通的桥梁。
@@ -414,10 +417,6 @@ View Model一般定义在View中，并提供操作的接口，VC创建View Model
       </li>
     
       <li class="post">
-        <a href="/blog/2015/04/15/alfred2-workflowre-shen/">Alfred2 Workflow热身</a>
-      </li>
-    
-      <li class="post">
         <a href="/blog/2015/04/13/yong-rubyxie-alfred2de-workflow/">用Ruby写Alfred2的Workflow</a>
       </li>
     
@@ -427,6 +426,10 @@ View Model一般定义在View中，并提供操作的接口，VC创建View Model
     
       <li class="post">
         <a href="/blog/2015/03/18/androidshi-yong-shi-jian-part1/">Android实用实践Part1: 架构</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/11/ioszhong-de-hit-testin/">iOS中的Hit-Testing</a>
       </li>
     
   </ul>
