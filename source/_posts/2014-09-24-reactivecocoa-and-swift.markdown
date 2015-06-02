@@ -73,7 +73,6 @@ searchTextField.rac_textSignal().subscribeNextAs {
   println(countElements(text))
 }
 ```
-好多了！
 
 <!--more-->
 
