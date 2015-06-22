@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Swift | Neater]]></title>
   <link href="http://neater.github.io/blog/categories/swift/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2015-04-29T17:22:24+08:00</updated>
+  <updated>2015-06-22T11:56:44+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -90,8 +90,7 @@ searchTextField.rac_textSignal().subscribeNextAs {
   (text:String) &ndash;> () in
   println(countElements(text))
 }
-```
-好多了！</p>
+```</p>
 
 <!--more-->
 

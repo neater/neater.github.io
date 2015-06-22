@@ -4,7 +4,7 @@
   <title><![CDATA[Neater]]></title>
   <link href="http://neater.github.io/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2015-04-29T17:22:24+08:00</updated>
+  <updated>2015-06-22T11:56:44+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -12,6 +12,84 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[合适的Git Commit怎么写]]></title>
+    <link href="http://neater.github.io/blog/2015/06/02/he-gua-de-git-commitzen-yao-xie/"/>
+    <updated>2015-06-02T16:31:37+08:00</updated>
+    <id>http://neater.github.io/blog/2015/06/02/he-gua-de-git-commitzen-yao-xie</id>
+    <content type="html"><![CDATA[<p>人们总是关心为什么做多过于做了什么，这种观念同样出现在写Git Commit的信息上。下面是我总结出来的写提交信息的最佳实践（听烂了都）。</p>
+
+<h3>黄金环路</h3>
+
+<p>我最近重看了一次最喜欢的TED演讲，由Simon Sinek主讲，主题是《如何鼓舞士气》。</p>
+
+<p>他解释了一个非常简单的观念：人们关心领导者为什么做，而不是做什么。这大概也适用于Git的提交信息。</p>
+
+<p><img src="http://i.imgur.com/QCpZaIk.png" alt="The Golden Circle" /></p>
+
+<p>Simon画了上面这张图（要比我画的好的多），解释道：伟大的公司有明确的愿景并且真的在实现它。回到我们的代码，每段代码都有自己的意图，我们要做的就是如何实现它。</p>
+
+<h3>为什么这么做？</h3>
+
+<p>你可能觉得奇怪，这有什么大不了的？是不是扯远了。如果你曾经在一个团队工作过，或者经历过一个长期的项目，在查阅之前的代码时，经常会搞不懂为什么那么写。于是你使用git blame一路查找到提交信息，让人焦虑的是，最终你只会发现：这段代码和提交信息不是你写的。其实你是想知道当初为什么这么写？</p>
+
+<p>更进一步，我见过的绝大多数提交信息都有这个问题，也包括我在内，不久前，还在为我的提交信息洋洋自得，因为每次写之前，我都会仔细考虑，怎么让它尽可能的简单明了。</p>
+
+<h3>惊喜时刻</h3>
+
+<p>一天，我正和Craig Savolainen（导师&amp;我认识的最佳开发者）结队编程，我写了一段自以为很像样的提交信息，而他说这没用并解释道：</p>
+
+<pre><code>Anyone can see WHAT you did just by looking at the code. But the code can never tell someone WHY you did it.
+代码可以告诉别人你做了什么，但不能告诉别人你为什么这么做。
+</code></pre>
+
+<p>对啊！我立即使用新的风格来写提交信息，不过这需要一些时间来适应，因为提交前，我总是在想这段代码的目的什么，为什么要这么做，这的确很费脑力。好消息是我适应了，已经变得流畅自然了，我发现了一个模式，就是使用“should”。</p>
+
+<h3>示例</h3>
+
+<p>下面是一个实例。我用”做什么风格“写了提交信息：</p>
+
+<pre><code>Card view controller added.
+</code></pre>
+
+<p>如果我用“为什么做”风格重写呢？</p>
+
+<pre><code>User should be able to see the card before editing it.
+在编辑前，用户应该先查看。
+</code></pre>
+
+<p>看到了吗？重写后的版本很容易看出这次提交原因以及一些上下文信息，这对以后维护这些代码的人是很有价值的。当他有问题的时候，就会找到我。同时这对我也有利，当重新阅读之前写的代码时，能帮助我想起提交时的场景！</p>
+
+<h3>结论</h3>
+
+<p>写提交信息的时候，用“为什么做”替代“做什么”对自己和团队都是有益的。在通往软件工匠的道路上，小的进步汇集起来都将是一大步。如果你认同或者有更好的想法，请与我们联系。</p>
+
+<p>Happy exploring!</p>
+
+<h4>旁注</h4>
+
+<p>很明显，这里虽然以Git为例子，但同样适用于其它版本控制系统。我原本想使用“code commit”，但是经过大家的反馈，我决定用“Git commit”，看起来更明了些。</p>
+
+<p>译自
+<a href="http://sundeepgupta.ca/writing-great-git-commit-messages/">Writing Great Git Commit Messages</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Vim技巧]]></title>
+    <link href="http://neater.github.io/blog/2015/05/11/vimji-qiao/"/>
+    <updated>2015-05-11T09:49:06+08:00</updated>
+    <id>http://neater.github.io/blog/2015/05/11/vimji-qiao</id>
+    <content type="html"><![CDATA[<h3>加减运算</h3>
+
+<p><code>&lt;C-a&gt;</code>和<code>&lt;C-x&gt;</code>分别对数字进行自增、自减操作，如果在之前加上数字，就能进行加减运算</p>
+
+<p>&#8220;`vim</p>
+
+<p>&#8220;`</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[兵器谱之Keyboard Maestro]]></title>
@@ -1210,7 +1288,7 @@ Presenter和视图也出现在这里。
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>好多了！</p>
+
 
 <!--more-->
 

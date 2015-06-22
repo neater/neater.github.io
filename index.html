@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="Keyboard Maestro是一款类似Alfred的App，但一点也不逊色后者，它对Automator进行了封装，方便用户的使用。 Firefox快捷设置 使用浏览器时，我个人非常不习惯网页的白色背景，感觉非常刺眼，于是手动调成灰色，但个别网页不能正常显示，这时只能手动来切换， &hellip;">
+  <meta name="description" content="人们总是关心为什么做多过于做了什么，这种观念同样出现在写Git Commit的信息上。下面是我总结出来的写提交信息的最佳实践（听烂了都）。 黄金环路 我最近重看了一次最喜欢的TED演讲，由Simon Sinek主讲，主题是《如何鼓舞士气》。 他解释了一个非常简单的观念：人们关心领导者为什么做， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -84,6 +84,138 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/02/he-gua-de-git-commitzen-yao-xie/">合适的Git Commit怎么写</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-06-02T16:31:37+08:00" pubdate data-updated="true">Jun 2<span>nd</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>人们总是关心为什么做多过于做了什么，这种观念同样出现在写Git Commit的信息上。下面是我总结出来的写提交信息的最佳实践（听烂了都）。</p>
+
+<h3>黄金环路</h3>
+
+<p>我最近重看了一次最喜欢的TED演讲，由Simon Sinek主讲，主题是《如何鼓舞士气》。</p>
+
+<p>他解释了一个非常简单的观念：人们关心领导者为什么做，而不是做什么。这大概也适用于Git的提交信息。</p>
+
+<p><img src="http://i.imgur.com/QCpZaIk.png" alt="The Golden Circle" /></p>
+
+<p>Simon画了上面这张图（要比我画的好的多），解释道：伟大的公司有明确的愿景并且真的在实现它。回到我们的代码，每段代码都有自己的意图，我们要做的就是如何实现它。</p>
+
+<h3>为什么这么做？</h3>
+
+<p>你可能觉得奇怪，这有什么大不了的？是不是扯远了。如果你曾经在一个团队工作过，或者经历过一个长期的项目，在查阅之前的代码时，经常会搞不懂为什么那么写。于是你使用git blame一路查找到提交信息，让人焦虑的是，最终你只会发现：这段代码和提交信息不是你写的。其实你是想知道当初为什么这么写？</p>
+
+<p>更进一步，我见过的绝大多数提交信息都有这个问题，也包括我在内，不久前，还在为我的提交信息洋洋自得，因为每次写之前，我都会仔细考虑，怎么让它尽可能的简单明了。</p>
+
+<h3>惊喜时刻</h3>
+
+<p>一天，我正和Craig Savolainen（导师&amp;我认识的最佳开发者）结队编程，我写了一段自以为很像样的提交信息，而他说这没用并解释道：</p>
+
+<pre><code>Anyone can see WHAT you did just by looking at the code. But the code can never tell someone WHY you did it.
+代码可以告诉别人你做了什么，但不能告诉别人你为什么这么做。
+</code></pre>
+
+<p>对啊！我立即使用新的风格来写提交信息，不过这需要一些时间来适应，因为提交前，我总是在想这段代码的目的什么，为什么要这么做，这的确很费脑力。好消息是我适应了，已经变得流畅自然了，我发现了一个模式，就是使用“should”。</p>
+
+<h3>示例</h3>
+
+<p>下面是一个实例。我用”做什么风格“写了提交信息：</p>
+
+<pre><code>Card view controller added.
+</code></pre>
+
+<p>如果我用“为什么做”风格重写呢？</p>
+
+<pre><code>User should be able to see the card before editing it.
+在编辑前，用户应该先查看。
+</code></pre>
+
+<p>看到了吗？重写后的版本很容易看出这次提交原因以及一些上下文信息，这对以后维护这些代码的人是很有价值的。当他有问题的时候，就会找到我。同时这对我也有利，当重新阅读之前写的代码时，能帮助我想起提交时的场景！</p>
+
+<h3>结论</h3>
+
+<p>写提交信息的时候，用“为什么做”替代“做什么”对自己和团队都是有益的。在通往软件工匠的道路上，小的进步汇集起来都将是一大步。如果你认同或者有更好的想法，请与我们联系。</p>
+
+<p>Happy exploring!</p>
+
+<h4>旁注</h4>
+
+<p>很明显，这里虽然以Git为例子，但同样适用于其它版本控制系统。我原本想使用“code commit”，但是经过大家的反馈，我决定用“Git commit”，看起来更明了些。</p>
+
+<p>译自
+<a href="http://sundeepgupta.ca/writing-great-git-commit-messages/">Writing Great Git Commit Messages</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/11/vimji-qiao/">Vim技巧</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-11T09:49:06+08:00" pubdate data-updated="true">May 11<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>加减运算</h3>
+
+<p><code>&lt;C-a&gt;</code>和<code>&lt;C-x&gt;</code>分别对数字进行自增、自减操作，如果在之前加上数字，就能进行加减运算</p>
+
+<p>&#8220;`vim</p>
+
+<p>&#8220;`</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -581,242 +713,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/09/24/reactivecocoa-and-swift/">ReactiveCocoa and Swift</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-24T15:21:40+08:00" pubdate data-updated="true">Sep 24<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Swift可以和Objective-C相互调用，所以，在用Swift编写的App中，可以直接使用Reactivecocoa。</p>
-
-<p>尽管如此，</p>
-
-<h3>Signals in Swift</h3>
-
-<p>通过桥接，ReactiveCocoa的API从Objective-C的块过渡到了Swift的闭包，来看一个例子，下面的Objective-C代码subscribe了UITextfield的<code>rac_textSignal</code>，用来查看当前的length。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="nb">self</span><span class="o">.</span><span class="n">searchTextField</span><span class="o">.</span><span class="n">rac_textSignal</span> <span class="ss">subscribeNext</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="nb">id</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="no">NSString</span> <span class="o">*</span><span class="n">text</span> <span class="o">=</span> <span class="p">(</span><span class="no">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">x</span><span class="p">;</span>
-</span><span class='line'>  <span class="no">NSLog</span><span class="p">(</span><span class="n">text</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span><span class="o">]</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>当在这个UITextfield中依次输入0 1 2 3 4 5时，Console中显示</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">0</span>
-</span><span class='line'><span class="mi">1</span>
-</span><span class='line'><span class="mi">2</span>
-</span><span class='line'><span class="mi">3</span>
-</span><span class='line'><span class="mi">4</span>
-</span><span class='line'><span class="mi">5</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>当然了，为了避免显示转换，可以把上面的Block签名中的参数类型，从<code>id</code>改为<code>NSString</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="nb">self</span><span class="o">.</span><span class="n">searchTextField</span><span class="o">.</span><span class="n">rac_textSignal</span> <span class="ss">subscribeNext</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="no">NSString</span> <span class="o">*</span><span class="n">text</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="no">NSLog</span><span class="p">(</span><span class="n">text</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span><span class="o">]</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>与之对应的Swift代码如下：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">searchTextField</span><span class="o">.</span><span class="n">rac_textSignal</span><span class="p">()</span><span class="o">.</span><span class="n">subscribeNext</span> <span class="p">{</span>
-</span><span class='line'>  <span class="p">(</span><span class="k">next</span><span class="ss">:AnyObject!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="k">in</span>
-</span><span class='line'>  <span class="k">if</span> <span class="n">let</span> <span class="n">text</span> <span class="o">=</span> <span class="k">next</span> <span class="n">as?</span> <span class="nb">String</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="n">countElements</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>不幸的是，当Swift和Objective-C进行调用的时候，会经常用到<code>as</code>操作符，从而变得更复杂了，我们不能进行显示转换，Swift生硬地插入了必须的类型为<code>(AnyObject!) -&gt; ()</code>的函数。</p>
-
-<p>也可以使用<code>if-let</code>条件语句进行简化，因为<code>AnyObject</code>在当前情况下可以视为字符串。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">searchTextField</span><span class="o">.</span><span class="n">rac_textSignal</span><span class="p">()</span><span class="o">.</span><span class="n">subscribeNext</span> <span class="p">{</span>
-</span><span class='line'>  <span class="p">(</span><span class="k">next</span><span class="ss">:AnyObject!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="k">in</span>
-</span><span class='line'>  <span class="n">let</span> <span class="n">text</span> <span class="o">=</span> <span class="k">next</span> <span class="n">as</span> <span class="nb">String</span>
-</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="n">countElements</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>但是，这仍然还是要比Objective-C的版本复杂。
-还好有解决这个问题的方案！针对<code>RACSignal</code>进行扩展，把传入函数参数类型进行必须的转换:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">extension</span> <span class="no">RACSignal</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">func</span> <span class="n">subscribeNextAs</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="ss">nextClosure</span><span class="p">:(</span><span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">())</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">subscribeNext</span> <span class="p">{</span>
-</span><span class='line'>      <span class="p">(</span><span class="k">next</span><span class="p">:</span> <span class="no">AnyObject</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="k">in</span>
-</span><span class='line'>      <span class="n">let</span> <span class="n">nextAsT</span> <span class="o">=</span> <span class="k">next</span> <span class="n">as</span> <span class="n">T</span>
-</span><span class='line'>      <span class="n">nextClosure</span><span class="p">(</span><span class="n">nextAsT</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面的代码使用泛型进行类型转换，参数T的类型通过实际传入的参数进行推断，这引出了一些有趣的语法</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">searchTextField</span><span class="o">.</span><span class="n">rac_textSignal</span><span class="p">()</span><span class="o">.</span><span class="n">subscribeNextAs</span> <span class="p">{</span>
-</span><span class='line'>  <span class="p">(</span><span class="ss">text</span><span class="p">:</span><span class="nb">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="k">in</span>
-</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="n">countElements</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>好多了！</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/09/24/reactivecocoa-and-swift/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/08/04/100ge-ioskai-fa-zhe-xu-yao-guan-zhu-de-zi-yuan/">100个iOS开发者需要关注的资源</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-08-04T10:41:58+08:00" pubdate data-updated="true">Aug 4<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>iOS App的市场无疑获得了极大的增长，当然少不了平台流行的功劳。下面的的资源，对App开发感兴趣的人是很有帮助的。</p>
-
-<p>无论是在App Store推广你的App，还是设计一款漂亮的App，这些书、工具、社区绝对能帮助你。这100多个在线服务、社区、工具，帮助开发者更好的构思一款App并实现它，你所要做的就是好好使用它们。</p>
-
-<h3>在线服务</h3>
-
-<p><img src="http://dailytekk.com/wp-content/uploads/2014/02/unbabel.jpg" alt="Service" /></p>
-
-<ol>
-<li><a href="http://www.iubenda.com/en/mobile">Iubenda</a> &ndash; Mobile app privacy policy</li>
-<li><a href="http://www.joppar.com/mobile-app-cms">Content</a> -Content management system for native iOS apps</li>
-<li><a href="https://www.unbabel.co/">Unbabel</a> &ndash; App Localization</li>
-<li><a href="http://joppar.com/mobile-app-feature-switching">Switch</a> -Toggle your app features off and on in real-time</li>
-<li><a href="https://heatmaps.io/">Heatmaps</a> &ndash; iOS heatmap</li>
-<li><a href="http://www.iubenda.com/en/mobile">Bitbucket</a> &ndash; Private code repositories</li>
-<li><a href="http://www.iubenda.com/en/mobile">Media Toolkit</a> &ndash; Monitors mentions of your app</li>
-<li><a href="http://www.iubenda.com/en/mobile">Alau.me</a> &ndash; Like bit.ly for apps</li>
-<li><a href="http://www.iubenda.com/en/mobile">Ap Salar</a> &ndash; Data driven mobile ad platform</li>
-<li><a href="http://www.iubenda.com/en/mobile">Google</a> &ndash; Mobile backend</li>
-</ol>
-
-
-<h3>社区</h3>
-
-<p><img src="http://dailytekk.com/wp-content/uploads/2014/02/F9brVEii2vJ1V8psswIKt6gmaE2SxFV9yLsyeuCbBqQ.jpg" alt="Communities" /></p>
-
-<ol>
-<li><a href="https://plus.google.com/communities/112026628790708717979">iOS Developers Group</a> &ndash; iOS Google+ community</li>
-<li><a href="http://ios.meetup.com/">iOS Meetup Groups</a> &ndash; Get together with like-minded people</li>
-<li><a href="https://www.quora.com/iOS-Development/">iOS Development Quora</a> &ndash; iOS Development Quora group</li>
-<li><a href="http://stackoverflow.com/questions/tagged/ios">iOS Stackoverflow</a> &ndash; iOS Stackoverflow group</li>
-<li><a href="http://forum.iphone-developers.com/">iPhone Developer Forum</a> &ndash; iOS Dev Forums</li>
-<li><a href="http://www.reddit.com/r/iOSProgramming/">iOS Programming</a> &ndash; iOS Reddit group</li>
-<li><a href="http://cocoalit.com/">Cocoa Lit</a> &ndash; List of Cocoa tutorials</li>
-<li><a href="http://nsscreencast.com/">NS Screencast</a> &ndash; iOS development screencasts</li>
-<li><a href="http://iosdevelopertips.com/">iOS Developer Tips</a> &ndash; Tips and tutorials for iOS Developers</li>
-<li><a href="https://clarity.fm/">Clarity.fm</a> &ndash; Call an expert for iOS help</li>
-</ol>
-
-
-<p>译自
-<a href="http://dailytekk.com/2014/02/20/100-great-resources-for-ios-developers/">100 Great Resources for iOS Developers</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -832,6 +728,14 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/06/02/he-gua-de-git-commitzen-yao-xie/">合适的Git Commit怎么写</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/11/vimji-qiao/">Vim技巧</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/04/29/bing-qi-pu-zhi-keyboard-maestro/">兵器谱之Keyboard Maestro</a>
       </li>
     
@@ -841,14 +745,6 @@
     
       <li class="post">
         <a href="/blog/2015/03/25/wei-mbprogresshudtian-jia-qu-xiao-gong-neng/">为MBProgressHUD添加取消功能</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/03/18/androidshi-yong-shi-jian-part1/">Android实用实践Part1: 架构</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/03/11/ioszhong-de-hit-testin/">iOS中的Hit-Testing</a>
       </li>
     
   </ul>

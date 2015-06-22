@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>为MBProgressHUD添加取消功能 - Neater</title>
+  <title>合适的Git Commit怎么写 - Neater</title>
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="MBProgressHUD是一个显示HUD窗口的第三方类库，用于在执行一些后台任务时，在程序中显示一个表示进度的loading视图和两个可选的文本提示的HUD窗口。 在现实的需求中，可能存在这种情况：比如一个网络操作，在发送请求等待响应的过程中，我们会显示一个HUD窗口以显示一个loading框。 &hellip;">
+  <meta name="description" content="人们总是关心为什么做多过于做了什么，这种观念同样出现在写Git Commit的信息上。下面是我总结出来的写提交信息的最佳实践（听烂了都）。 黄金环路 我最近重看了一次最喜欢的TED演讲，由Simon Sinek主讲，主题是《如何鼓舞士气》。 他解释了一个非常简单的观念：人们关心领导者为什么做， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://neater.github.io/blog/2015/03/25/wei-mbprogresshudtian-jia-qu-xiao-gong-neng">
+  <link rel="canonical" href="http://neater.github.io/blog/2015/06/02/he-gua-de-git-commitzen-yao-xie">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Neater" type="application/atom+xml">
@@ -87,7 +87,7 @@
   
   <header>
     
-      <h1 class="entry-title">为MBProgressHUD添加取消功能</h1>
+      <h1 class="entry-title">合适的Git Commit怎么写</h1>
     
     
       <p class="meta">
@@ -103,41 +103,68 @@
   
 
 
-<time datetime="2015-03-25T16:48:25+08:00" pubdate data-updated="true">Mar 25<span>th</span>, 2015</time>
+<time datetime="2015-06-02T16:31:37+08:00" pubdate data-updated="true">Jun 2<span>nd</span>, 2015</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>MBProgressHUD是一个显示HUD窗口的第三方类库，用于在执行一些后台任务时，在程序中显示一个表示进度的loading视图和两个可选的文本提示的HUD窗口。</p>
+<div class="entry-content"><p>人们总是关心为什么做多过于做了什么，这种观念同样出现在写Git Commit的信息上。下面是我总结出来的写提交信息的最佳实践（听烂了都）。</p>
 
-<p>在现实的需求中，可能存在这种情况：比如一个网络操作，在发送请求等待响应的过程中，我们会显示一个HUD窗口以显示一个loading框。但如果我们想在等待响应的过程中，在当前视图中取消这个网络请求，就没有相应的处理方式，MBProgressHUD没有为我们提供这样的交互操作。</p>
+<h3>黄金环路</h3>
 
-<p>简单看了下MBProgressHUD的源码，发现使用了NSOperationQueue来调度任务，便有了下面代码。</p>
+<p>我最近重看了一次最喜欢的TED演讲，由Simon Sinek主讲，主题是《如何鼓舞士气》。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="nf">requestData</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>   <span class="n">self</span><span class="p">.</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFHTTPRequestOperationManager</span> <span class="n">manager</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">UITapGestureRecognizer</span> <span class="o">*</span><span class="n">tapRecognizer</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UITapGestureRecognizer</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget:</span><span class="n">self</span> <span class="nl">action:</span><span class="k">@selector</span><span class="p">(</span><span class="n">cancelRequest</span><span class="p">)];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">cancelRequest</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">manager</span><span class="p">.</span><span class="n">operationQueue</span> <span class="n">cancelAllOperations</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>他解释了一个非常简单的观念：人们关心领导者为什么做，而不是做什么。这大概也适用于Git的提交信息。</p>
 
+<p><img src="http://i.imgur.com/QCpZaIk.png" alt="The Golden Circle" /></p>
+
+<p>Simon画了上面这张图（要比我画的好的多），解释道：伟大的公司有明确的愿景并且真的在实现它。回到我们的代码，每段代码都有自己的意图，我们要做的就是如何实现它。</p>
+
+<h3>为什么这么做？</h3>
+
+<p>你可能觉得奇怪，这有什么大不了的？是不是扯远了。如果你曾经在一个团队工作过，或者经历过一个长期的项目，在查阅之前的代码时，经常会搞不懂为什么那么写。于是你使用git blame一路查找到提交信息，让人焦虑的是，最终你只会发现：这段代码和提交信息不是你写的。其实你是想知道当初为什么这么写？</p>
+
+<p>更进一步，我见过的绝大多数提交信息都有这个问题，也包括我在内，不久前，还在为我的提交信息洋洋自得，因为每次写之前，我都会仔细考虑，怎么让它尽可能的简单明了。</p>
+
+<h3>惊喜时刻</h3>
+
+<p>一天，我正和Craig Savolainen（导师&amp;我认识的最佳开发者）结队编程，我写了一段自以为很像样的提交信息，而他说这没用并解释道：</p>
+
+<pre><code>Anyone can see WHAT you did just by looking at the code. But the code can never tell someone WHY you did it.
+代码可以告诉别人你做了什么，但不能告诉别人你为什么这么做。
+</code></pre>
+
+<p>对啊！我立即使用新的风格来写提交信息，不过这需要一些时间来适应，因为提交前，我总是在想这段代码的目的什么，为什么要这么做，这的确很费脑力。好消息是我适应了，已经变得流畅自然了，我发现了一个模式，就是使用“should”。</p>
+
+<h3>示例</h3>
+
+<p>下面是一个实例。我用”做什么风格“写了提交信息：</p>
+
+<pre><code>Card view controller added.
+</code></pre>
+
+<p>如果我用“为什么做”风格重写呢？</p>
+
+<pre><code>User should be able to see the card before editing it.
+在编辑前，用户应该先查看。
+</code></pre>
+
+<p>看到了吗？重写后的版本很容易看出这次提交原因以及一些上下文信息，这对以后维护这些代码的人是很有价值的。当他有问题的时候，就会找到我。同时这对我也有利，当重新阅读之前写的代码时，能帮助我想起提交时的场景！</p>
+
+<h3>结论</h3>
+
+<p>写提交信息的时候，用“为什么做”替代“做什么”对自己和团队都是有益的。在通往软件工匠的道路上，小的进步汇集起来都将是一大步。如果你认同或者有更好的想法，请与我们联系。</p>
+
+<p>Happy exploring!</p>
+
+<h4>旁注</h4>
+
+<p>很明显，这里虽然以Git为例子，但同样适用于其它版本控制系统。我原本想使用“code commit”，但是经过大家的反馈，我决定用“Git commit”，看起来更明了些。</p>
+
+<p>译自
+<a href="http://sundeepgupta.ca/writing-great-git-commit-messages/">Writing Great Git Commit Messages</a></p>
 </div>
 
 
@@ -160,7 +187,7 @@
   
 
 
-<time datetime="2015-03-25T16:48:25+08:00" pubdate data-updated="true">Mar 25<span>th</span>, 2015</time>
+<time datetime="2015-06-02T16:31:37+08:00" pubdate data-updated="true">Jun 2<span>nd</span>, 2015</time>
       
 
 
@@ -168,7 +195,7 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://neater.github.io/blog/2015/03/25/wei-mbprogresshudtian-jia-qu-xiao-gong-neng/" data-via="" data-counturl="http://neater.github.io/blog/2015/03/25/wei-mbprogresshudtian-jia-qu-xiao-gong-neng/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://neater.github.io/blog/2015/06/02/he-gua-de-git-commitzen-yao-xie/" data-via="" data-counturl="http://neater.github.io/blog/2015/06/02/he-gua-de-git-commitzen-yao-xie/" >Tweet</a>
   
   
   
@@ -177,10 +204,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/03/18/androidshi-yong-shi-jian-part1/" title="Previous Post: Android实用实践Part1: 架构">&laquo; Android实用实践Part1: 架构</a>
+        <a class="basic-alignment left" href="/blog/2015/05/11/vimji-qiao/" title="Previous Post: Vim技巧">&laquo; Vim技巧</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/04/13/yong-rubyxie-alfred2de-workflow/" title="Next Post: 用Ruby写Alfred2的Workflow">用Ruby写Alfred2的Workflow &raquo;</a>
       
     </p>
   </footer>
