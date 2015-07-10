@@ -4,7 +4,7 @@
   <title><![CDATA[Neater]]></title>
   <link href="http://neater.github.io/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2015-06-22T11:56:44+08:00</updated>
+  <updated>2015-07-10T16:42:36+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -12,6 +12,64 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[蔡学鏮语录]]></title>
+    <link href="http://neater.github.io/blog/2015/07/10/cai-xue-kang-yu-lu/"/>
+    <updated>2015-07-10T16:31:25+08:00</updated>
+    <id>http://neater.github.io/blog/2015/07/10/cai-xue-kang-yu-lu</id>
+    <content type="html"><![CDATA[<p>蔡学镛是我非常喜欢的台湾架构师，著有《编程ING》《Java夜未眠》，他的<a href="http://weibo.com/p/1035051614282004">微博</a>中的很多理念对程序员来说很有价值。</p>
+
+<p>做架构时，为了避免混淆，我尽量让技术名词有固定的定义。系统、子系统、对象三者是包含的关系。系统暴露接口（Port），子系统暴露服务，对象暴露方法（ie. PASIO 的「操作」）。而接口、服务、方法又有各自的定义，他们主要的差异是在「影响范围」和「业务完整性」上。</p>
+
+<p>想让系统灵活有弹性，可以通过配置（configuration）。简单的配置，只能设置一些常量，无法改变流程。这种情况下，如果想改变流程，就必须通过插件（前提是系统有事先设计插件的接入方式）&hellip;. 我不倾向于用插件，我倾向于用更弹性的配置来改变流程，这时候通常需要配合定义一个 DSL 。</p>
+
+<p>我写代码时把对象内分成五部分：PASIO。Properties 用来读写对象内的数据；Attributes 是对象内所封装的数据；States 用来查询对象（和参数）是否符合状态；Instructions 是基本的方法；Operations 是有复杂逻辑的方法。我还限定 PASIO 五者间的调用关系，我发现这么做有助于把对象配置化。</p>
+
+<p>设计 DSL 的时候，我先想像自己是使用此领域语言的专家，且没有计算机编程能力，然后设想一个场景，再用最方便的方式描写此场景。描写方式尽量描述目的（What），而非描述做法（How）。几个场景的描述之后，就可以归纳出一个简单有弹性的 DSL。</p>
+
+<p>软件开发的难度在于「如何将需求化为设计」，而不是「如何将设计化为代码」。能将设计化为代码的只能称为码农，能将需求化为设计的才是软件工程师。而架构师，更是要把非功能需求（例如高并发、高可用、可维护性、扩展性）的设计考虑进来。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[好用到逆天的 Android Studio]]></title>
+    <link href="http://neater.github.io/blog/2015/07/08/hao-yong-dao-ni-tian-de-android-studio/"/>
+    <updated>2015-07-08T14:51:55+08:00</updated>
+    <id>http://neater.github.io/blog/2015/07/08/hao-yong-dao-ni-tian-de-android-studio</id>
+    <content type="html"><![CDATA[<p>在好多做 Android 的朋友的怂恿下，终于开始尝试使用 Android Stuio，这一用就放不下了，不仅颜值高（Darcula简直大爱，我是黑色控），而且好用到逆天，听说 RubyMine 和 Android Stuio 同样基于 IntelliJ IDEA，以后开发 Rails 的 IDE也要切换到 RubyMine 了，话不多说，下面是我喜欢的小技巧。</p>
+
+<h3>Help</h3>
+
+<p>每次打开 Android Studio 都会弹出 <code>Tip of the Day</code>，都是一些好用的技巧，每日必读，强裂推荐！还有<code>Help</code>菜单下的<code>Default Keymap Reference</code>，会在线显示所有快捷键，下载后存到我的 Kindle Voyage 里，时不时看下:)。</p>
+
+<p>做过开发的都知道版本控制，其中 Diff 功能可以查看两次提交的差异，不过 Android Studio 不使用版本控制也实现了这个功能：右键调出正在编辑的文件，弹出上下文菜单，选择 <code>Local History</code> &ndash;> <code>Show History</code>.</p>
+
+<p><img src="../images/local_history.png" alt="Local History" /></p>
+
+<h4>Live Templates</h4>
+
+<h4>Lambda转换</h4>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[属于程序员的Podcast]]></title>
+    <link href="http://neater.github.io/blog/2015/06/30/shu-yu-cheng-xu-yuan-de-podcast/"/>
+    <updated>2015-06-30T15:16:14+08:00</updated>
+    <id>http://neater.github.io/blog/2015/06/30/shu-yu-cheng-xu-yuan-de-podcast</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[0代码实现iOS引导页]]></title>
+    <link href="http://neater.github.io/blog/2015/06/29/0dai-ma-shi-xian-iosyin-dao-ye/"/>
+    <updated>2015-06-29T17:27:46+08:00</updated>
+    <id>http://neater.github.io/blog/2015/06/29/0dai-ma-shi-xian-iosyin-dao-ye</id>
+    <content type="html"><![CDATA[<p>通常App首次启动或者更新版本后，都会显示引导页，用来介绍App的使用方式和新功能的展示。Android App一般采用ViewPage，而iOS App使用UIScrollView，相比Android，则需要更多的代码，不过这一局面在Auto layout推出后发生了变化，话不多说，开干！</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[合适的Git Commit怎么写]]></title>
@@ -1926,172 +1984,6 @@ View Model一般定义在View中，并提供操作的接口，VC创建View Model
 <p>有些人可能认为，这些不符合Apple的标准，但Apple Guideline并没有明确禁止把View从View Controller分离出来，也没有说只能在VC中定义IBOutlet，Guideline适用的场景是在比较小的系统中，当应用场景变的越来越大、越来越复杂，那就必须分离逻辑，好处是增加了可读性和可测试性。</p>
 
 <p>当然，增加额外的层会影响性能，但考虑到这样做所带来的好处，比如更易读、更快的查找，这点性能上的损失是绝对值得的。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[CMD Tricks]]></title>
-    <link href="http://neater.github.io/blog/2014/01/14/cmd-tricks/"/>
-    <updated>2014-01-14T15:47:05+08:00</updated>
-    <id>http://neater.github.io/blog/2014/01/14/cmd-tricks</id>
-    <content type="html"><![CDATA[<h4>删除一个大文件</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/path/to/file.log (清空)
-</span><span class='line'>rm /path/to/file.log</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>变量CDPATH定义了目录的搜索路径</h4>
-
-<p>cd */var/www/html/ 这样长了，我可以直接输入下面的命令进入 /var/www/html</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>export CDPATH=/var/www
-</span><span class='line'>cd html</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>输出文件的指定行</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sed -n 'x,yp' file;   awk 'NF &gt; x && NF &gt; y' file</span></code></pre></td></tr></table></div></figure>
-
-
-<p>从x行开始，输出y行</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>tail +x file | head -y</span></code></pre></td></tr></table></div></figure>
-
-
-<p>head和tail 参数 -n的不同：</p>
-
-<ul>
-<li>head -n -10 除去最后10行</li>
-<li>tail -n +10 从第10行开始</li>
-<li>tail -n 1000：显示最后1000行；</li>
-<li>tail -n +1000：从1000行开始显示，显示1000行以后的</li>
-<li>head -n 1000：显示前面1000行</li>
-</ul>
-
-
-<p>从第3000行开始，显示1000行。即显示3000~3999行</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cat filename | tail -n +3000 | head -n 1000</span></code></pre></td></tr></table></div></figure>
-
-
-<p>显示1000行到3000行</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cat filename| head -n 3000 | tail -n +1000</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Mac下获取UDID</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ioreg -w 0 -rc IOUSBDevice -k SupportsIPhoneOS | sed -n 's/.*USB Serial Number[^0-9a-z]*\([0-9a-z]*\).*/\1/p'
-</span><span class='line'>
-</span><span class='line'>system_profiler SPUSBDataType | sed -n -e '/iPhone/,/Serial/p' | grep "Serial Number:" | awk -F ": " '{print $2}'
-</span><span class='line'>
-</span><span class='line'>system_profiler SPUSBDataType | grep "Serial Number:.*" | sed s#".*Serial Number: "##</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>清空文件</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; filename
-</span><span class='line'>
-</span><span class='line'>cat /dev/null &gt; filename</span></code></pre></td></tr></table></div></figure>
-
-
-<p>给机器增加Load</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cat /dev/nll/unandom | gzip -9 &gt; /dev/null & </span></code></pre></td></tr></table></div></figure>
-
-
-<hr />
-
-<p>使用pgrep查找进程id，而不用 ps -ef | grep XXX</p>
-
-<hr />
-
-<p>echo $0，当前使用的 shell</p>
-
-<p>vim打开剪贴板内容</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>alias vipb='xclip -selection clipboard -o | vim -' // Linux
-</span><span class='line'>alias vipb="pbpaste | vim -"  // Mac</span></code></pre></td></tr></table></div></figure>
-
-
-<p>显示sqlite文件内容</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sqlite3 -line database.db </span></code></pre></td></tr></table></div></figure>
-
-
-<p>修改SSH的RSA密码短语</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ssh-keygen -f ~/.ssh/id_rsa -p 修改SSH的RSA密码短语</span></code></pre></td></tr></table></div></figure>
-
-
-<p>man -w/&mdash;path</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>打印相关帮助文档的位置</span></code></pre></td></tr></table></div></figure>
-
-
-<p>使用-i参数默认的前面输出用{}代替，-I参数可以指定其他代替字符，如例子中的[]</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>find . -name "file" | xargs -I [] cp []</span></code></pre></td></tr></table></div></figure>
-
-
-<p>查看某个选项的当前值</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>:set option?</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Readline Key Bindings(man bash中的查找字段)</h3>
-
-<p>键盘宏命令</p>
-
-<ul>
-<li>开始录制宏 <code>ctrl + x (</code></li>
-<li>结束录制宏 <code>ctrl + x )</code></li>
-<li>运行宏 <code>ctrl + x e</code></li>
-</ul>
-
-
-<p>其他命令</p>
-
-<ul>
-<li>显示当前shell的版本信息 <code>ctrl + x ctrl + v</code></li>
-<li>设置标记 <code>ctrl + @</code></li>
-<li>交换标记和光标的位置: <code>ctrl + x ctrl + x</code></li>
-<li>启动编辑器编辑命令，编辑完成后执行   <code>ctrl + x ctrl + e</code></li>
-<li>撤销前面的操作 <code>ctrl + x ctrl + u</code></li>
-<li>重新读取配置文件  <code>ctrl + x ctrl + r</code></li>
-</ul>
-
-
-<h3>Vimperator</h3>
-
-<p>y: 复制当前页的url到剪贴板。Y：复制选中文字到剪贴板</p>
-
-<p>&ldquo;B显示书签列表
-:map B :dia bookmarks<cr></p>
 ]]></content>
   </entry>
   
