@@ -10,7 +10,7 @@ categories:
 许多 App 都有注册功能，当没有输入或者输入不符合业务逻辑时，会有错误提示。好点的用户体验应该是，只有当所有输入符合业务逻辑时，才会让注册按钮变成可点击状态。用传统方法，实现起来费时费力、容易出错、难以维护，让我们开启响应式模式，用 RxJava 来实现。
 
 
-```
+```java
 public class MainActivity extends Activity {
 
     @InjectView(R.id.user_name)
