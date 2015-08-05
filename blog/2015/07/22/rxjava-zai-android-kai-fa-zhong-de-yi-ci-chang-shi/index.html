@@ -310,7 +310,7 @@
 
 <p>用传统方法，实现起来费时费力、容易出错、难以维护，让我们开启响应式模式，用 RxJava 来实现，不过先上个流程图先。</p>
 
-<p><img src="../images/flow.jpg" alt="flow" /></p>
+<p><img src="/images/flow.jpg" alt="flow" /></p>
 
 <p>如图所示，在流中需要传递一个 model，为简化流程，用户名只规定长度大于2，密码长度大于3</p>
 
@@ -430,17 +430,17 @@
 
 <p>最终结果：</p>
 
-<p><img src="../images/submit.gif" alt="submit" /></p>
+<p><img src="/images/submit.gif" alt="submit" /></p>
 
 <p>在上面的代码中，起初调用的是 combineLatest，导制每次输入时，都会触发最终的 Observable，最后改用 zip 来合并，因为 zip 只有新的流出现，才会被触发，而 combineLatest 只要其中任意一个流有新数据，都会被触发，看图比较直观。</p>
 
 <p>zip</p>
 
-<p><img src="../images/zip.png" alt="zip" /></p>
+<p><img src="/images/zip.png" alt="zip" /></p>
 
 <p>combineLatest</p>
 
-<p><img src="../images/combineLatest.png" alt="combineLatest" /></p>
+<p><img src="/images/combineLatest.png" alt="combineLatest" /></p>
 
 <p>用 RxJava 来写 App，代码更加清晰，大大降低了耦合度，让上帝的归上帝，凯撒的归凯撒，感觉就是一个字酸爽</p>
 </div>

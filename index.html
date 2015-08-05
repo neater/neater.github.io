@@ -325,7 +325,7 @@ ContentObservable.fromBroadcast</p>
 
 <p>做过开发的都知道版本控制，其中 Diff 功能可以查看两次提交的差异，不过 Android Studio 不使用版本控制也实现了这个功能：右键调出正在编辑的文件，弹出上下文菜单，选择 <code>Local History</code> &ndash;> <code>Show History</code>.</p>
 
-<p><img src="../images/local_history.png" alt="Local History" /></p>
+<p><img src="/images/local_history.png" alt="Local History" /></p>
 
 <h4>Live Templates</h4>
 
@@ -620,7 +620,7 @@ ContentObservable.fromBroadcast</p>
 <p>使用浏览器时，我个人非常不习惯网页的白色背景，感觉非常刺眼，于是手动调成灰色，但个别网页不能正常显示，这时只能手动来切换，不管是鼠标点击还是键盘操作都非常烦锁。</p>
 
 <p>Duang！有请Keyboard Maestro（简写成KM）出场，先在KM的编辑器里为我使用的Firefox添加一个Group并命名，在Avaliable in the following applications下拉菜单中选中Firefox，这样之后的操作只会在Firefox中生效，减少全局冲突；接着在中间的Macros栏中点击加号按钮添加一个Macro，取名为<code>Backgroud Color White</code>
-<img src="../images/group.png" alt="group" /></p>
+<img src="/images/group.png" alt="group" /></p>
 
 <p>KM有许多触发动作的机制，这里我设置一个快捷键<code>⌃⌘I</code>，当切换到Firefox中并按下这个快捷捷，就会触发一系列自定义的action。点击<code>New Action</code>，弹出选择列表，作为一个键盘党，按照Firefox修改背景颜色的键盘顺序，添加<code>Interface Control</code>中的<code>Type a keystroke</code>就可以了。问题来了，当我进入<code>常规</code>选项卡里进行设置后，再触发前面设置的快捷键，预设的一系列键盘操作就会在<code>常规</code>里面跳转。</p>
 
