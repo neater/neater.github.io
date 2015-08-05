@@ -188,7 +188,7 @@ zip
 
 combineLatest
 
-![combineLatest](../images/combineLatest.png)
+![combineLatest](/images/combineLatest.png)
 
 
 用 RxJava 来写 App，代码更加清晰，大大降低了耦合度，让上帝的归上帝，凯撒的归凯撒，感觉就是一个字酸爽
