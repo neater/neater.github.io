@@ -12,7 +12,7 @@ categories:
 
 做过开发的都知道版本控制，其中 Diff 功能可以查看两次提交的差异，不过 Android Studio 不使用版本控制也实现了这个功能：右键调出正在编辑的文件，弹出上下文菜单，选择 `Local History` -> `Show History`.
 
-![Local History](../images/local_history.png)
+![Local History](/images/local_history.png)
 
 
 

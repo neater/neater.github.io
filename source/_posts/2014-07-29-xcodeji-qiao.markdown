@@ -35,7 +35,7 @@ debug -> viewDebugging -> Take sceencast of Active Devics,
 ```
 另外Show View Frams和Show Alignment Rectangles，也可显示视图边框和对齐矩形，方便UI调试。如下图
 
-![view frame](../images/viewframe.png)
+![view frame](/images/viewframe.png)
 
 __unused关键字，用来suppress 那种讨厌的unused parameter warning.
 
