@@ -14,8 +14,44 @@ categories:
 
 ![Local History](../images/local_history.png)
 
+
+
 ####Live Templates
 
 
 
 ####Lambda转换
+
+
+
+####快速查看定义
+
+`⌘-Y`查看 class 
+
+####好用易忘的快捷键
+
+Optimize imports 清除无效包引用
+`⌃⌥O`
+
+####折叠（所有）代码块
+`⌘-`，`⌘—`
+
+####展开（所有）代码块
+`⌘=`，`⌘+`
+
+####显示被调用的地方	
+`⌥F7`	`Find Usages`
+
+####弹出调用层级
+`⌃⌥h`
+####包裹代码块
+`⌘⌥T` `Surround With`
+
+####Switcher
+`⌃⇥` `Switcher`
+一旦它被打开，只要你按住ctrl键，你可以使用数字或字母快捷键快速导航。
+###我最爱的特性
+
+####Find Action
+
+类似Alfred，在输入框里输入要关键字，回车后即执行菜单功能
