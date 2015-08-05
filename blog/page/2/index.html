@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="Hit-Testing决定了一个触控点是否和屏幕上的视图相关，iOS使用Hit-testing找到最前端的并且该视图能够接收用户触碰产生的事件。这背后的实现采用了reverse pre-order depth-first遍历算法。 解释Hit-Testing原理之前，先来看看它产生的时机， &hellip;">
+  <meta name="description" content="Mac下的大杀器Alfred2用了好久，Workflow也收集了不少，那为什么不自己写一个呢？当添加一个Workflow时发现，竟然支持这么多的语言，那就用我的最爱Ruby开工吧！ 第一次就拿ASCII码转换练练手吧，可以将十进制ASCII码转换成字符 还可以将16进制ASCII转换成字符 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -84,6 +84,175 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/04/13/yong-rubyxie-alfred2de-workflow/">用Ruby写Alfred2的Workflow</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-13T15:25:57+08:00" pubdate data-updated="true">Apr 13<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Mac下的大杀器Alfred2用了好久，Workflow也收集了不少，那为什么不自己写一个呢？当添加一个Workflow时发现，竟然支持这么多的语言，那就用我的最爱Ruby开工吧！</p>
+
+<p><img src="../images/languages.png" alt="view frame" /></p>
+
+<p>第一次就拿ASCII码转换练练手吧，可以将十进制ASCII码转换成字符</p>
+
+<p><img src="http://ytliu.info/images/2014-04-14-1.png" alt="" /></p>
+
+<p>还可以将16进制ASCII转换成字符</p>
+
+<p><img src="http://ytliu.info/images/2014-04-14-2.png" alt="" /></p>
+
+<p>或者把字符转换成ASCII码</p>
+
+<p><img src="http://ytliu.info/images/2014-04-14-3.png" alt="" /></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/04/13/yong-rubyxie-alfred2de-workflow/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/03/25/wei-mbprogresshudtian-jia-qu-xiao-gong-neng/">为MBProgressHUD添加取消功能</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-25T16:48:25+08:00" pubdate data-updated="true">Mar 25<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>MBProgressHUD是一个显示HUD窗口的第三方类库，用于在执行一些后台任务时，在程序中显示一个表示进度的loading视图和两个可选的文本提示的HUD窗口。</p>
+
+<p>在现实的需求中，可能存在这种情况：比如一个网络操作，在发送请求等待响应的过程中，我们会显示一个HUD窗口以显示一个loading框。但如果我们想在等待响应的过程中，在当前视图中取消这个网络请求，就没有相应的处理方式，MBProgressHUD没有为我们提供这样的交互操作。</p>
+
+<p>简单看了下MBProgressHUD的源码，发现使用了NSOperationQueue来调度任务，便有了下面代码。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="nf">requestData</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>   <span class="n">self</span><span class="p">.</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFHTTPRequestOperationManager</span> <span class="n">manager</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">UITapGestureRecognizer</span> <span class="o">*</span><span class="n">tapRecognizer</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UITapGestureRecognizer</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget:</span><span class="n">self</span> <span class="nl">action:</span><span class="k">@selector</span><span class="p">(</span><span class="n">cancelRequest</span><span class="p">)];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">cancelRequest</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">manager</span><span class="p">.</span><span class="n">operationQueue</span> <span class="n">cancelAllOperations</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/03/18/androidshi-yong-shi-jian-part1/">Android实用实践Part1: 架构</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-18T16:48:26+08:00" pubdate data-updated="true">Mar 18<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>本文是这一系列的开篇，主要涉及一些基础环境设置，目的是能开发出及扩展、及维护和易测试的项目，而本系列将会涵盖一些模式和库，它们会或多或少改善让Android开发者的体验。</p>
+
+<h1>场景</h1>
+
+<p>本篇使用的Android项目救命，是个电影类别的原型，可以标记是否已经观看，影片的信息可以通过themoviedb提供的API获得，<a href="http://docs.themoviedb.apiary.io/">Apiary</a>上有相关的文档，这个工程基于MVP模式，遵循了Material Design，如转场、结构、动画、动画等。</p>
+
+<p>Github上有示例代码，并配有视频。</p>
+
+<p><img src="http://res.cloudinary.com/dttcwxrjo/image/upload/v1422988952/1_ntqfre.png" alt="" /></p>
+
+<h1>架构:</h1>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/03/18/androidshi-yong-shi-jian-part1/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -658,229 +827,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/07/30/mac-tips/">Mac Tips</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-30T15:37:40+08:00" pubdate data-updated="true">Jul 30<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h4>Mac下打开最近访问项</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>⌘ + ⇥ 切换App的时候，⌘不放，再按↑，将会显示该App最近打开的文件。使用↑↓←→进行选择，按 ↩ 打开。</span></code></pre></td></tr></table></div></figure>
-
-
-<p>虽然CMD中有很多快捷键，但无法大范围移动光标，OS X 下，按住option，然后鼠标点击当前行，光标会移动到该处。</p>
-
-<h3>键盘操控对话框</h3>
-
-<p>以未保存对话框为例
-<img src="https://farm3.staticflickr.com/2897/14005766309_e55ffb73ac_z.jpg" alt="" /></p>
-
-<ul>
-<li>回车 —> Save</li>
-<li>⌘ + . &ndash;> Cancel</li>
-<li>⌘ + Del &ndash;> Delete</li>
-<li>⌘ + ⇧ + H &ndash;> 跳转至主目录</li>
-<li>⌘ + D   &ndash;>  跳转至桌面</li>
-<li>⌘ + ⇧ + G &ndash;> 输入要跳转的路径，按 ⇥ 自动补全。</li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/07/29/xcodeji-qiao/">Xcode技巧</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-29T14:05:32+08:00" pubdate data-updated="true">Jul 29<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h4>Edit all in Scope</h4>
-
-<p>适合进行大批量的修改变量和方法；选定一个想要修改的字符串，然后选择<strong>Edit－Edit all in Scope</strong>，然后在你输入的时候，所有该字符出现的地方都进行同步更改。</p>
-
-<p>在文件上执行‘Command + Option + Shift + Left-click’操作，该组合键可展示一个小尺寸的弹出视图，可以查看你想要打开它的地方，比如辅助编辑器、标签或者窗口等。</p>
-
-<p>CTRL + 1，该快捷键可打开&#8217;Show Related Items‘弹出菜单’。倘若你已经将光标放在了任何方法中，并点击‘CTRL + 1 ’就可以很方便地通过弹出的视图访问该方法的所有调用者和被调用者。</p>
-
-<p>Command + Shift + J快捷操作，可展示当前你在工程导航器中打开的文件</p>
-
-<p>文档和参考: Command + Shift + 0</p>
-
-<p>在辅助编辑器中打开文件:在项目导航器中选中文件执行Option+左键点击操作</p>
-
-<p>option+点击Project Navigator中选中的文件：在辅助编辑窗口中打开选中文件。</p>
-
-<p>option+command+点击Editor中选中的符号：在辅助编辑窗口中打开符号定义（jump to definition in assistant editor）。</p>
-
-<p>option+control+command+↑/↓：在辅助窗口中打开对应的头文件（<em>.h）/实现文件（</em>.m,<em>.mm,</em>.cc）。</p>
-
-<p>若在按下option的同时按下shift通常会出现一个导航窗格，可选择在new window/tab/assistant-editor显示打开。</p>
-
-<h3>真机截屏</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>debug -&gt; viewDebugging -&gt; Take sceencast of Active Devics,
-</span><span class='line'>即使当前程序没有运行，也可以直接截取手机上的图片直接到桌面。</span></code></pre></td></tr></table></div></figure>
-
-
-<p>另外Show View Frams和Show Alignment Rectangles，也可显示视图边框和对齐矩形，方便UI调试。如下图</p>
-
-<p><img src="../images/viewframe.png" alt="view frame" /></p>
-
-<p>__unused关键字，用来suppress 那种讨厌的unused parameter warning.</p>
-
-<p><code>__unused int i;</code></p>
-
-<p>NSLog(@&ldquo;%@&rdquo;,@(array.count));</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/07/24/viewcontrollershou-shen/">ViewController瘦身之 抽取View Logic</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-24T16:45:58+08:00" pubdate data-updated="true">Jul 24<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>面对日益臃肿的ViewController，测试、重构、增加新的需求将越来越困难，怎么破？</p>
-
-<p>通常我们会在ViewController里加载并控制View（通过Xib或者loadView方法），这样VC就会关心View的内部细节，如layout、Animation、如何填充、响应子视图的事件等，使VC更难以理解，而且增加了和View的耦合。</p>
-
-<p>VC主要负责与用户的交互，主要是控制内部View以及用户操作时产生的事件，而不是用来实现View，如果View使用了UITableView或者UICollectionView，那么VC不得不关心View的内部细节，就像一只冲出牢笼的野兽，变得难以驾驭，应该避免这样。</p>
-
-<p>下面是如何设计View的实践：</p>
-
-<h3>为Views创建Class</h3>
-
-<p>首先，为Views创建类，它封装了View的所有内部细节，并为VC提供抽象接口，用来提供改变View状态的方法或者获得其内部信息，这样一来，VC实现了与View的解耦，不用关心View的内部实现，只需要访问View提供的接口即可。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &lt;UIKit/UIKit.h&gt;</span>
-</span><span class='line'><span class="k">@class</span> <span class="nc">JPLoginViewModel</span>;
-</span><span class='line'>
-</span><span class='line'><span class="k">@interface</span> <span class="nc">JPLoginView</span> : <span class="nc">UIView</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">JPLoginViewModel</span> <span class="o">*</span><span class="n">viewModel</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">showAppearanceAnimation</span><span class="p">;</span>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">showNoConnectionFeedback:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">shouldShow</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@interface</span> <span class="nc">JPLoginViewModel</span> : <span class="nc">NSObject</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">userName</span><span class="p">;</span>
-</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">password</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>可以看出，这个.h文件没有IBOutlets和subViews的信息，因为他们都是内部细节；如果不这样的话，VC将能访问这样内部细节，设想将来你想使用UITextFields和UILabels，而不是现在的UITableView来显示login和password，修改VC将是无法避免的。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/07/24/viewcontrollershou-shen/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -898,23 +844,23 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/07/22/rxjava-zai-android-kai-fa-zhong-de-yi-ci-chang-shi/">RxJava 在 Android 开发中的一次尝试（上）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/20/2015shang-ban-nian-du-guo-de-shu/">2015上半年读过的书</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/17/rxjava-and-rxandroid-xin-de/">RxJava &amp; RxAndroid 心得</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/07/10/cai-xue-kang-yu-lu/">蔡学鏮语录</a>
       </li>
     
       <li class="post">
         <a href="/blog/2015/07/08/hao-yong-dao-ni-tian-de-android-studio/">好用到逆天的 Android Studio</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/06/30/shu-yu-cheng-xu-yuan-de-podcast/">属于程序员的Podcast</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/06/29/0dai-ma-shi-xian-iosyin-dao-ye/">0代码实现iOS引导页</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/06/02/he-gua-de-git-commitzen-yao-xie/">合适的Git Commit怎么写</a>
       </li>
     
   </ul>

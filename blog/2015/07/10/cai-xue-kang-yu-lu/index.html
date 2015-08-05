@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="蔡学镛是我非常喜欢的台湾架构师，著有《编程ING》《Java夜未眠》，他的微博中的很多理念对程序员来说很有价值。 做架构时，为了避免混淆，我尽量让技术名词有固定的定义。系统、子系统、对象三者是包含的关系。系统暴露接口（Port），子系统暴露服务，对象暴露方法（ie. PASIO 的「操作」）。 &hellip;">
+  <meta name="description" content="蔡学镛是我非常喜欢的台湾架构师，著有《编程ING》《Java夜未眠》，他的微博中的很多理念对程序员来说很有价值，下面就是他的部分语录。 做架构时，为了避免混淆，我尽量让技术名词有固定的定义。系统、子系统、对象三者是包含的关系。系统暴露接口（Port），子系统暴露服务，对象暴露方法（ie. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -110,17 +110,18 @@
   </header>
 
 
-<div class="entry-content"><p>蔡学镛是我非常喜欢的台湾架构师，著有《编程ING》《Java夜未眠》，他的<a href="http://weibo.com/p/1035051614282004">微博</a>中的很多理念对程序员来说很有价值。</p>
+<div class="entry-content"><p>蔡学镛是我非常喜欢的台湾架构师，著有《编程ING》《Java夜未眠》，他的<a href="http://weibo.com/p/1035051614282004">微博</a>中的很多理念对程序员来说很有价值，下面就是他的部分语录。</p>
 
-<p>做架构时，为了避免混淆，我尽量让技术名词有固定的定义。系统、子系统、对象三者是包含的关系。系统暴露接口（Port），子系统暴露服务，对象暴露方法（ie. PASIO 的「操作」）。而接口、服务、方法又有各自的定义，他们主要的差异是在「影响范围」和「业务完整性」上。</p>
+<ul>
+<li><p>做架构时，为了避免混淆，我尽量让技术名词有固定的定义。系统、子系统、对象三者是包含的关系。系统暴露接口（Port），子系统暴露服务，对象暴露方法（ie. PASIO 的「操作」）。而接口、服务、方法又有各自的定义，他们主要的差异是在「影响范围」和「业务完整性」上。</p></li>
+<li><p>想让系统灵活有弹性，可以通过配置（configuration）。简单的配置，只能设置一些常量，无法改变流程。这种情况下，如果想改变流程，就必须通过插件（前提是系统有事先设计插件的接入方式）&hellip;. 我不倾向于用插件，我倾向于用更弹性的配置来改变流程，这时候通常需要配合定义一个 DSL 。</p></li>
+<li><p>我写代码时把对象内分成五部分：PASIO。Properties 用来读写对象内的数据；Attributes 是对象内所封装的数据；States 用来查询对象（和参数）是否符合状态；Instructions 是基本的方法；Operations 是有复杂逻辑的方法。我还限定 PASIO 五者间的调用关系，我发现这么做有助于把对象配置化。</p></li>
+<li><p>Attribute 是真正保存数据的地方，最好是通过 Property 进行访问。对于 Object Model 来说，Attribute 就是 Field；对于 Relational Model 来说，Attribute 就是 Column；对于 Associative Model 来说，Attribute 就是 Association。</p></li>
+<li><p>设计 DSL 的时候，我先想像自己是使用此领域语言的专家，且没有计算机编程能力，然后设想一个场景，再用最方便的方式描写此场景。描写方式尽量描述目的（What），而非描述做法（How）。几个场景的描述之后，就可以归纳出一个简单有弹性的 DSL。</p></li>
+<li><p>软件开发的难度在于「如何将需求化为设计」，而不是「如何将设计化为代码」。能将设计化为代码的只能称为码农，能将需求化为设计的才是软件工程师。而架构师，更是要把非功能需求（例如高并发、高可用、可维护性、扩展性）的设计考虑进来。</p></li>
+<li><p>那些担心技术做不久的人，他们的担心是有道理的，因为他们的技术确实做不久；而那些不担心技术做不久的人，他们不担心也是有道理的，因为他们的技术确实可以做很久 &hellip; 一个人的心态决定了他的职业生涯。</p></li>
+</ul>
 
-<p>想让系统灵活有弹性，可以通过配置（configuration）。简单的配置，只能设置一些常量，无法改变流程。这种情况下，如果想改变流程，就必须通过插件（前提是系统有事先设计插件的接入方式）&hellip;. 我不倾向于用插件，我倾向于用更弹性的配置来改变流程，这时候通常需要配合定义一个 DSL 。</p>
-
-<p>我写代码时把对象内分成五部分：PASIO。Properties 用来读写对象内的数据；Attributes 是对象内所封装的数据；States 用来查询对象（和参数）是否符合状态；Instructions 是基本的方法；Operations 是有复杂逻辑的方法。我还限定 PASIO 五者间的调用关系，我发现这么做有助于把对象配置化。</p>
-
-<p>设计 DSL 的时候，我先想像自己是使用此领域语言的专家，且没有计算机编程能力，然后设想一个场景，再用最方便的方式描写此场景。描写方式尽量描述目的（What），而非描述做法（How）。几个场景的描述之后，就可以归纳出一个简单有弹性的 DSL。</p>
-
-<p>软件开发的难度在于「如何将需求化为设计」，而不是「如何将设计化为代码」。能将设计化为代码的只能称为码农，能将需求化为设计的才是软件工程师。而架构师，更是要把非功能需求（例如高并发、高可用、可维护性、扩展性）的设计考虑进来。</p>
 </div>
 
 
@@ -163,6 +164,8 @@
         <a class="basic-alignment left" href="/blog/2015/07/08/hao-yong-dao-ni-tian-de-android-studio/" title="Previous Post: 好用到逆天的 Android Studio">&laquo; 好用到逆天的 Android Studio</a>
       
       
+        <a class="basic-alignment right" href="/blog/2015/07/17/rxjava-and-rxandroid-xin-de/" title="Next Post: RxJava &amp; RxAndroid 心得">RxJava &amp; RxAndroid 心得 &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -176,23 +179,23 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/07/22/rxjava-zai-android-kai-fa-zhong-de-yi-ci-chang-shi/">RxJava 在 Android 开发中的一次尝试（上）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/20/2015shang-ban-nian-du-guo-de-shu/">2015上半年读过的书</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/17/rxjava-and-rxandroid-xin-de/">RxJava &amp; RxAndroid 心得</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/07/10/cai-xue-kang-yu-lu/">蔡学鏮语录</a>
       </li>
     
       <li class="post">
         <a href="/blog/2015/07/08/hao-yong-dao-ni-tian-de-android-studio/">好用到逆天的 Android Studio</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/06/30/shu-yu-cheng-xu-yuan-de-podcast/">属于程序员的Podcast</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/06/29/0dai-ma-shi-xian-iosyin-dao-ye/">0代码实现iOS引导页</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/06/02/he-gua-de-git-commitzen-yao-xie/">合适的Git Commit怎么写</a>
       </li>
     
   </ul>
