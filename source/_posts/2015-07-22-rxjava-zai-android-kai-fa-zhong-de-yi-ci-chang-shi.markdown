@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "RxJava 在 Android 开发中的一次尝试（上）"
+title: "RxJava 在 Android 开发中的初次尝试（上）"
 date: 2015-07-22 10:01:35 +0800
 comments: true
 categories: 
@@ -110,6 +110,7 @@ public class MainActivity extends Activity {
 ![flow](/images/flow.jpg)
 
 如图所示，在流中需要传递一个 model，为简化流程，用户名只规定长度大于2，密码长度大于3 
+
 ```
 public class InputValidation {
     private String userName;
@@ -191,4 +192,4 @@ combineLatest
 ![combineLatest](/images/combineLatest.png)
 
 
-用 RxJava 来写 App，代码更加清晰，大大降低了耦合度，让上帝的归上帝，凯撒的归凯撒，感觉就是一个字酸爽
+用 RxJava 来写 App，代码更加清晰，大大降低了耦合度，使分离的逻辑形成链，让上帝的归上帝，凯撒的归凯撒，感觉就是一个字~~酸爽！
