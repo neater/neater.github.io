@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="Mac下的大杀器Alfred2用了好久，Workflow也收集了不少，那为什么不自己写一个呢？当添加一个Workflow时发现，竟然支持这么多的语言，那就用我的最爱Ruby开工吧！ 第一次就拿ASCII码转换练练手吧，可以将十进制ASCII码转换成字符 还可以将16进制ASCII转换成字符 &hellip;">
+  <meta name="description" content="Keyboard Maestro是一款类似Alfred的App，但一点也不逊色后者，它对Automator进行了封装，方便用户的使用。 Firefox快捷设置 使用浏览器时，我个人非常不习惯网页的白色背景，感觉非常刺眼，于是手动调成灰色，但个别网页不能正常显示，这时只能手动来切换， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -84,6 +84,56 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/04/29/bing-qi-pu-zhi-keyboard-maestro/">兵器谱之Keyboard Maestro</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-29T15:12:45+08:00" pubdate data-updated="true">Apr 29<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Keyboard Maestro是一款类似Alfred的App，但一点也不逊色后者，它对Automator进行了封装，方便用户的使用。</p>
+
+<h1>Firefox快捷设置</h1>
+
+<p>使用浏览器时，我个人非常不习惯网页的白色背景，感觉非常刺眼，于是手动调成灰色，但个别网页不能正常显示，这时只能手动来切换，不管是鼠标点击还是键盘操作都非常烦锁。</p>
+
+<p>Duang！有请Keyboard Maestro（简写成KM）出场，先在KM的编辑器里为我使用的Firefox添加一个Group并命名，在Avaliable in the following applications下拉菜单中选中Firefox，这样之后的操作只会在Firefox中生效，减少全局冲突；接着在中间的Macros栏中点击加号按钮添加一个Macro，取名为<code>Backgroud Color White</code>
+<img src="/images/group.png" alt="group" /></p>
+
+<p>KM有许多触发动作的机制，这里我设置一个快捷键<code>⌃⌘I</code>，当切换到Firefox中并按下这个快捷捷，就会触发一系列自定义的action。点击<code>New Action</code>，弹出选择列表，作为一个键盘党，按照Firefox修改背景颜色的键盘顺序，添加<code>Interface Control</code>中的<code>Type a keystroke</code>就可以了。问题来了，当我进入<code>常规</code>选项卡里进行设置后，再触发前面设置的快捷键，预设的一系列键盘操作就会在<code>常规</code>里面跳转。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/04/29/bing-qi-pu-zhi-keyboard-maestro/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -524,6 +574,20 @@
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>git rm --cached</span></code></pre></td></tr></table></div></figure>
 
+
+<p>返回一个简单版的git status,为默认git status来减少噪音。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git status -s</span></code></pre></td></tr></table></div></figure>
+
+
+<p>显示提交记录的参与者列表。和GitHub的参与者列表相同。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git shortlog -sn</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>git shortlog -sn</p></blockquote>
 </div>
   
   
@@ -767,66 +831,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/07/31/flex%21iosdiao-shi-li-qi/">FLEX！iOS调试利器</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-31T15:51:37+08:00" pubdate data-updated="true">Jul 31<span>st</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>FLEX (Flipboard Explorer)是一系列集成在APP内部的用于iOS调试的工具集，以工具栏的形式显示在应用中，通过它，可以查看并修改几乎所有的APP运行状态。</p>
-
-<p><img src="https://camo.githubusercontent.com/9986601c5e4306f7935032465911c0f70596e046/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f62617369632d766965772d6578706c6f726174696f6e2e676966" alt="dfd" /></p>
-
-<h2>强大的调试能力</h2>
-
-<ul>
-<li>查看、修改View的层次关系。</li>
-<li>查看对象的属性和实例变量。</li>
-<li>动态修改属性和实例变量。</li>
-<li>动态调用实例和类方法。</li>
-<li>动态访问堆上的对象。</li>
-<li>访问APP的沙盒。</li>
-<li>除jAPP的所有类外，还能访问已链接的系统框架，包括私有的。</li>
-<li>快速访问一些常用的对象，比如<code>[UIApplication sharedApplication]</code>、App Delegate、Root View Controller等。</li>
-<li>动态查看、修改<code>NSUserDefaults</code>存储的值。</li>
-</ul>
-
-
-<p>和其它调试工具不同，FLEX完全运行在你的APP中，所以不需要连接到LLDB/Xcode或者远程调试的服务端，在模拟器和真机上都运行的很好。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/07/31/flex%21iosdiao-shi-li-qi/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -844,7 +848,11 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/07/22/rxjava-zai-android-kai-fa-zhong-de-yi-ci-chang-shi/">RxJava 在 Android 开发中的一次尝试（上）</a>
+        <a href="/blog/2015/09/23/rxjava-zai-android-kai-fa-zhong-de-chu-ci-chang-shi-%28xia-%29/">RxJava 在 Android 开发中的初次尝试（下）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/22/rxjava-zai-android-kai-fa-zhong-de-yi-ci-chang-shi/">RxJava 在 Android 开发中的初次尝试（上）</a>
       </li>
     
       <li class="post">
@@ -857,10 +865,6 @@
     
       <li class="post">
         <a href="/blog/2015/07/10/cai-xue-kang-yu-lu/">蔡学鏮语录</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/08/hao-yong-dao-ni-tian-de-android-studio/">好用到逆天的 Android Studio</a>
       </li>
     
   </ul>

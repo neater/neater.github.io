@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="接触 RxJava 有一段时间了，写的都是一些小打小闹的 Sample 程序，不如就在实际项目中一试伸手。 许多 App 都有注册功能，当没有输入或者输入不符合业务逻辑时，会有错误提示。好点的用户体验应该是，只有当所有输入符合业务逻辑时，才会让注册按钮变成可点击状态，代码如下： ">
+  <meta name="description" content="这次我们来完成⎾RxJava 在 Android 开发中的初次尝试⏌的下半部分，在上次代码的基础上，用 RxJava 实现网络请求、多线程、AsyncTask。 在点击Submit按钮后，发起一次网络请求，可以用 Retrofit，对 RxJava 支持的很好，不过我不打算用他，我想用 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,7 +90,134 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/22/rxjava-zai-android-kai-fa-zhong-de-yi-ci-chang-shi/">RxJava 在 Android 开发中的一次尝试（上）</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/09/23/rxjava-zai-android-kai-fa-zhong-de-chu-ci-chang-shi-%28xia-%29/">RxJava 在 Android 开发中的初次尝试（下）</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-09-23T15:06:06+08:00" pubdate data-updated="true">Sep 23<span>rd</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>这次我们来完成⎾RxJava 在 Android 开发中的初次尝试⏌的下半部分，在上次代码的基础上，用 RxJava 实现网络请求、多线程、AsyncTask。</p>
+
+<p>在点击<code>Submit</code>按钮后，发起一次网络请求，可以用 Retrofit，对 RxJava 支持的很好，不过我不打算用他，我想用 RxJava 来模拟网络请求实现进度条的显示功能。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="kt">void</span> <span class="nf">submit</span><span class="o">(</span><span class="n">InputValidation</span> <span class="n">inputValidation</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">request</span><span class="o">(</span><span class="n">inputValidation</span><span class="o">)</span>
+</span><span class='line'>            <span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">io</span><span class="o">())</span>
+</span><span class='line'>            <span class="o">.</span><span class="na">observeOn</span><span class="o">(</span><span class="n">AndroidSchedulers</span><span class="o">.</span><span class="na">mainThread</span><span class="o">())</span>
+</span><span class='line'>            <span class="o">.</span><span class="na">doOnSubscribe</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">enableWidgets</span><span class="o">(</span><span class="kc">false</span><span class="o">))</span>
+</span><span class='line'>            <span class="o">.</span><span class="na">doOnCompleted</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">enableWidgets</span><span class="o">(</span><span class="kc">true</span><span class="o">))</span>
+</span><span class='line'>            <span class="o">.</span><span class="na">doOnError</span><span class="o">(</span><span class="n">throwable1</span> <span class="o">-&gt;</span> <span class="n">enableWidgets</span><span class="o">(</span><span class="kc">true</span><span class="o">))</span>
+</span><span class='line'>            <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="nl">progressBar:</span><span class="o">:</span><span class="n">setProgress</span>
+</span><span class='line'>            <span class="o">);</span>
+</span><span class='line'><span class="o">}</span><span class="n">I</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>不过要注意的是，网络等需要多线程的代码需要调用 <code>subscribeOn(Schedulers.io())</code>，不然会报 ANR 错误，还有要对界面进行操作需要调用 <code>observeOn(AndroidSchedulers.mainThread())</code>，<code>doOn*</code>这一类方法会在更阶段进行回调，我把一些状态设置和显示的代码写在里面</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="kt">void</span> <span class="nf">enableWidgets</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">enable</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">userName</span><span class="o">.</span><span class="na">setEnabled</span><span class="o">(</span><span class="n">enable</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">password</span><span class="o">.</span><span class="na">setEnabled</span><span class="o">(</span><span class="n">enable</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">confirmedPassword</span><span class="o">.</span><span class="na">setEnabled</span><span class="o">(</span><span class="n">enable</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">visible</span> <span class="o">=</span> <span class="n">enable</span> <span class="o">?</span> <span class="n">View</span><span class="o">.</span><span class="na">INVISIBLE</span> <span class="o">:</span> <span class="n">View</span><span class="o">.</span><span class="na">VISIBLE</span><span class="o">;</span>
+</span><span class='line'>    <span class="n">progressBar</span><span class="o">.</span><span class="na">setVisibility</span><span class="o">(</span><span class="n">visible</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">String</span> <span class="n">text</span> <span class="o">=</span> <span class="n">enable</span> <span class="o">?</span> <span class="s">&quot;end submit&quot;</span> <span class="o">:</span> <span class="s">&quot;begin submit&quot;</span><span class="o">;</span>
+</span><span class='line'>    <span class="n">Snackbar</span><span class="o">.</span><span class="na">make</span><span class="o">(</span><span class="n">submitButton</span><span class="o">,</span> <span class="n">text</span><span class="o">,</span> <span class="n">Snackbar</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>模拟网络请求的代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="n">Observable</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">request</span><span class="o">(</span><span class="n">InputValidation</span> <span class="n">inputValidation</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">Observable</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">subscriber</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">101</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span><span class='line'>                <span class="n">subscriber</span><span class="o">.</span><span class="na">onNext</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">sleep</span><span class="o">(</span><span class="mi">30</span><span class="o">);</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>            <span class="n">subscriber</span><span class="o">.</span><span class="na">onCompleted</span><span class="o">();</span>
+</span><span class='line'>        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">subscriber</span><span class="o">.</span><span class="na">onError</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">});</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>把用户输入的代码移到 InputValidation.java 里，这里不贴代码了。最终效果：</p>
+
+<p><img src="../images/progress.gif" alt="submit" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/22/rxjava-zai-android-kai-fa-zhong-de-yi-ci-chang-shi/">RxJava 在 Android 开发中的初次尝试（上）</a></h1>
     
     
       <p class="meta">
@@ -585,56 +712,6 @@ ContentObservable.fromBroadcast</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/04/29/bing-qi-pu-zhi-keyboard-maestro/">兵器谱之Keyboard Maestro</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-04-29T15:12:45+08:00" pubdate data-updated="true">Apr 29<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Keyboard Maestro是一款类似Alfred的App，但一点也不逊色后者，它对Automator进行了封装，方便用户的使用。</p>
-
-<h1>Firefox快捷设置</h1>
-
-<p>使用浏览器时，我个人非常不习惯网页的白色背景，感觉非常刺眼，于是手动调成灰色，但个别网页不能正常显示，这时只能手动来切换，不管是鼠标点击还是键盘操作都非常烦锁。</p>
-
-<p>Duang！有请Keyboard Maestro（简写成KM）出场，先在KM的编辑器里为我使用的Firefox添加一个Group并命名，在Avaliable in the following applications下拉菜单中选中Firefox，这样之后的操作只会在Firefox中生效，减少全局冲突；接着在中间的Macros栏中点击加号按钮添加一个Macro，取名为<code>Backgroud Color White</code>
-<img src="/images/group.png" alt="group" /></p>
-
-<p>KM有许多触发动作的机制，这里我设置一个快捷键<code>⌃⌘I</code>，当切换到Firefox中并按下这个快捷捷，就会触发一系列自定义的action。点击<code>New Action</code>，弹出选择列表，作为一个键盘党，按照Firefox修改背景颜色的键盘顺序，添加<code>Interface Control</code>中的<code>Type a keystroke</code>就可以了。问题来了，当我进入<code>常规</code>选项卡里进行设置后，再触发前面设置的快捷键，预设的一系列键盘操作就会在<code>常规</code>里面跳转。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/04/29/bing-qi-pu-zhi-keyboard-maestro/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -650,7 +727,11 @@ ContentObservable.fromBroadcast</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/07/22/rxjava-zai-android-kai-fa-zhong-de-yi-ci-chang-shi/">RxJava 在 Android 开发中的一次尝试（上）</a>
+        <a href="/blog/2015/09/23/rxjava-zai-android-kai-fa-zhong-de-chu-ci-chang-shi-%28xia-%29/">RxJava 在 Android 开发中的初次尝试（下）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/22/rxjava-zai-android-kai-fa-zhong-de-yi-ci-chang-shi/">RxJava 在 Android 开发中的初次尝试（上）</a>
       </li>
     
       <li class="post">
@@ -663,10 +744,6 @@ ContentObservable.fromBroadcast</p>
     
       <li class="post">
         <a href="/blog/2015/07/10/cai-xue-kang-yu-lu/">蔡学鏮语录</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/08/hao-yong-dao-ni-tian-de-android-studio/">好用到逆天的 Android Studio</a>
       </li>
     
   </ul>
