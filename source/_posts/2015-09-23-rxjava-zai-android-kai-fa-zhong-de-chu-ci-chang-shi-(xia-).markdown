@@ -9,7 +9,7 @@ categories:
 
 在点击`Submit`按钮后，发起一次网络请求，可以用 Retrofit，对 RxJava 支持的很好，不过我不打算用他，我想用 RxJava 来模拟网络请求实现进度条的显示功能。
 
-```
+```java
     private void submit(InputValidation inputValidation) {
         request(inputValidation)
                 .subscribeOn(Schedulers.io())
@@ -57,7 +57,7 @@ categories:
 ```
 把用户输入的代码移到 InputValidation.java 里，这里不贴代码了。最终效果：
 
-![submit](../images/progress.gif)
+![submit](/images/progress.gif)
 
 
 

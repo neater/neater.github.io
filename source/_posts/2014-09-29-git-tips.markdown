@@ -41,6 +41,22 @@ git checkout -b test dev
 ```
 ##Others
 停止追逐现在已经追踪的文件
+
 ```
 git rm --cached
 ```
+
+返回一个简单版的git status,为默认git status来减少噪音。
+
+```
+git status -s
+```
+
+显示提交记录的参与者列表。和GitHub的参与者列表相同。
+
+```
+git shortlog -sn
+```
+
+
+> git shortlog -sn
