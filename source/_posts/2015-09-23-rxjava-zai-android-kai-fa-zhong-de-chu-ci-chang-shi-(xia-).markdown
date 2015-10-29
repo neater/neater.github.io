@@ -3,7 +3,7 @@ layout: post
 title: "RxJava 在 Android 开发中的初次尝试（下）"
 date: 2015-09-23 15:06:06 +0800
 comments: true
-categories: 
+categories: RxJava
 ---
 这次我们来完成⎾RxJava 在 Android 开发中的初次尝试⏌的下半部分，在上次代码的基础上，用 RxJava 实现网络请求、多线程、AsyncTask。
 

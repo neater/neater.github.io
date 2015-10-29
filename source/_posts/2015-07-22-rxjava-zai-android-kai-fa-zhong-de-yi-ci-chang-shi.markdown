@@ -3,7 +3,7 @@ layout: post
 title: "RxJava 在 Android 开发中的初次尝试（上）"
 date: 2015-07-22 10:01:35 +0800
 comments: true
-categories: 
+categories: RxJava
 ---
 接触 RxJava 有一段时间了，写的都是一些小打小闹的 Sample 程序，不如就在实际项目中一试伸手。
 
