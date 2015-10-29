@@ -4,7 +4,7 @@
   <title><![CDATA[Neater]]></title>
   <link href="http://neater.github.io/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2015-10-26T14:32:20+08:00</updated>
+  <updated>2015-10-29T15:26:08+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -109,7 +109,7 @@
 
 <p>把用户输入的代码移到 InputValidation.java 里，这里不贴代码了。最终效果：</p>
 
-<p><img src="../images/progress.gif" alt="submit" /></p>
+<p><img src="http://neater.github.io/images/progress.gif" alt="submit" /></p>
 ]]></content>
   </entry>
   
