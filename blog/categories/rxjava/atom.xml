@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: RxJava | Neater]]></title>
+  <link href="http://neater.github.io/blog/categories/rxjava/atom.xml" rel="self"/>
+  <link href="http://neater.github.io/"/>
+  <updated>2015-10-29T16:12:18+08:00</updated>
+  <id>http://neater.github.io/</id>
+  <author>
+    <name><![CDATA[Your Name]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[RxJava 在 Android 开发中的初次尝试（下）]]></title>
+    <link href="http://neater.github.io/blog/2015/09/23/rxjava-zai-android-kai-fa-zhong-de-chu-ci-chang-shi-%28xia-%29/"/>
+    <updated>2015-09-23T15:06:06+08:00</updated>
+    <id>http://neater.github.io/blog/2015/09/23/rxjava-zai-android-kai-fa-zhong-de-chu-ci-chang-shi-(xia-)</id>
+    <content type="html"><![CDATA[<p>这次我们来完成⎾RxJava 在 Android 开发中的初次尝试⏌的下半部分，在上次代码的基础上，用 RxJava 实现网络请求、多线程、AsyncTask。</p>
+
+<p>在点击<code>Submit</code>按钮后，发起一次网络请求，可以用 Retrofit，对 RxJava 支持的很好，不过我不打算用他，我想用 RxJava 来模拟网络请求实现进度条的显示功能。</p>
+
+<p>```java</p>
+
+<pre><code>private void submit(InputValidation inputValidation) {
+    request(inputValidation)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe(() -&gt; enableWidgets(false))
+            .doOnCompleted(() -&gt; enableWidgets(true))
+            .doOnError(throwable1 -&gt; enableWidgets(true))
+            .subscribe(progressBar::setProgress
+            );
+}I
+</code></pre>
+
+<p><code>``
+不过要注意的是，网络等需要多线程的代码需要调用</code>subscribeOn(Schedulers.io())<code>，不然会报 ANR 错误，还有要对界面进行操作需要调用</code>observeOn(AndroidSchedulers.mainThread())<code>，</code>doOn*`这一类方法会在更阶段进行回调，我把一些状态设置和显示的代码写在里面</p>
+
+<p>```</p>
+
+<pre><code>private void enableWidgets(boolean enable) {
+
+    userName.setEnabled(enable);
+    password.setEnabled(enable);
+    confirmedPassword.setEnabled(enable);
+
+    int visible = enable ? View.INVISIBLE : View.VISIBLE;
+    progressBar.setVisibility(visible);
+
+    String text = enable ? "end submit" : "begin submit";
+    Snackbar.make(submitButton, text, Snackbar.LENGTH_SHORT).show();
+}
+</code></pre>
+
+<p>```
+模拟网络请求的代码：</p>
+
+<p>```</p>
+
+<pre><code>private Observable&lt;Integer&gt; request(InputValidation inputValidation) {
+    return Observable.create(subscriber -&gt; {
+        try {
+            for (int i = 1; i &lt; 101; i++) {
+                subscriber.onNext(i);
+                Thread.currentThread().sleep(30);
+            }
+            subscriber.onCompleted();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            subscriber.onError(e);
+        }
+    });
+}
+</code></pre>
+
+<p>```
+把用户输入的代码移到 InputValidation.java 里，这里不贴代码了。最终效果：</p>
+
+<p><img src="/images/progress.gif" alt="submit" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[RxJava 在 Android 开发中的初次尝试（上）]]></title>
+    <link href="http://neater.github.io/blog/2015/07/22/rxjava-zai-android-kai-fa-zhong-de-yi-ci-chang-shi/"/>
+    <updated>2015-07-22T10:01:35+08:00</updated>
+    <id>http://neater.github.io/blog/2015/07/22/rxjava-zai-android-kai-fa-zhong-de-yi-ci-chang-shi</id>
+    <content type="html"><![CDATA[<p>接触 RxJava 有一段时间了，写的都是一些小打小闹的 Sample 程序，不如就在实际项目中一试伸手。</p>
+
+<p>许多 App 都有注册功能，当没有输入或者输入不符合业务逻辑时，会有错误提示。好点的用户体验应该是，只有当所有输入符合业务逻辑时，才会让注册按钮变成可点击状态，代码如下：</p>
+
+<!--more-->
+
+
+<p>```java
+public class MainActivity extends Activity {</p>
+
+<pre><code>@InjectView(R.id.user_name)
+EditText userName;
+@InjectView(R.id.password)
+EditText password;
+@InjectView(R.id.confirmedPassword)
+EditText confirmedPassword;
+@InjectView(R.id.submit_button)
+Button submitButton;
+
+private String userNameString;
+private String passwordString;
+private String confirmedPasswordString;
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    ButterKnife.inject(this);
+
+    addTextChangedListenners();
+}
+
+private void addTextChangedListenners() {
+
+    userName.addTextChangedListener(new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            userNameString = charSequence.toString();
+            validateUserInput();
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    });
+
+    password.addTextChangedListener(new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            passwordString = charSequence.toString();
+            validateUserInput();
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    });
+
+    confirmedPassword.addTextChangedListener(new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            confirmedPasswordString = charSequence.toString();
+            validateUserInput();
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    });
+}
+private void validateUserInput() {
+
+    boolean isUserNameValid = userNameString != null &amp;&amp; userNameString.trim().length() &gt; 2;
+    boolean isPasswordValid = passwordString != null &amp;&amp; passwordString.trim().length() &gt; 3;
+    boolean isPasswordEqual = confirmedPasswordSting != null &amp;&amp; confirmedPasswordSting.trim().equals(passwordString);
+    boolean enable = isUserNameValid &amp;&amp; isPasswordValid &amp;&amp; isPasswordEqual;
+    submitButton.setEnabled(enable);
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>用传统方法，实现起来费时费力、容易出错、难以维护，让我们开启响应式模式，用 RxJava 来实现，不过先上个流程图先。</p>
+
+<p><img src="/images/flow.jpg" alt="flow" /></p>
+
+<p>如图所示，在流中需要传递一个 model，为简化流程，用户名只规定长度大于2，密码长度大于3</p>
+
+<p>```
+public class InputValidation {</p>
+
+<pre><code>private String userName;
+private String password;
+private String confirmedPassword;
+
+public InputValidation(String userName, String password, String confirmedPassword) {
+    this.userName = userName;
+    this.password = password;
+    this.confirmedPassword = confirmedPassword;
+}
+
+public boolean allowSubmit() {
+    boolean isUserNameValid = userName.trim().length() &gt; 2;
+    boolean isPasswordValid = password.trim().length() &gt; 3;
+    boolean isPasswordEqual = confirmedPassword.trim().equals(password);
+    boolean allowSubmit = isUserNameValid &amp;&amp; isPasswordValid &amp;&amp; isPasswordEqual;
+    return allowSubmit;
+}
+
+public static String stringOfTextChangEvent(OnTextChangeEvent onTextChangeEvent) {
+    return onTextChangeEvent.text().toString();
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>创建并转成字符串流，WidgetObservable.text 是 RxAndroid 提供的获取 EditText 输入文本的 API，map中传入的是转换方法的引用，这也是 Java8 才支持的。</p>
+
+<p>```</p>
+
+<pre><code>private void initRx() {
+    Observable&lt;String&gt; userNameObservable = WidgetObservable.text(userName)
+            .map(InputValidation::stringOfTextChangEvent);
+    Observable&lt;String&gt; passwordObservable = WidgetObservable.text(password)
+            .map(InputValidation::stringOfTextChangEvent);
+    Observable&lt;String&gt; confirmedPasswordObservable = WidgetObservable.text(confirmedPassword)
+            .map(InputValidation::stringOfTextChangEvent);
+......
+</code></pre>
+
+<p>```</p>
+
+<p>将三个输入流合并成一个，并根据验证结果设置提交按钮的状态。</p>
+
+<p>```
+&hellip;&hellip;</p>
+
+<pre><code>    Observable&lt;InputValidation&gt; inputValidationObservable = Observable.combineLatest(
+            userNameObservable,
+            passwordObservable,
+            confirmedPasswordObservable,
+            InputValidation::new
+    ).map(inputValidation -&gt; {
+        submitButton.setEnabled(inputValidation.allowSubmit());
+        return inputValidation;
+    });
+</code></pre>
+
+<p>&hellip;&hellip;
+```
+combineLatest 的最后一个参数是个合并方法，我传入了个 Java8 支持的构造器引用。</p>
+
+<p>```
+&hellip;&hellip;</p>
+
+<pre><code>    ViewObservable.clicks(submitButton).zipWith(
+            inputValidationObservable,
+            (onClickEvent, inputValidation) -&gt; inputValidation
+    ).subscribe();
+</code></pre>
+
+<p>&hellip;&hellip;
+```
+最终结果：</p>
+
+<p><img src="/images/submit.gif" alt="submit" /></p>
+
+<p>在上面的代码中，起初调用的是 combineLatest，导制每次输入时，都会触发最终的 Observable，最后改用 zip 来合并，因为 zip 只有新的流出现，才会被触发，而 combineLatest 只要其中任意一个流有新数据，都会被触发，看图比较直观。</p>
+
+<p>zip</p>
+
+<p><img src="/images/zip.png" alt="zip" /></p>
+
+<p>combineLatest</p>
+
+<p><img src="/images/combineLatest.png" alt="combineLatest" /></p>
+
+<p>用 RxJava 来写 App，代码更加清晰，大大降低了耦合度，使分离的逻辑形成链，让上帝的归上帝，凯撒的归凯撒，感觉就是一个字~~酸爽！</p>
+]]></content>
+  </entry>
+  
+</feed>
