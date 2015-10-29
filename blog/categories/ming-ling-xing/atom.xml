@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 命令行 | Neater]]></title>
   <link href="http://neater.github.io/blog/categories/ming-ling-xing/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2014-07-31T15:49:13+08:00</updated>
+  <updated>2015-10-29T15:26:08+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -18,17 +18,53 @@
     <link href="http://neater.github.io/blog/2014/01/14/cmd-tricks/"/>
     <updated>2014-01-14T15:47:05+08:00</updated>
     <id>http://neater.github.io/blog/2014/01/14/cmd-tricks</id>
-    <content type="html"><![CDATA[<h4>输出文件的指定行</h4>
+    <content type="html"><![CDATA[<h4>删除一个大文件</h4>
+
+<p><code>
+/path/to/file.log (清空)
+rm /path/to/file.log
+</code></p>
+
+<h4>变量CDPATH定义了目录的搜索路径</h4>
+
+<p>cd */var/www/html/ 这样长了，我可以直接输入下面的命令进入 /var/www/html</p>
+
+<p><code>
+export CDPATH=/var/www
+cd html
+</code></p>
+
+<h4>输出文件的指定行</h4>
 
 <p><code>
 sed -n 'x,yp' file;   awk 'NF &gt; x &amp;&amp; NF &gt; y' file
 </code>
-从x行开始，输出y行
-```
-tail +x file | head -y</p>
+从x行开始，输出y行</p>
 
-<p>head和tail 参数 -n的不同，head -n -10 除去最后10行 tail -n +10 从第10行开始
-```</p>
+<p><code>
+tail +x file | head -y
+</code>
+head和tail 参数 -n的不同：</p>
+
+<ul>
+<li>head -n -10 除去最后10行</li>
+<li>tail -n +10 从第10行开始</li>
+<li>tail -n 1000：显示最后1000行；</li>
+<li>tail -n +1000：从1000行开始显示，显示1000行以后的</li>
+<li>head -n 1000：显示前面1000行</li>
+</ul>
+
+
+<p>从第3000行开始，显示1000行。即显示3000~3999行</p>
+
+<p><code>
+cat filename | tail -n +3000 | head -n 1000
+</code>
+显示1000行到3000行</p>
+
+<p><code>
+cat filename| head -n 3000 | tail -n +1000
+</code></p>
 
 <h4>Mac下获取UDID</h4>
 
@@ -60,6 +96,64 @@ cat /dev/nll/unandom | gzip -9 > /dev/null &amp;
 <hr />
 
 <p>echo $0，当前使用的 shell</p>
+
+<p>vim打开剪贴板内容
+<code>
+alias vipb='xclip -selection clipboard -o | vim -' // Linux
+alias vipb="pbpaste | vim -"    // Mac
+</code>
+显示sqlite文件内容
+<code>
+sqlite3 -line database.db
+</code>
+修改SSH的RSA密码短语
+<code>
+ssh-keygen -f ~/.ssh/id_rsa -p 修改SSH的RSA密码短语
+</code>
+man -w/&mdash;path
+<code>
+打印相关帮助文档的位置
+</code>
+使用-i参数默认的前面输出用{}代替，-I参数可以指定其他代替字符，如例子中的[]</p>
+
+<p><code>
+find . -name "file" | xargs -I [] cp []
+</code>
+查看某个选项的当前值</p>
+
+<p><code>
+:set option?
+</code></p>
+
+<h3>Readline Key Bindings(man bash中的查找字段)</h3>
+
+<p>键盘宏命令</p>
+
+<ul>
+<li>开始录制宏 <code>ctrl + x (</code></li>
+<li>结束录制宏 <code>ctrl + x )</code></li>
+<li>运行宏 <code>ctrl + x e</code></li>
+</ul>
+
+
+<p>其他命令</p>
+
+<ul>
+<li>显示当前shell的版本信息 <code>ctrl + x ctrl + v</code></li>
+<li>设置标记 <code>ctrl + @</code></li>
+<li>交换标记和光标的位置: <code>ctrl + x ctrl + x</code></li>
+<li>启动编辑器编辑命令，编辑完成后执行   <code>ctrl + x ctrl + e</code></li>
+<li>撤销前面的操作 <code>ctrl + x ctrl + u</code></li>
+<li>重新读取配置文件  <code>ctrl + x ctrl + r</code></li>
+</ul>
+
+
+<h3>Vimperator</h3>
+
+<p>y: 复制当前页的url到剪贴板。Y：复制选中文字到剪贴板</p>
+
+<p>&ldquo;B显示书签列表
+:map B :dia bookmarks<cr></p>
 ]]></content>
   </entry>
   

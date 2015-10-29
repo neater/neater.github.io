@@ -1,0 +1,911 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Neater</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Keyboard Maestro是一款类似Alfred的App，但一点也不逊色后者，它对Automator进行了封装，方便用户的使用。 Firefox快捷设置 使用浏览器时，我个人非常不习惯网页的白色背景，感觉非常刺眼，于是手动调成灰色，但个别网页不能正常显示，这时只能手动来切换， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://neater.github.io/blog/page/2">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Neater" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <!--
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  -->
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--
+<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+
+<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+
+  
+
+</head>
+
+<!--
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+   <link href="/atom.xml" rel="alternate" title="技术小黑屋" type="application/atom+xml">
+   <script src="/javascripts/modernizr-2.0.js"></script>
+   <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+-->
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Neater</a></h1>
+  
+    <h2>Be A Warrior, Not A Worrier</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:neater.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/04/29/bing-qi-pu-zhi-keyboard-maestro/">兵器谱之Keyboard Maestro</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-29T15:12:45+08:00" pubdate data-updated="true">Apr 29<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Keyboard Maestro是一款类似Alfred的App，但一点也不逊色后者，它对Automator进行了封装，方便用户的使用。</p>
+
+<h1>Firefox快捷设置</h1>
+
+<p>使用浏览器时，我个人非常不习惯网页的白色背景，感觉非常刺眼，于是手动调成灰色，但个别网页不能正常显示，这时只能手动来切换，不管是鼠标点击还是键盘操作都非常烦锁。</p>
+
+<p>Duang！有请Keyboard Maestro（简写成KM）出场，先在KM的编辑器里为我使用的Firefox添加一个Group并命名，在Avaliable in the following applications下拉菜单中选中Firefox，这样之后的操作只会在Firefox中生效，减少全局冲突；接着在中间的Macros栏中点击加号按钮添加一个Macro，取名为<code>Backgroud Color White</code>
+<img src="/images/group.png" alt="group" /></p>
+
+<p>KM有许多触发动作的机制，这里我设置一个快捷键<code>⌃⌘I</code>，当切换到Firefox中并按下这个快捷捷，就会触发一系列自定义的action。点击<code>New Action</code>，弹出选择列表，作为一个键盘党，按照Firefox修改背景颜色的键盘顺序，添加<code>Interface Control</code>中的<code>Type a keystroke</code>就可以了。问题来了，当我进入<code>常规</code>选项卡里进行设置后，再触发前面设置的快捷键，预设的一系列键盘操作就会在<code>常规</code>里面跳转。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/04/29/bing-qi-pu-zhi-keyboard-maestro/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/04/13/yong-rubyxie-alfred2de-workflow/">用Ruby写Alfred2的Workflow</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-13T15:25:57+08:00" pubdate data-updated="true">Apr 13<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Mac下的大杀器Alfred2用了好久，Workflow也收集了不少，那为什么不自己写一个呢？当添加一个Workflow时发现，竟然支持这么多的语言，那就用我的最爱Ruby开工吧！</p>
+
+<p><img src="../images/languages.png" alt="view frame" /></p>
+
+<p>第一次就拿ASCII码转换练练手吧，可以将十进制ASCII码转换成字符</p>
+
+<p><img src="http://ytliu.info/images/2014-04-14-1.png" alt="" /></p>
+
+<p>还可以将16进制ASCII转换成字符</p>
+
+<p><img src="http://ytliu.info/images/2014-04-14-2.png" alt="" /></p>
+
+<p>或者把字符转换成ASCII码</p>
+
+<p><img src="http://ytliu.info/images/2014-04-14-3.png" alt="" /></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/04/13/yong-rubyxie-alfred2de-workflow/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/03/25/wei-mbprogresshudtian-jia-qu-xiao-gong-neng/">为MBProgressHUD添加取消功能</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-25T16:48:25+08:00" pubdate data-updated="true">Mar 25<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>MBProgressHUD是一个显示HUD窗口的第三方类库，用于在执行一些后台任务时，在程序中显示一个表示进度的loading视图和两个可选的文本提示的HUD窗口。</p>
+
+<p>在现实的需求中，可能存在这种情况：比如一个网络操作，在发送请求等待响应的过程中，我们会显示一个HUD窗口以显示一个loading框。但如果我们想在等待响应的过程中，在当前视图中取消这个网络请求，就没有相应的处理方式，MBProgressHUD没有为我们提供这样的交互操作。</p>
+
+<p>简单看了下MBProgressHUD的源码，发现使用了NSOperationQueue来调度任务，便有了下面代码。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="nf">requestData</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>   <span class="n">self</span><span class="p">.</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFHTTPRequestOperationManager</span> <span class="n">manager</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">UITapGestureRecognizer</span> <span class="o">*</span><span class="n">tapRecognizer</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UITapGestureRecognizer</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget:</span><span class="n">self</span> <span class="nl">action:</span><span class="k">@selector</span><span class="p">(</span><span class="n">cancelRequest</span><span class="p">)];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">cancelRequest</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">manager</span><span class="p">.</span><span class="n">operationQueue</span> <span class="n">cancelAllOperations</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/03/18/androidshi-yong-shi-jian-part1/">Android实用实践Part1: 架构</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-18T16:48:26+08:00" pubdate data-updated="true">Mar 18<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>本文是这一系列的开篇，主要涉及一些基础环境设置，目的是能开发出及扩展、及维护和易测试的项目，而本系列将会涵盖一些模式和库，它们会或多或少改善让Android开发者的体验。</p>
+
+<h1>场景</h1>
+
+<p>本篇使用的Android项目救命，是个电影类别的原型，可以标记是否已经观看，影片的信息可以通过themoviedb提供的API获得，<a href="http://docs.themoviedb.apiary.io/">Apiary</a>上有相关的文档，这个工程基于MVP模式，遵循了Material Design，如转场、结构、动画、动画等。</p>
+
+<p>Github上有示例代码，并配有视频。</p>
+
+<p><img src="http://res.cloudinary.com/dttcwxrjo/image/upload/v1422988952/1_ntqfre.png" alt="" /></p>
+
+<h1>架构:</h1>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/03/18/androidshi-yong-shi-jian-part1/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/03/11/ioszhong-de-hit-testin/">iOS中的Hit-Testing</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-11T16:15:49+08:00" pubdate data-updated="true">Mar 11<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Hit-Testing决定了一个触控点是否和屏幕上的视图相关，iOS使用Hit-testing找到最前端的并且该视图能够接收用户触碰产生的事件。这背后的实现采用了reverse pre-order depth-first遍历算法。</p>
+
+<p>解释Hit-Testing原理之前，先来看看它产生的时机，下面的示意图说明了一次touch从手指触碰屏幕到离开的过程
+<img src="http://smnh.me/images/hit-test-touch-event-flow.png" alt="" /></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/03/11/ioszhong-de-hit-testin/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/21/ioskai-fa-zui-jia-shi-jian/">iOS开发最佳实践</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-21T11:49:45+08:00" pubdate data-updated="true">Nov 21<span>st</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>和软件一样，这篇文章离不开大家的贡献，哪怕打开一个Issue或者发一个PR。</p>
+
+<p>如果对Android感兴趣，请看这里 <a href="https://github.com/futurice/android-best-practices">Android开发最佳实践</a></p>
+
+<h2>起因</h2>
+
+<p>遗憾地是，iOS开发的门槛挺高的，Swift和Objective-C都没有在iOS/Mac以外的系统广泛使用，而且有自己的命名方式，想让代码跑在苹果的设备上并不容易（译者注：各种编译和开发环境问题），不论你刚接触Cocoa还是对iOS开发最佳实践感兴趣，都能在这里找到答案。下面列出的只是一些建议，如果你有更好的实践可以进行相应的替换。</p>
+
+<h2>开始</h2>
+
+<h3>Xcode</h3>
+
+<p>Xcode是绝大多数iOS开发者选择的IDE，并且是苹果官方唯一支持的。当然也有其它的，AppCode可以说其中最著名的，不过如果你还不是一个iOS开发的老手，还是使用Xcode吧，不管怎么样，它在可用性方面还是不错的。</p>
+
+<p>可以在Mac App Store下载最新的SDK和模拟器，在Preferences > Downloads中可以下载更多的文档。</p>
+
+<h3>项目设置</h3>
+
+<p>刚开始开发iOS项目有个很常见的问题，纯代码?Storybard?还是XIB，用哪一个来开发UI，Both are known to occasionally result in working software。但是，还要从下面几个方面来考虑：</p>
+
+<h4>纯代码？</h4>
+
+<ul>
+<li>Xcode5中，通用型App使用不同的Storyboard区分iPhone和iPad，这导致了许多不必要的重复，Xcode6引入了Size Classes来解决这个问题。</li>
+<li>Xcode5中，Storyboard不支持自定义字体和UI元素， but will have a generic appearance instead，Xcode6再次解决了它。</li>
+<li>Storyboard使用了复杂的XML，在版本控制中，更容易产生冲突。</li>
+</ul>
+
+
+<h4>Storyboards?</h4>
+
+<ul>
+<li>or the less technically inclined, Storyboards在操作方式上做的最好，比如，直接修改颜色或者布局约束，当然这需要一些时间来学习。</li>
+</ul>
+
+
+<h3>Ignores</h3>
+
+<p>把项目加入版本控制的时候，最好也加入.gitignore文件，这样不会把不需要的文件（用户自己的配置和临时文件等）加入。幸运地是，GitHub已经为我们提供了<a href="https://github.com/github/gitignore/blob/master/Objective-C.gitignore">Objective-C</a>和<a href="https://github.com/github/gitignore/blob/master/Swift.gitignore">Swift</a>的版本(译者注：还有个好用的网站，<a href="https://www.gitignore.io/">gitignore.io</a>)</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/11/21/ioskai-fa-zui-jia-shi-jian/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/11/quan-zhan-kai-fa-zhe-de-chao-qi-chao-luo/">全栈开发者的潮起潮落</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-11T17:16:03+08:00" pubdate data-updated="true">Nov 11<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>貌似今天的技术都迷恋全栈的开发者。全栈可能在Web2.0时代是可能的，但新一代的创业公司的涌现打破了许多限制。从机器智能预测推计算数据分析移动/可穿戴等等，全栈变得几乎不可能了。</p>
+
+<p>上世纪70年代末至80年代初，还是孩子的我便开始为早期移动端和网站编程，那时独立开发一个软件是很普遍的，程序员和硬件之间也没有很多的层。在8位处理器和有限的内存环境下，程序员使用汇编语言尽可能地提升运行的性能和空间。</p>
+
+<p>80年代末至90年代初，随着C/S模型的到来，很快软件开发演变成了一种团队合作，而90年代末至新世纪初的互联网浪潮则加速了这一进程。新进的技术进一步提高了复杂度，管理一个商业网站需要具备多种技能（比如前端、数据库、应用服务器等）的专业人员精通网络设备的操作、路由器和负载均衡原理、Java虚拟机调优、各种数据库的索引机制。</p>
+
+<p>00年代中期开始，任何项目的开发成本都变的非常高，从简单的网站到新一代SaaS服务，这直接增加了开发中各个层之间的沟通成本甚至还会造成沟通障碍，项目中的层数也增加了不少，直接增加了部署的难度。 正如Marc Andreessen针对最近tweet的烧钱风波（译者猜测是狂招人吧）指出：开发人员的增加极大增加了沟通成本，只会导致效率的降低。</p>
+
+<p>与之相反，新一代Web2.0技术变得日益简单和无缝。使用J2EE及Oracle的程序员切换到了更加一体化的LAMP（Linux, Apache, MySQL, PHP/Python/Perl）。新的语言及其框架（Django and Ruby on Rails）在网站和数据库之间封装相应的层来完成自动化。前端框架（jQuery）提供抽象层使开发者不用关心具体的浏览器。云服务（Amazon Web Services）简化部署并提供一致的网络。</p>
+
+<p>00年代后期，许多程序员都能独自交付一个消费类或SaaS网站，包括动态网络客户端，以及负责商业逻辑的服务端，数据库的开发、布署以及运维。这新一代全栈开发者可以完全胜任需要过去一个团队才能完成的任务。当新加入的全线开发者为项目开发一个新的功能，将不可避免地涉及项目的各个层，</p>
+
+<p><img src="https://tctechcrunch2011.files.wordpress.com/2014/10/image2.png?w=1248&amp;h=832" alt="skill1" /></p>
+
+<p>如果你要使用上图中的技术来搭建网站，需要找到能够胜任的程序员。不久之后我觉得不切实际，因为这是并不是全栈开发者，下面的才是：
+<img src="https://tctechcrunch2011.files.wordpress.com/2014/10/image-1.png?w=1248&amp;h=832" alt="skill2" /></p>
+
+<p>我敢打赌，没人能精通所有这些领域，并开发相应的应用，因为要精通每一个领域及其API都是一个全职工作。</p>
+
+<p>我们正处于复杂技术的变迁中，每个技术层都需要相关专家。开发Android&amp;iOS App需要理解各自平台的特性。使用Amazon的云服务运行一个应用，需要熟悉它的各种服务，才能应付各种事故。甚至前端技能的CSS都到了CSS4，JSON&amp;JavaScript也出现了MVC框架，Angular.js &amp; Backbone.js.</p>
+
+<p>在这勇敢的新世界，一种人成为了关键，他除了精通至少一个层，还要能连接其余的层，并能和各层的专家合作开发新的功能并交付。换言之，他能够连接各个层以及设计整体的架构，这样的人很可能是一个或几个层的专家，相比全栈开发者，我们更需要全栈集成者。</p>
+
+<p>安息吧，全栈开发者，我们应该欢迎全栈集成者，除了某些特殊领域需要具备高超技术的工程师外，软件使世界变得更加美好，其中自然少不了你们。</p>
+
+<p>译自：
+<a href="http://techcrunch.com/2014/11/08/the-rise-and-fall-of-the-full-stack-developer/">The Rise And Fall Of The Full Stack Developer</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/29/git-tips/">Git Tips</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-29T16:19:27+08:00" pubdate data-updated="true">Sep 29<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>取消一次 git merge，比方说刚才执行了 git merge dev，发现各种崩溃，一大堆 conflict，想取消掉，那么就执行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git reset --merge dev </span></code></pre></td></tr></table></div></figure>
+
+
+<p>显示某个作者的提交</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git log --name-status --author="[The Author's Name]" </span></code></pre></td></tr></table></div></figure>
+
+
+<p>从仓库取出file覆盖当前分支</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git checkout branch|tag|commit -- file_name</span></code></pre></td></tr></table></div></figure>
+
+
+<p>从暂存区去除文件覆盖工作区</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git checkout -- .</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Branch</h2>
+
+<p>查看各个分支最后一个提交对象的信息</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git branch -v</span></code></pre></td></tr></table></div></figure>
+
+
+<p>查看已经合并到当前分支的分支</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git branch --merge</span></code></pre></td></tr></table></div></figure>
+
+
+<p>查看未合并到当前分支的分支</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git branch --no-merge</span></code></pre></td></tr></table></div></figure>
+
+
+<p>基于dev新建test分支，并切换</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git checkout -b test dev</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Others</h2>
+
+<p>停止追逐现在已经追踪的文件</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git rm --cached</span></code></pre></td></tr></table></div></figure>
+
+
+<p>返回一个简单版的git status,为默认git status来减少噪音。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git status -s</span></code></pre></td></tr></table></div></figure>
+
+
+<p>显示提交记录的参与者列表。和GitHub的参与者列表相同。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git shortlog -sn</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>git shortlog -sn</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/24/reactivecocoa-and-swift/">ReactiveCocoa and Swift</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-24T15:21:40+08:00" pubdate data-updated="true">Sep 24<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Swift可以和Objective-C相互调用，所以，在用Swift编写的App中，可以直接使用Reactivecocoa。</p>
+
+<p>尽管如此，</p>
+
+<h3>Signals in Swift</h3>
+
+<p>通过桥接，ReactiveCocoa的API从Objective-C的块过渡到了Swift的闭包，来看一个例子，下面的Objective-C代码subscribe了UITextfield的<code>rac_textSignal</code>，用来查看当前的length。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="nb">self</span><span class="o">.</span><span class="n">searchTextField</span><span class="o">.</span><span class="n">rac_textSignal</span> <span class="ss">subscribeNext</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="nb">id</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="no">NSString</span> <span class="o">*</span><span class="n">text</span> <span class="o">=</span> <span class="p">(</span><span class="no">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">x</span><span class="p">;</span>
+</span><span class='line'>  <span class="no">NSLog</span><span class="p">(</span><span class="n">text</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span><span class="o">]</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当在这个UITextfield中依次输入0 1 2 3 4 5时，Console中显示</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">0</span>
+</span><span class='line'><span class="mi">1</span>
+</span><span class='line'><span class="mi">2</span>
+</span><span class='line'><span class="mi">3</span>
+</span><span class='line'><span class="mi">4</span>
+</span><span class='line'><span class="mi">5</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当然了，为了避免显示转换，可以把上面的Block签名中的参数类型，从<code>id</code>改为<code>NSString</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="nb">self</span><span class="o">.</span><span class="n">searchTextField</span><span class="o">.</span><span class="n">rac_textSignal</span> <span class="ss">subscribeNext</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="no">NSString</span> <span class="o">*</span><span class="n">text</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="no">NSLog</span><span class="p">(</span><span class="n">text</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span><span class="o">]</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>与之对应的Swift代码如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">searchTextField</span><span class="o">.</span><span class="n">rac_textSignal</span><span class="p">()</span><span class="o">.</span><span class="n">subscribeNext</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">next</span><span class="ss">:AnyObject!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="k">in</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">let</span> <span class="n">text</span> <span class="o">=</span> <span class="k">next</span> <span class="n">as?</span> <span class="nb">String</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="n">countElements</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>不幸的是，当Swift和Objective-C进行调用的时候，会经常用到<code>as</code>操作符，从而变得更复杂了，我们不能进行显示转换，Swift生硬地插入了必须的类型为<code>(AnyObject!) -&gt; ()</code>的函数。</p>
+
+<p>也可以使用<code>if-let</code>条件语句进行简化，因为<code>AnyObject</code>在当前情况下可以视为字符串。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">searchTextField</span><span class="o">.</span><span class="n">rac_textSignal</span><span class="p">()</span><span class="o">.</span><span class="n">subscribeNext</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">next</span><span class="ss">:AnyObject!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="k">in</span>
+</span><span class='line'>  <span class="n">let</span> <span class="n">text</span> <span class="o">=</span> <span class="k">next</span> <span class="n">as</span> <span class="nb">String</span>
+</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="n">countElements</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但是，这仍然还是要比Objective-C的版本复杂。
+还好有解决这个问题的方案！针对<code>RACSignal</code>进行扩展，把传入函数参数类型进行必须的转换:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">extension</span> <span class="no">RACSignal</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">func</span> <span class="n">subscribeNextAs</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="ss">nextClosure</span><span class="p">:(</span><span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">())</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">subscribeNext</span> <span class="p">{</span>
+</span><span class='line'>      <span class="p">(</span><span class="k">next</span><span class="p">:</span> <span class="no">AnyObject</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="k">in</span>
+</span><span class='line'>      <span class="n">let</span> <span class="n">nextAsT</span> <span class="o">=</span> <span class="k">next</span> <span class="n">as</span> <span class="n">T</span>
+</span><span class='line'>      <span class="n">nextClosure</span><span class="p">(</span><span class="n">nextAsT</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的代码使用泛型进行类型转换，参数T的类型通过实际传入的参数进行推断，这引出了一些有趣的语法</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">searchTextField</span><span class="o">.</span><span class="n">rac_textSignal</span><span class="p">()</span><span class="o">.</span><span class="n">subscribeNextAs</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">(</span><span class="ss">text</span><span class="p">:</span><span class="nb">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="k">in</span>
+</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="n">countElements</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/09/24/reactivecocoa-and-swift/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/08/04/100ge-ioskai-fa-zhe-xu-yao-guan-zhu-de-zi-yuan/">100个iOS开发者需要关注的资源</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-04T10:41:58+08:00" pubdate data-updated="true">Aug 4<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>iOS App的市场无疑获得了极大的增长，当然少不了平台流行的功劳。下面的的资源，对App开发感兴趣的人是很有帮助的。</p>
+
+<p>无论是在App Store推广你的App，还是设计一款漂亮的App，这些书、工具、社区绝对能帮助你。这100多个在线服务、社区、工具，帮助开发者更好的构思一款App并实现它，你所要做的就是好好使用它们。</p>
+
+<h3>在线服务</h3>
+
+<p><img src="http://dailytekk.com/wp-content/uploads/2014/02/unbabel.jpg" alt="Service" /></p>
+
+<ol>
+<li><a href="http://www.iubenda.com/en/mobile">Iubenda</a> &ndash; Mobile app privacy policy</li>
+<li><a href="http://www.joppar.com/mobile-app-cms">Content</a> -Content management system for native iOS apps</li>
+<li><a href="https://www.unbabel.co/">Unbabel</a> &ndash; App Localization</li>
+<li><a href="http://joppar.com/mobile-app-feature-switching">Switch</a> -Toggle your app features off and on in real-time</li>
+<li><a href="https://heatmaps.io/">Heatmaps</a> &ndash; iOS heatmap</li>
+<li><a href="http://www.iubenda.com/en/mobile">Bitbucket</a> &ndash; Private code repositories</li>
+<li><a href="http://www.iubenda.com/en/mobile">Media Toolkit</a> &ndash; Monitors mentions of your app</li>
+<li><a href="http://www.iubenda.com/en/mobile">Alau.me</a> &ndash; Like bit.ly for apps</li>
+<li><a href="http://www.iubenda.com/en/mobile">Ap Salar</a> &ndash; Data driven mobile ad platform</li>
+<li><a href="http://www.iubenda.com/en/mobile">Google</a> &ndash; Mobile backend</li>
+</ol>
+
+
+<h3>社区</h3>
+
+<p><img src="http://dailytekk.com/wp-content/uploads/2014/02/F9brVEii2vJ1V8psswIKt6gmaE2SxFV9yLsyeuCbBqQ.jpg" alt="Communities" /></p>
+
+<ol>
+<li><a href="https://plus.google.com/communities/112026628790708717979">iOS Developers Group</a> &ndash; iOS Google+ community</li>
+<li><a href="http://ios.meetup.com/">iOS Meetup Groups</a> &ndash; Get together with like-minded people</li>
+<li><a href="https://www.quora.com/iOS-Development/">iOS Development Quora</a> &ndash; iOS Development Quora group</li>
+<li><a href="http://stackoverflow.com/questions/tagged/ios">iOS Stackoverflow</a> &ndash; iOS Stackoverflow group</li>
+<li><a href="http://forum.iphone-developers.com/">iPhone Developer Forum</a> &ndash; iOS Dev Forums</li>
+<li><a href="http://www.reddit.com/r/iOSProgramming/">iOS Programming</a> &ndash; iOS Reddit group</li>
+<li><a href="http://cocoalit.com/">Cocoa Lit</a> &ndash; List of Cocoa tutorials</li>
+<li><a href="http://nsscreencast.com/">NS Screencast</a> &ndash; iOS development screencasts</li>
+<li><a href="http://iosdevelopertips.com/">iOS Developer Tips</a> &ndash; Tips and tutorials for iOS Developers</li>
+<li><a href="https://clarity.fm/">Clarity.fm</a> &ndash; Call an expert for iOS help</li>
+</ol>
+
+
+<p>译自
+<a href="http://dailytekk.com/2014/02/20/100-great-resources-for-ios-developers/">100 Great Resources for iOS Developers</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/3/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/09/23/rxjava-zai-android-kai-fa-zhong-de-chu-ci-chang-shi-%28xia-%29/">RxJava 在 Android 开发中的初次尝试（下）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/22/rxjava-zai-android-kai-fa-zhong-de-yi-ci-chang-shi/">RxJava 在 Android 开发中的初次尝试（上）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/20/2015shang-ban-nian-du-guo-de-shu/">2015上半年读过的书</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/17/rxjava-and-rxandroid-xin-de/">RxJava &amp; RxAndroid 心得</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/10/cai-xue-kang-yu-lu/">蔡学鏮语录</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

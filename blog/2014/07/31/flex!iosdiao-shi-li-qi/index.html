@@ -1,0 +1,360 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>FLEX！iOS调试利器 - Neater</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="FLEX (Flipboard Explorer)是一系列集成在APP内部的用于iOS调试的工具集，以工具栏的形式显示在应用中，通过它，可以查看并修改几乎所有的APP运行状态。 强大的调试能力 查看、修改View的层次关系。
+查看对象的属性和实例变量。
+动态修改属性和实例变量。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://neater.github.io/blog/2014/07/31/flex%21iosdiao-shi-li-qi">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Neater" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <!--
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  -->
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--
+<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+
+<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+
+  
+
+</head>
+
+<!--
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+   <link href="/atom.xml" rel="alternate" title="技术小黑屋" type="application/atom+xml">
+   <script src="/javascripts/modernizr-2.0.js"></script>
+   <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+-->
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Neater</a></h1>
+  
+    <h2>Be A Warrior, Not A Worrier</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:neater.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">FLEX！iOS调试利器</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-31T15:51:37+08:00" pubdate data-updated="true">Jul 31<span>st</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>FLEX (Flipboard Explorer)是一系列集成在APP内部的用于iOS调试的工具集，以工具栏的形式显示在应用中，通过它，可以查看并修改几乎所有的APP运行状态。</p>
+
+<p><img src="https://camo.githubusercontent.com/9986601c5e4306f7935032465911c0f70596e046/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f62617369632d766965772d6578706c6f726174696f6e2e676966" alt="dfd" /></p>
+
+<h2>强大的调试能力</h2>
+
+<ul>
+<li>查看、修改View的层次关系。</li>
+<li>查看对象的属性和实例变量。</li>
+<li>动态修改属性和实例变量。</li>
+<li>动态调用实例和类方法。</li>
+<li>动态访问堆上的对象。</li>
+<li>访问APP的沙盒。</li>
+<li>除jAPP的所有类外，还能访问已链接的系统框架，包括私有的。</li>
+<li>快速访问一些常用的对象，比如<code>[UIApplication sharedApplication]</code>、App Delegate、Root View Controller等。</li>
+<li>动态查看、修改<code>NSUserDefaults</code>存储的值。</li>
+</ul>
+
+
+<p>和其它调试工具不同，FLEX完全运行在你的APP中，所以不需要连接到LLDB/Xcode或者远程调试的服务端，在模拟器和真机上都运行的很好。</p>
+
+<!--more-->
+
+
+<h2>用法</h2>
+
+<h3>简单版本</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[[</span><span class="n">FLEXManager</span> <span class="n">sharedManager</span><span class="p">]</span> <span class="n">showExplorer</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>完整版本</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#if DEBUG</span>
+</span><span class='line'><span class="cp">#import &quot;FLEXManager.h&quot;</span>
+</span><span class='line'><span class="cp">#endif</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">...</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">handleSixFingerQuadrupleTap:</span><span class="p">(</span><span class="n">UITapGestureRecognizer</span> <span class="o">*</span><span class="p">)</span><span class="n">tapRecognizer</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="cp">#if DEBUG</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">tapRecognizer</span><span class="p">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">UIGestureRecognizerStateRecognized</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// This could also live in a handler for a keyboard shortcut, debug menu item, etc.</span>
+</span><span class='line'>        <span class="p">[[</span><span class="n">FLEXManager</span> <span class="n">sharedManager</span><span class="p">]</span> <span class="n">showExplorer</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="cp">#endif</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>功能示例</h2>
+
+<h3>修改视图</h3>
+
+<p>点击<code>views</code>，从工具栏下面弹出界面，显示视图的详细信息，并能修改属性值和调用方法。</p>
+
+<p><img src="https://camo.githubusercontent.com/950a2612b1dc796bc5cc3fd9909ed465166afc5b/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f616476616e6365642d766965772d65646974696e672e676966" alt="Views" /></p>
+
+<h3>查看对象</h3>
+
+<p>FLEX在malloc分配的内存块中查找相关的对象，如下：</p>
+
+<p><img src="https://camo.githubusercontent.com/573692941c2901c0fd1ce0f085c101f6b4d3ae3b/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f686561702d62726f777365722e676966" alt="Object in Heap" /></p>
+
+<h3>文件浏览</h3>
+
+<p>查看APP沙盒内的文件系统，包括文件大小、图片预览、以友好的方式显示json和plist文件。也能将文本和图片文件拷贝和剪贴板中，</p>
+
+<p><img src="https://camo.githubusercontent.com/df6e924a21ecaf8080342d80f384e88f8249c3fe/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f66696c652d62726f777365722e676966" alt="File Browser" /></p>
+
+<h3>探索系统库资源</h3>
+
+<p>深挖框架内部的class，创建相应的实例，并访问其状态。</p>
+
+<p><img src="https://camo.githubusercontent.com/c91fc34a63f05f803cdc0d23d72ae047d0b960bd/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f73797374656d2d6c69627261726965732d62726f777365722e676966" alt="System Library Exploration" /></p>
+
+<h3>编辑NSUserDefaults</h3>
+
+<p>FLEX允许修改NSUserDefaults的strings, numbers, arrays, and dictionaries，及其它们的组合，输入格式为json；如果使用其它数据作为key，如NSDate，则是只读的。</p>
+
+<p><img src="https://camo.githubusercontent.com/c9b72bf288f79993fbbc46cd4c0c37504fd8e11b/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f6e737573657264656661756c74732d656469746f722e676966" alt="NSUserDefaults" /></p>
+
+<h3>探索其它APP</h3>
+
+<p>代码注入留给大家去摸索了</p>
+
+<p><img src="https://camo.githubusercontent.com/de456cb9f822094e49b40692cd9720c8e99905d7/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f666c65782d726561646d652d726576657273652d312e706e67" alt="Injection" /><img src="https://camo.githubusercontent.com/44624ad09a907893fc95bf35283bc12439ae9d93/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f666c65782d726561646d652d726576657273652d322e706e67" alt="Injection" /></p>
+
+<h2>避免将FLEX编译到正式版本</h2>
+
+<p>尽管FLEX很适合在开发调试的时候使用，但它不应该让最终用户看到。在Xcode &ndash;> Project &ndash;> Build Setting，点<code>+</code>选择<code>Add User-Defined Setting</code>。</p>
+
+<p><img src="https://camo.githubusercontent.com/5b1cbb5cb14496ee12a8a8aeacc2c155a735a1c1/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f666c65782d726561646d652d6578636c7564652d312e706e67" alt="Excluding FLEX" /></p>
+
+<p>命名为<code>EXCLUDED_SOURCE_FILE_NAMES</code>，在<code>Release</code>配置中，填入<code>FLEX*</code>，将不会编译所有以FLEX开头的文件，<code>Debug</code>配置里空白就行了。</p>
+
+<p><img src="https://camo.githubusercontent.com/843997bca76f737561e1084293e9dfd90cda4d97/687474703a2f2f656e67696e656572696e672e666c6970626f6172642e636f6d2f6173736574732f666c65782f666c65782d726561646d652d6578636c7564652d322e706e67" alt="" /></p>
+
+<p>在所有集成FLEX代码的地方，确保将其嵌入到<code>#if DEBUG</code>中，更多相关信息，请参考官方示例。</p>
+
+<h2>注意</h2>
+
+<ul>
+<li>NSUserDefaults中，如果值的类型为<code>id</code>，FLEX将把输入的string转为json，目的是使用strings, numbers, arrays, and dictionaries的组合。如果值为string，则一定用字符串引号包裹起来，显示使用 <code>NSString</code> 的属性和实例变量，则不用引号。</li>
+<li>在使用FLEX时，你可能会取消异常断点。FLEX会产生一些异常，当接收了某种不能处理的输入（如<code>NSGetSizeAndAlignment()</code>）, 为了防止程序崩溃，FLEX会捕获并将其抛出，但是这样会激活你的断点。</li>
+</ul>
+
+
+<p>译自 <a href="https://github.com/Flipboard/FLEX/">FLEX README.md</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-31T15:51:37+08:00" pubdate data-updated="true">Jul 31<span>st</span>, 2014</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://neater.github.io/blog/2014/07/31/flex%21iosdiao-shi-li-qi/" data-via="" data-counturl="http://neater.github.io/blog/2014/07/31/flex%21iosdiao-shi-li-qi/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/07/30/mac-tips/" title="Previous Post: Mac Tips">&laquo; Mac Tips</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/08/04/100ge-ioskai-fa-zhe-xu-yao-guan-zhu-de-zi-yuan/" title="Next Post: 100个iOS开发者需要关注的资源">100个iOS开发者需要关注的资源 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/09/23/rxjava-zai-android-kai-fa-zhong-de-chu-ci-chang-shi-%28xia-%29/">RxJava 在 Android 开发中的初次尝试（下）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/22/rxjava-zai-android-kai-fa-zhong-de-yi-ci-chang-shi/">RxJava 在 Android 开发中的初次尝试（上）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/20/2015shang-ban-nian-du-guo-de-shu/">2015上半年读过的书</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/17/rxjava-and-rxandroid-xin-de/">RxJava &amp; RxAndroid 心得</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/10/cai-xue-kang-yu-lu/">蔡学鏮语录</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,564 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>RxJava 在 Android 开发中的初次尝试（上） - Neater</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="接触 RxJava 有一段时间了，写的都是一些小打小闹的 Sample 程序，不如就在实际项目中一试伸手。 许多 App 都有注册功能，当没有输入或者输入不符合业务逻辑时，会有错误提示。好点的用户体验应该是，只有当所有输入符合业务逻辑时，才会让注册按钮变成可点击状态，代码如下： 1
+2
+3
+4
+5 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://neater.github.io/blog/2015/07/22/rxjava-zai-android-kai-fa-zhong-de-yi-ci-chang-shi">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Neater" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <!--
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  -->
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--
+<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+
+<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+
+  
+
+</head>
+
+<!--
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+   <link href="/atom.xml" rel="alternate" title="技术小黑屋" type="application/atom+xml">
+   <script src="/javascripts/modernizr-2.0.js"></script>
+   <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+-->
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Neater</a></h1>
+  
+    <h2>Be A Warrior, Not A Worrier</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:neater.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">RxJava 在 Android 开发中的初次尝试（上）</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-07-22T10:01:35+08:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>接触 RxJava 有一段时间了，写的都是一些小打小闹的 Sample 程序，不如就在实际项目中一试伸手。</p>
+
+<p>许多 App 都有注册功能，当没有输入或者输入不符合业务逻辑时，会有错误提示。好点的用户体验应该是，只有当所有输入符合业务逻辑时，才会让注册按钮变成可点击状态，代码如下：</p>
+
+<!--more-->
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainActivity</span> <span class="kd">extends</span> <span class="n">Activity</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@InjectView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">user_name</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">EditText</span> <span class="n">userName</span><span class="o">;</span>
+</span><span class='line'>    <span class="nd">@InjectView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">password</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">EditText</span> <span class="n">password</span><span class="o">;</span>
+</span><span class='line'>    <span class="nd">@InjectView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">confirmedPassword</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">EditText</span> <span class="n">confirmedPassword</span><span class="o">;</span>
+</span><span class='line'>    <span class="nd">@InjectView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">submit_button</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">Button</span> <span class="n">submitButton</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">String</span> <span class="n">userNameString</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">String</span> <span class="n">passwordString</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">String</span> <span class="n">confirmedPasswordString</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_main</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">ButterKnife</span><span class="o">.</span><span class="na">inject</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">addTextChangedListenners</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">addTextChangedListenners</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">userName</span><span class="o">.</span><span class="na">addTextChangedListener</span><span class="o">(</span><span class="k">new</span> <span class="n">TextWatcher</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>            <span class="nd">@Override</span>
+</span><span class='line'>            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">beforeTextChanged</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">charSequence</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i2</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="nd">@Override</span>
+</span><span class='line'>            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onTextChanged</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">charSequence</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i2</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                <span class="n">userNameString</span> <span class="o">=</span> <span class="n">charSequence</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">validateUserInput</span><span class="o">();</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="nd">@Override</span>
+</span><span class='line'>            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">afterTextChanged</span><span class="o">(</span><span class="n">Editable</span> <span class="n">editable</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">});</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">password</span><span class="o">.</span><span class="na">addTextChangedListener</span><span class="o">(</span><span class="k">new</span> <span class="n">TextWatcher</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>            <span class="nd">@Override</span>
+</span><span class='line'>            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">beforeTextChanged</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">charSequence</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i2</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="nd">@Override</span>
+</span><span class='line'>            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onTextChanged</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">charSequence</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i2</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                <span class="n">passwordString</span> <span class="o">=</span> <span class="n">charSequence</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">validateUserInput</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="nd">@Override</span>
+</span><span class='line'>            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">afterTextChanged</span><span class="o">(</span><span class="n">Editable</span> <span class="n">editable</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">});</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">confirmedPassword</span><span class="o">.</span><span class="na">addTextChangedListener</span><span class="o">(</span><span class="k">new</span> <span class="n">TextWatcher</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>            <span class="nd">@Override</span>
+</span><span class='line'>            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">beforeTextChanged</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">charSequence</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i2</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="nd">@Override</span>
+</span><span class='line'>            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onTextChanged</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">charSequence</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i2</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                <span class="n">confirmedPasswordString</span> <span class="o">=</span> <span class="n">charSequence</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">validateUserInput</span><span class="o">();</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="nd">@Override</span>
+</span><span class='line'>            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">afterTextChanged</span><span class="o">(</span><span class="n">Editable</span> <span class="n">editable</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">});</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">validateUserInput</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kt">boolean</span> <span class="n">isUserNameValid</span> <span class="o">=</span> <span class="n">userNameString</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">userNameString</span><span class="o">.</span><span class="na">trim</span><span class="o">().</span><span class="na">length</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="o">;</span>
+</span><span class='line'>        <span class="kt">boolean</span> <span class="n">isPasswordValid</span> <span class="o">=</span> <span class="n">passwordString</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">passwordString</span><span class="o">.</span><span class="na">trim</span><span class="o">().</span><span class="na">length</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="o">;</span>
+</span><span class='line'>        <span class="kt">boolean</span> <span class="n">isPasswordEqual</span> <span class="o">=</span> <span class="n">confirmedPasswordSting</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">confirmedPasswordSting</span><span class="o">.</span><span class="na">trim</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="n">passwordString</span><span class="o">);</span>
+</span><span class='line'>        <span class="kt">boolean</span> <span class="n">enable</span> <span class="o">=</span> <span class="n">isUserNameValid</span> <span class="o">&amp;&amp;</span> <span class="n">isPasswordValid</span> <span class="o">&amp;&amp;</span> <span class="n">isPasswordEqual</span><span class="o">;</span>
+</span><span class='line'>        <span class="n">submitButton</span><span class="o">.</span><span class="na">setEnabled</span><span class="o">(</span><span class="n">enable</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>用传统方法，实现起来费时费力、容易出错、难以维护，让我们开启响应式模式，用 RxJava 来实现，不过先上个流程图先。</p>
+
+<p><img src="/images/flow.jpg" alt="flow" /></p>
+
+<p>如图所示，在流中需要传递一个 model，为简化流程，用户名只规定长度大于2，密码长度大于3</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">InputValidation</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">String</span> <span class="n">userName</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">String</span> <span class="n">password</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">String</span> <span class="n">confirmedPassword</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">InputValidation</span><span class="o">(</span><span class="n">String</span> <span class="n">userName</span><span class="o">,</span> <span class="n">String</span> <span class="n">password</span><span class="o">,</span> <span class="n">String</span> <span class="n">confirmedPassword</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">userName</span> <span class="o">=</span> <span class="n">userName</span><span class="o">;</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">password</span> <span class="o">=</span> <span class="n">password</span><span class="o">;</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">confirmedPassword</span> <span class="o">=</span> <span class="n">confirmedPassword</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">allowSubmit</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="kt">boolean</span> <span class="n">isUserNameValid</span> <span class="o">=</span> <span class="n">userName</span><span class="o">.</span><span class="na">trim</span><span class="o">().</span><span class="na">length</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="o">;</span>
+</span><span class='line'>        <span class="kt">boolean</span> <span class="n">isPasswordValid</span> <span class="o">=</span> <span class="n">password</span><span class="o">.</span><span class="na">trim</span><span class="o">().</span><span class="na">length</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="o">;</span>
+</span><span class='line'>        <span class="kt">boolean</span> <span class="n">isPasswordEqual</span> <span class="o">=</span> <span class="n">confirmedPassword</span><span class="o">.</span><span class="na">trim</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="n">password</span><span class="o">);</span>
+</span><span class='line'>        <span class="kt">boolean</span> <span class="n">allowSubmit</span> <span class="o">=</span> <span class="n">isUserNameValid</span> <span class="o">&amp;&amp;</span> <span class="n">isPasswordValid</span> <span class="o">&amp;&amp;</span> <span class="n">isPasswordEqual</span><span class="o">;</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">allowSubmit</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">stringOfTextChangEvent</span><span class="o">(</span><span class="n">OnTextChangeEvent</span> <span class="n">onTextChangeEvent</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">onTextChangeEvent</span><span class="o">.</span><span class="na">text</span><span class="o">().</span><span class="na">toString</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>创建并转成字符串流，WidgetObservable.text 是 RxAndroid 提供的获取 EditText 输入文本的 API，map中传入的是转换方法的引用，这也是 Java8 才支持的。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="kt">void</span> <span class="nf">initRx</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">Observable</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">userNameObservable</span> <span class="o">=</span> <span class="n">WidgetObservable</span><span class="o">.</span><span class="na">text</span><span class="o">(</span><span class="n">userName</span><span class="o">)</span>
+</span><span class='line'>            <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">InputValidation:</span><span class="o">:</span><span class="n">stringOfTextChangEvent</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">Observable</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">passwordObservable</span> <span class="o">=</span> <span class="n">WidgetObservable</span><span class="o">.</span><span class="na">text</span><span class="o">(</span><span class="n">password</span><span class="o">)</span>
+</span><span class='line'>            <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">InputValidation:</span><span class="o">:</span><span class="n">stringOfTextChangEvent</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">Observable</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">confirmedPasswordObservable</span> <span class="o">=</span> <span class="n">WidgetObservable</span><span class="o">.</span><span class="na">text</span><span class="o">(</span><span class="n">confirmedPassword</span><span class="o">)</span>
+</span><span class='line'>            <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">InputValidation:</span><span class="o">:</span><span class="n">stringOfTextChangEvent</span><span class="o">);</span>
+</span><span class='line'><span class="o">......</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>将三个输入流合并成一个，并根据验证结果设置提交按钮的状态。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="o">......</span>
+</span><span class='line'>        <span class="n">Observable</span><span class="o">&lt;</span><span class="n">InputValidation</span><span class="o">&gt;</span> <span class="n">inputValidationObservable</span> <span class="o">=</span> <span class="n">Observable</span><span class="o">.</span><span class="na">combineLatest</span><span class="o">(</span>
+</span><span class='line'>                <span class="n">userNameObservable</span><span class="o">,</span>
+</span><span class='line'>                <span class="n">passwordObservable</span><span class="o">,</span>
+</span><span class='line'>                <span class="n">confirmedPasswordObservable</span><span class="o">,</span>
+</span><span class='line'>                <span class="nl">InputValidation:</span><span class="o">:</span><span class="k">new</span>
+</span><span class='line'>        <span class="o">).</span><span class="na">map</span><span class="o">(</span><span class="n">inputValidation</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">submitButton</span><span class="o">.</span><span class="na">setEnabled</span><span class="o">(</span><span class="n">inputValidation</span><span class="o">.</span><span class="na">allowSubmit</span><span class="o">());</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">inputValidation</span><span class="o">;</span>
+</span><span class='line'>        <span class="o">});</span>
+</span><span class='line'><span class="o">......</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>combineLatest 的最后一个参数是个合并方法，我传入了个 Java8 支持的构造器引用。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="o">......</span>
+</span><span class='line'>        <span class="n">ViewObservable</span><span class="o">.</span><span class="na">clicks</span><span class="o">(</span><span class="n">submitButton</span><span class="o">).</span><span class="na">zipWith</span><span class="o">(</span>
+</span><span class='line'>                <span class="n">inputValidationObservable</span><span class="o">,</span>
+</span><span class='line'>                <span class="o">(</span><span class="n">onClickEvent</span><span class="o">,</span> <span class="n">inputValidation</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">inputValidation</span>
+</span><span class='line'>        <span class="o">).</span><span class="na">subscribe</span><span class="o">();</span>
+</span><span class='line'><span class="o">......</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最终结果：</p>
+
+<p><img src="/images/submit.gif" alt="submit" /></p>
+
+<p>在上面的代码中，起初调用的是 combineLatest，导制每次输入时，都会触发最终的 Observable，最后改用 zip 来合并，因为 zip 只有新的流出现，才会被触发，而 combineLatest 只要其中任意一个流有新数据，都会被触发，看图比较直观。</p>
+
+<p>zip</p>
+
+<p><img src="/images/zip.png" alt="zip" /></p>
+
+<p>combineLatest</p>
+
+<p><img src="/images/combineLatest.png" alt="combineLatest" /></p>
+
+<p>用 RxJava 来写 App，代码更加清晰，大大降低了耦合度，使分离的逻辑形成链，让上帝的归上帝，凯撒的归凯撒，感觉就是一个字~~酸爽！</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-07-22T10:01:35+08:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2015</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://neater.github.io/blog/2015/07/22/rxjava-zai-android-kai-fa-zhong-de-yi-ci-chang-shi/" data-via="" data-counturl="http://neater.github.io/blog/2015/07/22/rxjava-zai-android-kai-fa-zhong-de-yi-ci-chang-shi/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/20/2015shang-ban-nian-du-guo-de-shu/" title="Previous Post: 2015上半年读过的书">&laquo; 2015上半年读过的书</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/09/23/rxjava-zai-android-kai-fa-zhong-de-chu-ci-chang-shi-%28xia-%29/" title="Next Post: RxJava 在 Android 开发中的初次尝试（下）">RxJava 在 Android 开发中的初次尝试（下） &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/09/23/rxjava-zai-android-kai-fa-zhong-de-chu-ci-chang-shi-%28xia-%29/">RxJava 在 Android 开发中的初次尝试（下）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/22/rxjava-zai-android-kai-fa-zhong-de-yi-ci-chang-shi/">RxJava 在 Android 开发中的初次尝试（上）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/20/2015shang-ban-nian-du-guo-de-shu/">2015上半年读过的书</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/17/rxjava-and-rxandroid-xin-de/">RxJava &amp; RxAndroid 心得</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/10/cai-xue-kang-yu-lu/">蔡学鏮语录</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>好用到逆天的 Android Studio - Neater</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="在好多做 Android 的朋友的怂恿下，终于开始尝试使用 Android Stuio，这一用就放不下了，不仅颜值高（Darcula简直大爱，我是黑色控），而且好用到逆天，听说 RubyMine 和 Android Stuio 同样基于 IntelliJ IDEA，以后开发 Rails 的 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://neater.github.io/blog/2015/07/08/hao-yong-dao-ni-tian-de-android-studio">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Neater" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <!--
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  -->
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--
+<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+
+<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+
+  
+
+</head>
+
+<!--
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+   <link href="/atom.xml" rel="alternate" title="技术小黑屋" type="application/atom+xml">
+   <script src="/javascripts/modernizr-2.0.js"></script>
+   <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+-->
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Neater</a></h1>
+  
+    <h2>Be A Warrior, Not A Worrier</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:neater.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">好用到逆天的 Android Studio</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-07-08T14:51:55+08:00" pubdate data-updated="true">Jul 8<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>在好多做 Android 的朋友的怂恿下，终于开始尝试使用 Android Stuio，这一用就放不下了，不仅颜值高（Darcula简直大爱，我是黑色控），而且好用到逆天，听说 RubyMine 和 Android Stuio 同样基于 IntelliJ IDEA，以后开发 Rails 的 IDE也要切换到 RubyMine 了，话不多说，下面是我喜欢的小技巧。</p>
+
+<h3>Help</h3>
+
+<p>每次打开 Android Studio 都会弹出 <code>Tip of the Day</code>，都是一些好用的技巧，每日必读，强裂推荐！还有<code>Help</code>菜单下的<code>Default Keymap Reference</code>，会在线显示所有快捷键，下载后存到我的 Kindle Voyage 里，时不时看下:)。</p>
+
+<p>做过开发的都知道版本控制，其中 Diff 功能可以查看两次提交的差异，不过 Android Studio 不使用版本控制也实现了这个功能：右键调出正在编辑的文件，弹出上下文菜单，选择 <code>Local History</code> &ndash;> <code>Show History</code>.</p>
+
+<p><img src="/images/local_history.png" alt="Local History" /></p>
+
+<h4>Live Templates</h4>
+
+<h4>Lambda转换</h4>
+
+<h4>快速查看定义</h4>
+
+<p><code>⌘-Y</code>查看 class</p>
+
+<h4>好用易忘的快捷键</h4>
+
+<p>Optimize imports 清除无效包引用
+<code>⌃⌥O</code></p>
+
+<h4>折叠（所有）代码块</h4>
+
+<p><code>⌘-</code>，<code>⌘—</code></p>
+
+<h4>展开（所有）代码块</h4>
+
+<p><code>⌘=</code>，<code>⌘+</code></p>
+
+<h4>显示被调用的地方</h4>
+
+<p><code>⌥F7</code> <code>Find Usages</code></p>
+
+<h4>弹出调用层级</h4>
+
+<p><code>⌃⌥h</code></p>
+
+<h4>包裹代码块</h4>
+
+<p><code>⌘⌥T</code> <code>Surround With</code></p>
+
+<h4>Switcher</h4>
+
+<p><code>⌃⇥</code> <code>Switcher</code>
+一旦它被打开，只要你按住ctrl键，你可以使用数字或字母快捷键快速导航。</p>
+
+<h3>我最爱的特性</h3>
+
+<h4>Find Action</h4>
+
+<p>类似Alfred，在输入框里输入要关键字，回车后即执行菜单功能</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-07-08T14:51:55+08:00" pubdate data-updated="true">Jul 8<span>th</span>, 2015</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://neater.github.io/blog/2015/07/08/hao-yong-dao-ni-tian-de-android-studio/" data-via="" data-counturl="http://neater.github.io/blog/2015/07/08/hao-yong-dao-ni-tian-de-android-studio/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/30/shu-yu-cheng-xu-yuan-de-podcast/" title="Previous Post: 属于程序员的Podcast">&laquo; 属于程序员的Podcast</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/10/cai-xue-kang-yu-lu/" title="Next Post: 蔡学鏮语录">蔡学鏮语录 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/09/23/rxjava-zai-android-kai-fa-zhong-de-chu-ci-chang-shi-%28xia-%29/">RxJava 在 Android 开发中的初次尝试（下）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/22/rxjava-zai-android-kai-fa-zhong-de-yi-ci-chang-shi/">RxJava 在 Android 开发中的初次尝试（上）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/20/2015shang-ban-nian-du-guo-de-shu/">2015上半年读过的书</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/17/rxjava-and-rxandroid-xin-de/">RxJava &amp; RxAndroid 心得</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/10/cai-xue-kang-yu-lu/">蔡学鏮语录</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

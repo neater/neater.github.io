@@ -9,11 +9,12 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="输出文件的指定行 1
-sed -n 'x,yp' file; awk 'NF &gt; x && NF &gt; y' file 从x行开始，输出y行 1
+  <meta name="description" content="删除一个大文件 1
 2
-3
-tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后10行 tail &hellip;">
+/path/to/file.log (清空)
+rm /path/to/file.log 变量CDPATH定义了目录的搜索路径 cd */var/www/html/ 这样长了，我可以直接输入下面的命令进入 /var/www/html 1
+2
+export CDPATH=/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -114,7 +115,25 @@ tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后
   </header>
 
 
-<div class="entry-content"><h4>输出文件的指定行</h4>
+<div class="entry-content"><h4>删除一个大文件</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/path/to/file.log (清空)
+</span><span class='line'>rm /path/to/file.log</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>变量CDPATH定义了目录的搜索路径</h4>
+
+<p>cd */var/www/html/ 这样长了，我可以直接输入下面的命令进入 /var/www/html</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>export CDPATH=/var/www
+</span><span class='line'>cd html</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>输出文件的指定行</h4>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>sed -n 'x,yp' file;   awk 'NF &gt; x && NF &gt; y' file</span></code></pre></td></tr></table></div></figure>
@@ -123,11 +142,30 @@ tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后
 <p>从x行开始，输出y行</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>tail +x file | head -y
-</span><span class='line'>
-</span><span class='line'>head和tail 参数 -n的不同，head -n -10 除去最后10行 tail -n +10 从第10行开始</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tail +x file | head -y</span></code></pre></td></tr></table></div></figure>
+
+
+<p>head和tail 参数 -n的不同：</p>
+
+<ul>
+<li>head -n -10 除去最后10行</li>
+<li>tail -n +10 从第10行开始</li>
+<li>tail -n 1000：显示最后1000行；</li>
+<li>tail -n +1000：从1000行开始显示，显示1000行以后的</li>
+<li>head -n 1000：显示前面1000行</li>
+</ul>
+
+
+<p>从第3000行开始，显示1000行。即显示3000~3999行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cat filename | tail -n +3000 | head -n 1000</span></code></pre></td></tr></table></div></figure>
+
+
+<p>显示1000行到3000行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cat filename| head -n 3000 | tail -n +1000</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Mac下获取UDID</h4>
@@ -167,6 +205,74 @@ tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后
 <hr />
 
 <p>echo $0，当前使用的 shell</p>
+
+<p>vim打开剪贴板内容</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>alias vipb='xclip -selection clipboard -o | vim -' // Linux
+</span><span class='line'>alias vipb="pbpaste | vim -"  // Mac</span></code></pre></td></tr></table></div></figure>
+
+
+<p>显示sqlite文件内容</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sqlite3 -line database.db </span></code></pre></td></tr></table></div></figure>
+
+
+<p>修改SSH的RSA密码短语</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ssh-keygen -f ~/.ssh/id_rsa -p 修改SSH的RSA密码短语</span></code></pre></td></tr></table></div></figure>
+
+
+<p>man -w/&mdash;path</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>打印相关帮助文档的位置</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用-i参数默认的前面输出用{}代替，-I参数可以指定其他代替字符，如例子中的[]</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find . -name "file" | xargs -I [] cp []</span></code></pre></td></tr></table></div></figure>
+
+
+<p>查看某个选项的当前值</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:set option?</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Readline Key Bindings(man bash中的查找字段)</h3>
+
+<p>键盘宏命令</p>
+
+<ul>
+<li>开始录制宏 <code>ctrl + x (</code></li>
+<li>结束录制宏 <code>ctrl + x )</code></li>
+<li>运行宏 <code>ctrl + x e</code></li>
+</ul>
+
+
+<p>其他命令</p>
+
+<ul>
+<li>显示当前shell的版本信息 <code>ctrl + x ctrl + v</code></li>
+<li>设置标记 <code>ctrl + @</code></li>
+<li>交换标记和光标的位置: <code>ctrl + x ctrl + x</code></li>
+<li>启动编辑器编辑命令，编辑完成后执行   <code>ctrl + x ctrl + e</code></li>
+<li>撤销前面的操作 <code>ctrl + x ctrl + u</code></li>
+<li>重新读取配置文件  <code>ctrl + x ctrl + r</code></li>
+</ul>
+
+
+<h3>Vimperator</h3>
+
+<p>y: 复制当前页的url到剪贴板。Y：复制选中文字到剪贴板</p>
+
+<p>&ldquo;B显示书签列表
+:map B :dia bookmarks<cr></p>
 </div>
 
 
@@ -212,10 +318,8 @@ tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/12/26/2013hui-gu-and-2014zhan-wang/" title="Previous Post: 2013回顾 &amp; 2014展望">&laquo; 2013回顾 &amp; 2014展望</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/01/22/quan-zhan-gong-cheng-shi-plus-plus/" title="Next Post: 全栈工程师++">全栈工程师++ &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2014/07/24/viewcontrollershou-shen/" title="Next Post: ViewController瘦身之 抽取View Logic">ViewController瘦身之 抽取View Logic &raquo;</a>
       
     </p>
   </footer>
@@ -230,23 +334,23 @@ tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2014/07/30/mac-tips/">Mac Tips</a>
+        <a href="/blog/2015/09/23/rxjava-zai-android-kai-fa-zhong-de-chu-ci-chang-shi-%28xia-%29/">RxJava 在 Android 开发中的初次尝试（下）</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2014/07/30/tong-xun-xue-xi-xin-de/">通讯学习心得</a>
+        <a href="/blog/2015/07/22/rxjava-zai-android-kai-fa-zhong-de-yi-ci-chang-shi/">RxJava 在 Android 开发中的初次尝试（上）</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2014/07/29/xcodeji-qiao/">Xcode技巧</a>
+        <a href="/blog/2015/07/20/2015shang-ban-nian-du-guo-de-shu/">2015上半年读过的书</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2014/07/24/viewcontrollershou-shen/">ViewController瘦身之 抽取View Logic</a>
+        <a href="/blog/2015/07/17/rxjava-and-rxandroid-xin-de/">RxJava &amp; RxAndroid 心得</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2014/01/22/quan-zhan-gong-cheng-shi-plus-plus/">全栈工程师++</a>
+        <a href="/blog/2015/07/10/cai-xue-kang-yu-lu/">蔡学鏮语录</a>
       </li>
     
   </ul>
@@ -263,7 +367,7 @@ tail +x file | head -y head和tail 参数 -n的不同，head -n -10 除去最后
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - Your Name -
+  Copyright &copy; 2015 - Your Name -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
