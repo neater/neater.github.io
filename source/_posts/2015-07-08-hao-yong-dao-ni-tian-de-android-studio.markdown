@@ -55,3 +55,27 @@ Optimize imports 清除无效包引用
 ####Find Action
 
 类似Alfred，在输入框里输入要关键字，回车后即执行菜单功能
+
+####Recent Files
+`⌘E`
+
+####Recent Edited Files
+`⌘⇧E`
+
+####智能选区
+`⌥up` `⌥down`
+
+####Jump to Last Window
+1. `⎋` 返回编辑器
+2. `⇧⎋` 返回编辑器并关闭当前窗口
+3. `F12` 再次打开刚刚关闭的窗口（我修改成 `⌃F12`）
+
+####Select In...
+Go by Reference Actions
+
+####Surround With..
+`⌘⌥t`
+
+####Unwrap/Remove
+
+####highlight

@@ -17,12 +17,9 @@ git log --name-status --author="[The Author's Name]"
 ```
 git checkout branch|tag|commit -- file_name
 ```
-从暂存区去除文件覆盖工作区
-```
-git checkout -- .
-```
 
-##Branch
+
+###Branch
 查看各个分支最后一个提交对象的信息
 ```
 git branch -v
@@ -39,7 +36,7 @@ git branch --no-merge
 ```
 git checkout -b test dev
 ```
-##Others
+###Others
 停止追逐现在已经追踪的文件
 
 ```
@@ -58,5 +55,20 @@ git status -s
 git shortlog -sn
 ```
 
+###Revert
+1. 提交过版本库，但未提交至暂存区的文件（未执行 git add），此类文件的状态为 Changes not staged for commit，撤销方法：
 
-> git shortlog -sn
+		git checkout .
+	
+2. 新建的文件和目录，且从未提交至版本库，此类文件的状态为 Untracked files ，撤销方法如下：
+
+		git clean -fd .
+
+3. 已提交至暂存区的文件，此类文件的状态为 Changes to be committed，执行之后文件将会回到以上的 1 或者 2 状态
+
+		git reset .
+
+从暂存区去除文件覆盖工作区
+
+	git checkout -- .
+
