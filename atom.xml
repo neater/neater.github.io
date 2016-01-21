@@ -4,7 +4,7 @@
   <title><![CDATA[Neater]]></title>
   <link href="http://neater.github.io/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2015-10-29T16:16:51+08:00</updated>
+  <updated>2016-01-21T15:57:21+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -588,6 +588,39 @@ ContentObservable.fromBroadcast</p>
 <h4>Find Action</h4>
 
 <p>类似Alfred，在输入框里输入要关键字，回车后即执行菜单功能</p>
+
+<h4>Recent Files</h4>
+
+<p><code>⌘E</code></p>
+
+<h4>Recent Edited Files</h4>
+
+<p><code>⌘⇧E</code></p>
+
+<h4>智能选区</h4>
+
+<p><code>⌥up</code> <code>⌥down</code></p>
+
+<h4>Jump to Last Window</h4>
+
+<ol>
+<li><code>⎋</code> 返回编辑器</li>
+<li><code>⇧⎋</code> 返回编辑器并关闭当前窗口</li>
+<li><code>F12</code> 再次打开刚刚关闭的窗口（我修改成 <code>⌃F12</code>）</li>
+</ol>
+
+
+<h4>Select In&hellip;</h4>
+
+<p>Go by Reference Actions</p>
+
+<h4>Surround With..</h4>
+
+<p><code>⌘⌥t</code></p>
+
+<h4>Unwrap/Remove</h4>
+
+<h4>highlight</h4>
 ]]></content>
   </entry>
   
@@ -1723,13 +1756,7 @@ Presenter和视图也出现在这里。
 </pre></td><td class='code'><pre><code class=''><span class='line'>git checkout branch|tag|commit -- file_name</span></code></pre></td></tr></table></div></figure>
 
 
-<p>从暂存区去除文件覆盖工作区</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git checkout -- .</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Branch</h2>
+<h3>Branch</h3>
 
 <p>查看各个分支最后一个提交对象的信息</p>
 
@@ -1755,7 +1782,7 @@ Presenter和视图也出现在这里。
 </pre></td><td class='code'><pre><code class=''><span class='line'>git checkout -b test dev</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>Others</h2>
+<h3>Others</h3>
 
 <p>停止追逐现在已经追踪的文件</p>
 
@@ -1775,7 +1802,28 @@ Presenter和视图也出现在这里。
 </pre></td><td class='code'><pre><code class=''><span class='line'>git shortlog -sn</span></code></pre></td></tr></table></div></figure>
 
 
-<blockquote><p>git shortlog -sn</p></blockquote>
+<h3>Revert</h3>
+
+<ol>
+<li><p>提交过版本库，但未提交至暂存区的文件（未执行 git add），此类文件的状态为 Changes not staged for commit，撤销方法：</p>
+
+<pre><code> git checkout .
+</code></pre></li>
+<li><p>新建的文件和目录，且从未提交至版本库，此类文件的状态为 Untracked files ，撤销方法如下：</p>
+
+<pre><code> git clean -fd .
+</code></pre></li>
+<li><p>已提交至暂存区的文件，此类文件的状态为 Changes to be committed，执行之后文件将会回到以上的 1 或者 2 状态</p>
+
+<pre><code> git reset .
+</code></pre></li>
+</ol>
+
+
+<p>从暂存区去除文件覆盖工作区</p>
+
+<pre><code>git checkout -- .
+</code></pre>
 ]]></content>
   </entry>
   

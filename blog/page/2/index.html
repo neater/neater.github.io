@@ -535,13 +535,7 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>git checkout branch|tag|commit -- file_name</span></code></pre></td></tr></table></div></figure>
 
 
-<p>从暂存区去除文件覆盖工作区</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git checkout -- .</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Branch</h2>
+<h3>Branch</h3>
 
 <p>查看各个分支最后一个提交对象的信息</p>
 
@@ -567,7 +561,7 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>git checkout -b test dev</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>Others</h2>
+<h3>Others</h3>
 
 <p>停止追逐现在已经追踪的文件</p>
 
@@ -587,7 +581,28 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>git shortlog -sn</span></code></pre></td></tr></table></div></figure>
 
 
-<blockquote><p>git shortlog -sn</p></blockquote>
+<h3>Revert</h3>
+
+<ol>
+<li><p>提交过版本库，但未提交至暂存区的文件（未执行 git add），此类文件的状态为 Changes not staged for commit，撤销方法：</p>
+
+<pre><code> git checkout .
+</code></pre></li>
+<li><p>新建的文件和目录，且从未提交至版本库，此类文件的状态为 Untracked files ，撤销方法如下：</p>
+
+<pre><code> git clean -fd .
+</code></pre></li>
+<li><p>已提交至暂存区的文件，此类文件的状态为 Changes to be committed，执行之后文件将会回到以上的 1 或者 2 状态</p>
+
+<pre><code> git reset .
+</code></pre></li>
+</ol>
+
+
+<p>从暂存区去除文件覆盖工作区</p>
+
+<pre><code>git checkout -- .
+</code></pre>
 </div>
   
   
@@ -880,7 +895,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2015 - Your Name -
+  Copyright &copy; 2016 - Your Name -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

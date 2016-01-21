@@ -1,10 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://neater.github.io/blog/2013/12/26/2013hui-gu-and-2014zhan-wang/</loc>
-        <lastmod>2015-09-23T14:58:11+08:00</lastmod>
-    </url>
-    <url>
         <loc>http://neater.github.io/blog/2014/01/14/cmd-tricks/</loc>
         <lastmod>2015-09-23T14:58:11+08:00</lastmod>
     </url>
@@ -14,10 +10,6 @@
     </url>
     <url>
         <loc>http://neater.github.io/blog/2014/07/29/xcodeji-qiao/</loc>
-        <lastmod>2015-09-23T14:58:11+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://neater.github.io/blog/2014/07/30/tong-xun-xue-xi-xin-de/</loc>
         <lastmod>2015-09-23T14:58:11+08:00</lastmod>
     </url>
     <url>
@@ -40,7 +32,7 @@
     </url>
     <url>
         <loc>http://neater.github.io/blog/2014/09/29/git-tips/</loc>
-        <lastmod>2015-10-29T15:23:32+08:00</lastmod>
+        <lastmod>2016-01-20T10:58:34+08:00</lastmod>
     </url>
     <url>
         <loc>
@@ -71,10 +63,6 @@
         <lastmod>2015-09-23T14:58:11+08:00</lastmod>
     </url>
     <url>
-        <loc>http://neater.github.io/blog/2015/04/15/alfred2-workflowre-shen/</loc>
-        <lastmod>2015-09-23T14:58:11+08:00</lastmod>
-    </url>
-    <url>
         <loc>http://neater.github.io/blog/2015/04/29/bing-qi-pu-zhi-keyboard-maestro/</loc>
         <lastmod>2015-09-23T14:58:11+08:00</lastmod>
     </url>
@@ -96,7 +84,7 @@
     </url>
     <url>
         <loc>http://neater.github.io/blog/2015/07/08/hao-yong-dao-ni-tian-de-android-studio/</loc>
-        <lastmod>2015-09-23T14:58:11+08:00</lastmod>
+        <lastmod>2015-12-21T15:49:47+08:00</lastmod>
     </url>
     <url>
         <loc>http://neater.github.io/blog/2015/07/10/cai-xue-kang-yu-lu/</loc>
@@ -114,25 +102,21 @@
         <loc>
             http://neater.github.io/blog/2015/07/22/rxjava-zai-android-kai-fa-zhong-de-yi-ci-chang-shi/
         </loc>
-        <lastmod>2015-10-29T16:15:14+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://neater.github.io/blog/2015/07/29/ming-bu-zheng-%2Cma-bu-shun/</loc>
-        <lastmod>2015-09-23T14:58:11+08:00</lastmod>
+        <lastmod>2015-10-29T16:18:20+08:00</lastmod>
     </url>
     <url>
         <loc>
             http://neater.github.io/blog/2015/09/23/rxjava-zai-android-kai-fa-zhong-de-chu-ci-chang-shi-%28xia-%29/
         </loc>
-        <lastmod>2015-10-29T16:15:14+08:00</lastmod>
+        <lastmod>2015-10-29T16:18:20+08:00</lastmod>
     </url>
     <url>
         <loc>http://neater.github.io/blog/archives/</loc>
-        <lastmod>2015-10-29T16:15:14+08:00</lastmod>
+        <lastmod>2016-01-20T10:58:34+08:00</lastmod>
     </url>
     <url>
         <loc>http://neater.github.io/</loc>
-        <lastmod>2015-10-29T16:15:14+08:00</lastmod>
+        <lastmod>2016-01-20T10:58:34+08:00</lastmod>
     </url>
     <url>
         <loc>http://neater.github.io/robots.txt</loc>
