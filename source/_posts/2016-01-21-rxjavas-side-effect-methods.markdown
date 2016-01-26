@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "RxJava 具有副作用的方法"
+title: "RxJava 具有副作用的方法（译）"
 date: 2016-01-21 16:00:14 +0800
 comments: true
 categories: RxJava
@@ -142,3 +142,5 @@ Daniel Lew 的 [accessing multiple sources](http://blog.danlew.net/2015/06/22/lo
 正如上面所说，副作用方法有多种用途，虽然不能影响流中数据，但却能改变周边的环境状态。这让在某个时刻记录数据流变得很简单，更不用说把网络调用获得的数据存入数据库了。
 
 接下来的博客，会进一步介绍 RxJava hook，敬请期待！
+
+译自 [http://www.grokkingandroid.com/rxjavas-side-effect-methods/](http://www.grokkingandroid.com/rxjavas-side-effect-methods/)
