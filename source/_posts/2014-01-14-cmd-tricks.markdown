@@ -123,3 +123,6 @@ y: 复制当前页的url到剪贴板。Y：复制选中文字到剪贴板
 
 "B显示书签列表
 :map B :dia bookmarks<cr>
+
+###Shell 随机数
+echo $RANDOM
