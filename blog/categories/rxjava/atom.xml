@@ -4,7 +4,7 @@
   <title><![CDATA[Category: RxJava | Neater]]></title>
   <link href="http://neater.github.io/blog/categories/rxjava/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2016-01-26T17:16:08+08:00</updated>
+  <updated>2016-01-26T17:23:23+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -22,8 +22,7 @@
 
 <h3>副作用方法</h3>
 
-<p>虽然副作用方法不影响流，但它们会在一些特定的事件中被调用，从而响应这些事件。比如：当一个被订阅的流产生错误的时候，可以 doOnError() 会被调用，这时把一些调试代码写在 doOnError() 里，就能知道到底发生了什么错误。
-j</p>
+<p>虽然副作用方法不影响流，但它们会在一些特定的事件中被调用，从而响应这些事件。比如：当一个被订阅的流产生错误的时候，可以 doOnError() 会被调用，这时把一些调试代码写在 doOnError() 里，就能知道到底发生了什么错误。</p>
 
 <!--more-->
 
