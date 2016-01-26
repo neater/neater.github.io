@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="这次我们来完成⎾RxJava 在 Android 开发中的初次尝试⏌的下半部分，在上次代码的基础上，用 RxJava 实现网络请求、多线程、AsyncTask。 在点击Submit按钮后，发起一次网络请求，可以用 Retrofit，对 RxJava 支持的很好，不过我不打算用他，我想用 &hellip;">
+  <meta name="description" content="RxJava 有许多方法可以把流中的数据项转化成需要的数据，它们是 RxJava 的核心，也是最吸引人的部分。与之对应的是，其它方法不更改流中的数据项，我称它们为副作用方法。 副作用方法 虽然副作用方法不影响流，但它们会在一些特定的事件中被调用，从而响应这些事件。比如： &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -84,6 +84,52 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/01/21/rxjavas-side-effect-methods/">RxJava 具有副作用的方法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-01-21T16:00:14+08:00" pubdate data-updated="true">Jan 21<span>st</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>RxJava 有许多方法可以把流中的数据项转化成需要的数据，它们是 RxJava 的核心，也是最吸引人的部分。与之对应的是，其它方法不更改流中的数据项，我称它们为副作用方法。</p>
+
+<h3>副作用方法</h3>
+
+<p>虽然副作用方法不影响流，但它们会在一些特定的事件中被调用，从而响应这些事件。比如：当一个被订阅的流产生错误的时候，可以 doOnError() 会被调用，这时把一些调试代码写在 doOnError() 里，就能知道到底发生了什么错误。
+j</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/01/21/rxjavas-side-effect-methods/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -703,48 +749,6 @@ ContentObservable.fromBroadcast</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/05/11/vimji-qiao/">Vim技巧</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-05-11T09:49:06+08:00" pubdate data-updated="true">May 11<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>加减运算</h3>
-
-<p><code>&lt;C-a&gt;</code>和<code>&lt;C-x&gt;</code>分别对数字进行自增、自减操作，如果在之前加上数字，就能进行加减运算</p>
-
-<p>&#8220;`vim</p>
-
-<p>&#8220;`</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -760,6 +764,10 @@ ContentObservable.fromBroadcast</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/01/21/rxjavas-side-effect-methods/">RxJava 具有副作用的方法</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/09/23/rxjava-zai-android-kai-fa-zhong-de-chu-ci-chang-shi-%28xia-%29/">RxJava 在 Android 开发中的初次尝试（下）</a>
       </li>
     
@@ -773,10 +781,6 @@ ContentObservable.fromBroadcast</p>
     
       <li class="post">
         <a href="/blog/2015/07/17/rxjava-and-rxandroid-xin-de/">RxJava &amp; RxAndroid 心得</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/10/cai-xue-kang-yu-lu/">蔡学鏮语录</a>
       </li>
     
   </ul>

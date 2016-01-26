@@ -1,0 +1,487 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>RxJava 具有副作用的方法 - Neater</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="RxJava 有许多方法可以把流中的数据项转化成需要的数据，它们是 RxJava 的核心，也是最吸引人的部分。与之对应的是，其它方法不更改流中的数据项，我称它们为副作用方法。 副作用方法 虽然副作用方法不影响流，但它们会在一些特定的事件中被调用，从而响应这些事件。比如： &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://neater.github.io/blog/2016/01/21/rxjavas-side-effect-methods">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Neater" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <!--
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  -->
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--
+<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+
+<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+
+  
+
+</head>
+
+<!--
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+   <link href="/atom.xml" rel="alternate" title="技术小黑屋" type="application/atom+xml">
+   <script src="/javascripts/modernizr-2.0.js"></script>
+   <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+-->
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Neater</a></h1>
+  
+    <h2>Be A Warrior, Not A Worrier</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:neater.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">RxJava 具有副作用的方法</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-01-21T16:00:14+08:00" pubdate data-updated="true">Jan 21<span>st</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>RxJava 有许多方法可以把流中的数据项转化成需要的数据，它们是 RxJava 的核心，也是最吸引人的部分。与之对应的是，其它方法不更改流中的数据项，我称它们为副作用方法。</p>
+
+<h3>副作用方法</h3>
+
+<p>虽然副作用方法不影响流，但它们会在一些特定的事件中被调用，从而响应这些事件。比如：当一个被订阅的流产生错误的时候，可以 doOnError() 会被调用，这时把一些调试代码写在 doOnError() 里，就能知道到底发生了什么错误。
+j</p>
+
+<!--more-->
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">someObservable</span>
+</span><span class='line'>      <span class="o">.</span><span class="na">doOnError</span><span class="o">(</span><span class="k">new</span> <span class="n">Action1</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>         <span class="nd">@Override</span>
+</span><span class='line'>         <span class="kd">public</span> <span class="kt">void</span> <span class="nf">call</span><span class="o">(</span><span class="n">Throwable</span> <span class="n">t</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="c1">// use this callback to clean up resources,</span>
+</span><span class='line'>            <span class="c1">// log the event or or report the</span>
+</span><span class='line'>            <span class="c1">// problem to the user</span>
+</span><span class='line'>         <span class="o">}</span>
+</span><span class='line'>      <span class="o">})</span>
+</span><span class='line'>      <span class="c1">//…</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在 call() 方法的代码会在订阅者的 onError() 方法之前调用。除了异常事件，RxJava 提供了很多回调方法用来响应各种事件：</p>
+
+<p><strong>副作用方法和事件的关系</strong></p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th> <strong>方法</strong>        </th>
+<th> <strong>回调类型</strong> </th>
+<th> <strong>方法（调用时机）</strong> </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td> doOnSubscribe()     </td>
+<td>     Action0 </td>
+<td> 订阅前</td>
+</tr>
+<tr>
+<td></td>
+<td> doOnUnsubscribe()     </td>
+<td>   Action0 </td>
+<td> 订阅者通过 subscription 取消订阅前</td>
+</tr>
+<tr>
+<td></td>
+<td> doOnNext()     </td>
+<td> Action1&lt;T> </td>
+<td> 发送数据项前</td>
+</tr>
+<tr>
+<td></td>
+<td> doOnCompleted()     </td>
+<td>     Action0 </td>
+<td> 生产者发送所有的数据项前</td>
+</tr>
+<tr>
+<td></td>
+<td> doOnError()     </td>
+<td>     Action1&lt;T> </td>
+<td> 产生错误前</td>
+</tr>
+<tr>
+<td></td>
+<td> doOnTerminate()     </td>
+<td>     Action0 </td>
+<td> 出错或者完成发送之前 </td>
+</tr>
+<tr>
+<td></td>
+<td> finallyDo()     </td>
+<td>     Action0 </td>
+<td> 出错或者完成发送之后 </td>
+</tr>
+<tr>
+<td></td>
+<td> doOnEach()     </td>
+<td>  Action1&lt;Notification<T>> </td>
+<td>每个数据项发送前、完成所有发送前、发生错误前，发送中的通知对象包含事件的类型。</td>
+</tr>
+<tr>
+<td></td>
+<td> doOnRequest()     </td>
+<td>   Action1&lt;Long> </td>
+<td>  订阅者请求更多的数据项</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>范型 T 在 doOnNext() 调用时表示数据的类型，在 doOnError() 调用时则是异常的类型。回调类型则有 Action0 和 Action1，说明这些回调方法没有返回值，没有或者只有一个参数。正因为没有返回值，它们不会在需要改变数据项时调用，它们适合在产生副作用的地方，比如保存数据到本地、清空状态值等等。</p>
+
+<p>需要注意的是，这些副作用方法（doOnNext(), doOnCompleted() and so on）会返回 Observable，可以保持方法的链式调用。</p>
+
+<h3>有什么用</h3>
+
+<p>利用它们不更改流中的数据的特性，可以满足下面三种需求：</p>
+
+<ul>
+<li>doOnNext(): 调试</li>
+<li>doOnError() in flatMap(): 错误处理</li>
+<li>doOnNext(): 保存/缓存数据</li>
+</ul>
+
+
+<p>来看看详细用法。</p>
+
+<h3>doOnNext(): 调试</h3>
+
+<p>在使用 RxJava 的过程中，Observable 有时并不会像预期运行，尤其是刚上手的那段时间，这时特别想知道发生了什么。还有当你通过某些方便的转换方法，是不是想看看每个数据项转换后的结果。</p>
+
+<p>我开始接触 RxJava 的时候只有一些 Java 流的经验，想必你也一样吧。使用内置的方法可以把流中的数据转换成另一种类型，如果转换过程出现问题了呢？</p>
+
+<p>Java 8 Streaming 的 <strong>peek()</strong> 方法可以调试这个问题，当我开始使用 RxJava 时自然想用与之类似的方法，幸运的是有，事实上，它不仅如此！</p>
+
+<p>可以在任何流发送的过程中调用 <strong>doOnNext()</strong> 查看流中的每项数据，代码如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Observable</span> <span class="n">someObservable</span> <span class="o">=</span> <span class="n">Observable</span>
+</span><span class='line'>            <span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="k">new</span> <span class="n">Integer</span><span class="o">[]{</span><span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">7</span><span class="o">,</span> <span class="mi">11</span><span class="o">}))</span>
+</span><span class='line'>            <span class="o">.</span><span class="na">doOnNext</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">)</span>
+</span><span class='line'>            <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">prime</span> <span class="o">-&gt;</span> <span class="n">prime</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span><span class='line'>            <span class="o">.</span><span class="na">doOnNext</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">)</span>
+</span><span class='line'>            <span class="o">.</span><span class="na">count</span><span class="o">()</span>
+</span><span class='line'>            <span class="o">.</span><span class="na">doOnNext</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">)</span>
+</span><span class='line'>            <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">number</span> <span class="o">-&gt;</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="err">“</span><span class="n">Contains</span> <span class="o">%</span><span class="n">d</span> <span class="n">elements</span><span class="err">”</span><span class="o">,</span> <span class="n">number</span><span class="o">));</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">Subscription</span> <span class="n">subscription</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="na">subscribe</span><span class="o">(</span>
+</span><span class='line'>            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">,</span>
+</span><span class='line'>            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">,</span>
+</span><span class='line'>            <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="err">“</span><span class="n">Completed</span><span class="o">!</span><span class="err">”</span><span class="o">));</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>运行结果如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="mi">2</span>
+</span><span class='line'><span class="mi">3</span>
+</span><span class='line'><span class="mi">3</span>
+</span><span class='line'><span class="mi">5</span>
+</span><span class='line'><span class="mi">5</span>
+</span><span class='line'><span class="mi">7</span>
+</span><span class='line'><span class="mi">7</span>
+</span><span class='line'><span class="mi">11</span>
+</span><span class='line'><span class="mi">11</span>
+</span><span class='line'><span class="mi">4</span>
+</span><span class='line'><span class="n">Contains</span> <span class="mi">4</span> <span class="n">elements</span>
+</span><span class='line'><span class="n">Completed</span><span class="o">!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这种方法可以查看数据的值，当流的数据不符合预期的时候特别有用。</p>
+
+<p><strong>doOnError()</strong> 和 <strong>doOnCompleted()</strong> 也能用来调试。</p>
+
+<p>如果你在开发 Android App 时使用了 RxJava，可以使用 <a href="https://github.com/android10/frodo">Frodo</a>（使用了注解）调试 Observables 和 Subscribers。具体用法可以参考 Fernando Ceja 的<a href="http://fernandocejas.com/2015/11/05/debugging-rxjava-on-android/">博客</a></p>
+
+<p>尽管 <strong>doOnNext()</strong> 和 <strong>doOnError()</strong> 的使用会增加你的日志，并且会拖慢你的系统。:&ndash;)
+当需要改变系统状态时，还是适用的，接着来看。</p>
+
+<h3>flatMap() 中调用 doOnError()</h3>
+
+<p>因为支持 RxJava，Retrofit 特别适合在网络请求时使用，而在数据请求链中会经常使用到 flatMap() 方法，是因为网络调用容易出错，特别是在移动设备上，但是出错时又不想停止数据调用链，这时唯一可用的就只有 <strong>onError()方法了</strong>。不过别忘了还有 <strong>flatMap()</strong>，在它里面调用 <strong>doOnError</strong>修改 UI 状态，还能进行出错后的数据处理，代码如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">flatMap</span><span class="o">(</span><span class="n">id</span> <span class="o">-&gt;</span> <span class="n">service</span><span class="o">.</span><span class="na">getPost</span><span class="o">()</span>
+</span><span class='line'>       <span class="o">.</span><span class="na">doOnError</span><span class="o">(</span><span class="n">t</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span><span class='line'>          <span class="c1">// report problem to UI</span>
+</span><span class='line'>       <span class="o">})</span>
+</span><span class='line'>       <span class="o">.</span><span class="na">onErrorResumeNext</span><span class="o">(</span><span class="n">Observable</span><span class="o">.</span><span class="na">empty</span><span class="o">())</span>
+</span><span class='line'><span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这种用法特别适合用来查看远程数据对 UI 状态的影响。</p>
+
+<h3>使用 doOnNext() 保存/缓存网络数据</h3>
+
+<p>如果在链式调用过程中有网络调用，可以使用 doOnNext() 把获得的数据存入数据库或者缓存起来。只需要几行简单的代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="c1">// getOrderById is getting a fresh order</span>
+</span><span class='line'><span class="c1">// from the net and returns an observable of orders</span>
+</span><span class='line'><span class="c1">// Observable&lt;Order&gt; getOrderById(long id) {…}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">Observable</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">aListWithIds</span><span class="o">)</span>
+</span><span class='line'>         <span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="n">id</span> <span class="o">-&gt;</span> <span class="n">getOrderById</span><span class="o">(</span><span class="n">id</span><span class="o">)</span>
+</span><span class='line'>         <span class="o">.</span><span class="na">doOnNext</span><span class="o">(</span><span class="n">order</span> <span class="o">-&gt;</span> <span class="n">cacheOrder</span><span class="o">(</span><span class="n">order</span><span class="o">))</span>
+</span><span class='line'>         <span class="c1">// carry on with more processing</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Daniel Lew 的 <a href="http://blog.danlew.net/2015/06/22/loading-data-from-multiple-sources-with-rxjava/">accessing multiple sources</a> 里，详细介绍了这种用法。</p>
+
+<h3>小结</h3>
+
+<p>正如上面所说，副作用方法有多种用途，虽然不能影响流中数据，但却能改变周边的环境状态。这让在某个时刻记录数据流变得很简单，更不用说把网络调用获得的数据存入数据库了。</p>
+
+<p>接下来的博客，会进一步介绍 RxJava hook，敬请期待！</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-01-21T16:00:14+08:00" pubdate data-updated="true">Jan 21<span>st</span>, 2016</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/rxjava/'>RxJava</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://neater.github.io/blog/2016/01/21/rxjavas-side-effect-methods/" data-via="" data-counturl="http://neater.github.io/blog/2016/01/21/rxjavas-side-effect-methods/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/23/rxjava-zai-android-kai-fa-zhong-de-chu-ci-chang-shi-%28xia-%29/" title="Previous Post: RxJava 在 Android 开发中的初次尝试（下）">&laquo; RxJava 在 Android 开发中的初次尝试（下）</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/01/21/rxjavas-side-effect-methods/">RxJava 具有副作用的方法</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/23/rxjava-zai-android-kai-fa-zhong-de-chu-ci-chang-shi-%28xia-%29/">RxJava 在 Android 开发中的初次尝试（下）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/22/rxjava-zai-android-kai-fa-zhong-de-yi-ci-chang-shi/">RxJava 在 Android 开发中的初次尝试（上）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/20/2015shang-ban-nian-du-guo-de-shu/">2015上半年读过的书</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/17/rxjava-and-rxandroid-xin-de/">RxJava &amp; RxAndroid 心得</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
