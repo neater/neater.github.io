@@ -4,7 +4,7 @@
   <title><![CDATA[Category: RxJava | Neater]]></title>
   <link href="http://neater.github.io/blog/categories/rxjava/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2016-01-26T18:11:49+08:00</updated>
+  <updated>2016-01-27T10:06:03+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -114,6 +114,8 @@ someObservable</p>
 </tbody>
 </table>
 
+
+<p><img src="" alt="" /></p>
 
 <p>范型 T 在 doOnNext() 调用时表示数据的类型，在 doOnError() 调用时则是异常的类型。回调类型则有 Action0 和 Action1，说明这些回调方法没有返回值，没有或者只有一个参数。正因为没有返回值，它们不会在需要改变数据项时调用，它们适合在产生副作用的地方，比如保存数据到本地、清空状态值等等。</p>
 
