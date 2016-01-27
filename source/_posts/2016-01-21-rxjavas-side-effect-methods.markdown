@@ -28,20 +28,8 @@ someObservable
 
 在 call() 方法的代码会在订阅者的 onError() 方法之前调用。除了异常事件，RxJava 提供了很多回调方法用来响应各种事件：
 
-
 **副作用方法和事件的关系**
-
-| **方法**        | **回调类型** | **方法（调用时机）** |
-| ------------- |-------------|-------------|
-| doOnSubscribe()     | 	Action0 | 订阅前
-| doOnUnsubscribe()     | 	Action0 | 订阅者通过 subscription 取消订阅前
-| doOnNext()     | Action1\<T> | 发送数据项前
-| doOnCompleted()     | 	Action0 | 生产者发送所有的数据项前
-| doOnError()     | 	Action1\<T> | 产生错误前
-| doOnTerminate()     | 	Action0 | 出错或者完成发送之前 
-| finallyDo()     | 	Action0 | 出错或者完成发送之后 
-| doOnEach()     | 	Action1\<Notification<T>> |每个数据项发送前、完成所有发送前、发生错误前，发送中的通知对象包含事件的类型。
-| doOnRequest()     | 	Action1\<Long> |  订阅者请求更多的数据项
+![effect methods](http://neater.github.io/images/effect_methods.png)
 
 范型 T 在 doOnNext() 调用时表示数据的类型，在 doOnError() 调用时则是异常的类型。回调类型则有 Action0 和 Action1，说明这些回调方法没有返回值，没有或者只有一个参数。正因为没有返回值，它们不会在需要改变数据项时调用，它们适合在产生副作用的地方，比如保存数据到本地、清空状态值等等。
 
