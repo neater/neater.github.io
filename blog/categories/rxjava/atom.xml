@@ -4,7 +4,7 @@
   <title><![CDATA[Category: RxJava | Neater]]></title>
   <link href="http://neater.github.io/blog/categories/rxjava/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2016-01-27T10:08:06+08:00</updated>
+  <updated>2016-01-27T10:12:14+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -45,77 +45,8 @@ someObservable</p>
 
 <p>在 call() 方法的代码会在订阅者的 onError() 方法之前调用。除了异常事件，RxJava 提供了很多回调方法用来响应各种事件：</p>
 
-<p><strong>副作用方法和事件的关系</strong></p>
-
-<table>
-<thead>
-<tr>
-<th></th>
-<th> <strong>方法</strong>        </th>
-<th> <strong>回调类型</strong> </th>
-<th> <strong>方法（调用时机）</strong> </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td> doOnSubscribe()     </td>
-<td>     Action0 </td>
-<td> 订阅前</td>
-</tr>
-<tr>
-<td></td>
-<td> doOnUnsubscribe()     </td>
-<td>   Action0 </td>
-<td> 订阅者通过 subscription 取消订阅前</td>
-</tr>
-<tr>
-<td></td>
-<td> doOnNext()     </td>
-<td> Action1&lt;T> </td>
-<td> 发送数据项前</td>
-</tr>
-<tr>
-<td></td>
-<td> doOnCompleted()     </td>
-<td>     Action0 </td>
-<td> 生产者发送所有的数据项前</td>
-</tr>
-<tr>
-<td></td>
-<td> doOnError()     </td>
-<td>     Action1&lt;T> </td>
-<td> 产生错误前</td>
-</tr>
-<tr>
-<td></td>
-<td> doOnTerminate()     </td>
-<td>     Action0 </td>
-<td> 出错或者完成发送之前 </td>
-</tr>
-<tr>
-<td></td>
-<td> finallyDo()     </td>
-<td>     Action0 </td>
-<td> 出错或者完成发送之后 </td>
-</tr>
-<tr>
-<td></td>
-<td> doOnEach()     </td>
-<td>  Action1&lt;Notification<T>> </td>
-<td>每个数据项发送前、完成所有发送前、发生错误前，发送中的通知对象包含事件的类型。</td>
-</tr>
-<tr>
-<td></td>
-<td> doOnRequest()     </td>
-<td>   Action1&lt;Long> </td>
-<td>  订阅者请求更多的数据项</td>
-</tr>
-</tbody>
-</table>
-
-
-<p><img src="" alt="" /></p>
+<p><strong>副作用方法和事件的关系</strong>
+<img src="http://neater.github.io/images/effect_methods.png" alt="effect methods" /></p>
 
 <p>范型 T 在 doOnNext() 调用时表示数据的类型，在 doOnError() 调用时则是异常的类型。回调类型则有 Action0 和 Action1，说明这些回调方法没有返回值，没有或者只有一个参数。正因为没有返回值，它们不会在需要改变数据项时调用，它们适合在产生副作用的地方，比如保存数据到本地、清空状态值等等。</p>
 
