@@ -9,7 +9,8 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="RxJava 有许多方法可以把流中的数据项转化成需要的数据，它们是 RxJava 的核心，也是最吸引人的部分。与之对应的是，其它方法不更改流中的数据项，我称它们为副作用方法。 副作用方法 虽然副作用方法不影响流，但它们会在一些特定的事件中被调用，从而响应这些事件。比如： &hellip;">
+  <meta name="description" content="最近有许多人都在问我，操蛋的 RxAndroid 是怎么了？说真的，它确实是有点乱，这也是它最近被重构的主要原因，详细请看这里，主要是说： 我建议从头开始，改善它的模块化问题，提高可重用性和可组合性。 虽然已经完成了这个目标，但我们过渡到新版本时，出现了新的问题：
+原来的 API 都跑哪去了， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -84,6 +85,86 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/01/28/how-to-upgrade-to-rxandroid-1-dot-0/">如何过渡到 RxAndroid 1.0&#8221;</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-01-28T14:08:00+08:00" pubdate data-updated="true">Jan 28<span>th</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近有许多人都在问我，操蛋的 <a href="https://github.com/ReactiveX/RxAndroid">RxAndroid</a> 是怎么了？说真的，它确实是有点乱，这也是它最近被重构的主要原因，详细请看<a href="https://github.com/ReactiveX/RxAndroid/issues/172">这里</a>，主要是说：</p>
+
+<blockquote><p>我建议从头开始，改善它的模块化问题，提高可重用性和可组合性。</p></blockquote>
+
+<p>虽然已经完成了这个目标，但我们过渡到新版本时，出现了新的问题：
+原来的 API 都跑哪去了，我该如何才能通过编译？</p>
+
+<h3>RxAndroid</h3>
+
+<p><code>AndroidSchedulers</code> 的代码全部保留，仅仅改变了一些方法的签名。</p>
+
+<h3>改动</h3>
+
+<p><code>WidgetObservable</code> 和 <code>ViewObservable</code> 经过完善后，移到了 <a href="https://github.com/JakeWharton/RxBinding">RxBinding</a>。</p>
+
+<p><code>LifecycleObservable</code> 移到了 <a href="https://github.com/trello/RxLifecycle">RxLifecycle</a>，不过它被大量的重构了，你可能需要好查看一下它的更新日志。</p>
+
+<p>还有 <code>ContentObservable.fromSharedPreferencesChanges()</code> 经过完善后，移到了 <a href="https://github.com/f2prateek/rx-preferences">rx-preferences</a>。</p>
+
+<h3>孤立</h3>
+
+<p><code>ContentObservable</code> 其余部分还没有人来继续这项开源项目。</p>
+
+<h3>移除</h3>
+
+<p><code>AppObservable</code> 及其一系列绑定方法全部删除，主要是下面几个原因：</p>
+
+<ol>
+<li>原本想自动取消订阅，但只在 Activity 和 Fragment 暂停时实现了，数据源最终也不会取消订阅</li>
+<li>原来想防止 App 在暂停的时候收到通知，但在 <code>HandlerScheduler</code> 里出现了不容易察觉的逻辑问题</li>
+<li>自动调用 <code>observeOn(AndroidSchedulers.mainThread())</code></li>
+</ol>
+
+
+<p>换句话说，它非但没有实现当初的设计目标，而且还过于保守，副作用的问题也让人不快。</p>
+
+<p>使用它时，请注意：</p>
+
+<ol>
+<li>通过 <code>Subscription</code>（或者使用 RxLifecycle）取消订阅</li>
+<li>是否真的需要使用 <code>observeOn(AndroidSchedulers.mainThread())</code></li>
+</ol>
+
+
+<p>译自 <a href="http://blog.danlew.net/2015/09/01/how-to-upgrade-to-rxandroid-10/">http://blog.danlew.net/2015/09/01/how-to-upgrade-to-rxandroid-10/</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -658,96 +739,6 @@ ContentObservable.fromBroadcast</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/02/he-gua-de-git-commitzen-yao-xie/">合适的Git Commit怎么写</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-06-02T16:31:37+08:00" pubdate data-updated="true">Jun 2<span>nd</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>人们总是关心为什么做多过于做了什么，这种观念同样出现在写Git Commit的信息上。下面是我总结出来的写提交信息的最佳实践（听烂了都）。</p>
-
-<h3>黄金环路</h3>
-
-<p>我最近重看了一次最喜欢的TED演讲，由Simon Sinek主讲，主题是《如何鼓舞士气》。</p>
-
-<p>他解释了一个非常简单的观念：人们关心领导者为什么做，而不是做什么。这大概也适用于Git的提交信息。</p>
-
-<p><img src="http://i.imgur.com/QCpZaIk.png" alt="The Golden Circle" /></p>
-
-<p>Simon画了上面这张图（要比我画的好的多），解释道：伟大的公司有明确的愿景并且真的在实现它。回到我们的代码，每段代码都有自己的意图，我们要做的就是如何实现它。</p>
-
-<h3>为什么这么做？</h3>
-
-<p>你可能觉得奇怪，这有什么大不了的？是不是扯远了。如果你曾经在一个团队工作过，或者经历过一个长期的项目，在查阅之前的代码时，经常会搞不懂为什么那么写。于是你使用git blame一路查找到提交信息，让人焦虑的是，最终你只会发现：这段代码和提交信息不是你写的。其实你是想知道当初为什么这么写？</p>
-
-<p>更进一步，我见过的绝大多数提交信息都有这个问题，也包括我在内，不久前，还在为我的提交信息洋洋自得，因为每次写之前，我都会仔细考虑，怎么让它尽可能的简单明了。</p>
-
-<h3>惊喜时刻</h3>
-
-<p>一天，我正和Craig Savolainen（导师&amp;我认识的最佳开发者）结队编程，我写了一段自以为很像样的提交信息，而他说这没用并解释道：</p>
-
-<pre><code>Anyone can see WHAT you did just by looking at the code. But the code can never tell someone WHY you did it.
-代码可以告诉别人你做了什么，但不能告诉别人你为什么这么做。
-</code></pre>
-
-<p>对啊！我立即使用新的风格来写提交信息，不过这需要一些时间来适应，因为提交前，我总是在想这段代码的目的什么，为什么要这么做，这的确很费脑力。好消息是我适应了，已经变得流畅自然了，我发现了一个模式，就是使用“should”。</p>
-
-<h3>示例</h3>
-
-<p>下面是一个实例。我用”做什么风格“写了提交信息：</p>
-
-<pre><code>Card view controller added.
-</code></pre>
-
-<p>如果我用“为什么做”风格重写呢？</p>
-
-<pre><code>User should be able to see the card before editing it.
-在编辑前，用户应该先查看。
-</code></pre>
-
-<p>看到了吗？重写后的版本很容易看出这次提交原因以及一些上下文信息，这对以后维护这些代码的人是很有价值的。当他有问题的时候，就会找到我。同时这对我也有利，当重新阅读之前写的代码时，能帮助我想起提交时的场景！</p>
-
-<h3>结论</h3>
-
-<p>写提交信息的时候，用“为什么做”替代“做什么”对自己和团队都是有益的。在通往软件工匠的道路上，小的进步汇集起来都将是一大步。如果你认同或者有更好的想法，请与我们联系。</p>
-
-<p>Happy exploring!</p>
-
-<h4>旁注</h4>
-
-<p>很明显，这里虽然以Git为例子，但同样适用于其它版本控制系统。我原本想使用“code commit”，但是经过大家的反馈，我决定用“Git commit”，看起来更明了些。</p>
-
-<p>译自
-<a href="http://sundeepgupta.ca/writing-great-git-commit-messages/">Writing Great Git Commit Messages</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -763,6 +754,10 @@ ContentObservable.fromBroadcast</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/01/28/how-to-upgrade-to-rxandroid-1-dot-0/">如何过渡到 RxAndroid 1.0&#8221;</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/01/21/rxjavas-side-effect-methods/">RxJava 具有副作用的方法（译）</a>
       </li>
     
@@ -776,10 +771,6 @@ ContentObservable.fromBroadcast</p>
     
       <li class="post">
         <a href="/blog/2015/07/20/2015shang-ban-nian-du-guo-de-shu/">2015上半年读过的书</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/17/rxjava-and-rxandroid-xin-de/">RxJava &amp; RxAndroid 心得</a>
       </li>
     
   </ul>

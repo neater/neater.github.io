@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="iOS App的市场无疑获得了极大的增长，当然少不了平台流行的功劳。下面的的资源，对App开发感兴趣的人是很有帮助的。 无论是在App Store推广你的App，还是设计一款漂亮的App，这些书、工具、社区绝对能帮助你。这100多个在线服务、社区、工具，帮助开发者更好的构思一款App并实现它， &hellip;">
+  <meta name="description" content="Swift可以和Objective-C相互调用，所以，在用Swift编写的App中，可以直接使用Reactivecocoa。 尽管如此， Signals in Swift 通过桥接，ReactiveCocoa的API从Objective-C的块过渡到了Swift的闭包，来看一个例子， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -84,6 +84,165 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/24/reactivecocoa-and-swift/">ReactiveCocoa and Swift</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-24T15:21:40+08:00" pubdate data-updated="true">Sep 24<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Swift可以和Objective-C相互调用，所以，在用Swift编写的App中，可以直接使用Reactivecocoa。</p>
+
+<p>尽管如此，</p>
+
+<h3>Signals in Swift</h3>
+
+<p>通过桥接，ReactiveCocoa的API从Objective-C的块过渡到了Swift的闭包，来看一个例子，下面的Objective-C代码subscribe了UITextfield的<code>rac_textSignal</code>，用来查看当前的length。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="nb">self</span><span class="o">.</span><span class="n">searchTextField</span><span class="o">.</span><span class="n">rac_textSignal</span> <span class="ss">subscribeNext</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="nb">id</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="no">NSString</span> <span class="o">*</span><span class="n">text</span> <span class="o">=</span> <span class="p">(</span><span class="no">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">x</span><span class="p">;</span>
+</span><span class='line'>  <span class="no">NSLog</span><span class="p">(</span><span class="n">text</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span><span class="o">]</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当在这个UITextfield中依次输入0 1 2 3 4 5时，Console中显示</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">0</span>
+</span><span class='line'><span class="mi">1</span>
+</span><span class='line'><span class="mi">2</span>
+</span><span class='line'><span class="mi">3</span>
+</span><span class='line'><span class="mi">4</span>
+</span><span class='line'><span class="mi">5</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当然了，为了避免显示转换，可以把上面的Block签名中的参数类型，从<code>id</code>改为<code>NSString</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="nb">self</span><span class="o">.</span><span class="n">searchTextField</span><span class="o">.</span><span class="n">rac_textSignal</span> <span class="ss">subscribeNext</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="no">NSString</span> <span class="o">*</span><span class="n">text</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="no">NSLog</span><span class="p">(</span><span class="n">text</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span><span class="o">]</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>与之对应的Swift代码如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">searchTextField</span><span class="o">.</span><span class="n">rac_textSignal</span><span class="p">()</span><span class="o">.</span><span class="n">subscribeNext</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">next</span><span class="ss">:AnyObject!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="k">in</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">let</span> <span class="n">text</span> <span class="o">=</span> <span class="k">next</span> <span class="n">as?</span> <span class="nb">String</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="n">countElements</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>不幸的是，当Swift和Objective-C进行调用的时候，会经常用到<code>as</code>操作符，从而变得更复杂了，我们不能进行显示转换，Swift生硬地插入了必须的类型为<code>(AnyObject!) -&gt; ()</code>的函数。</p>
+
+<p>也可以使用<code>if-let</code>条件语句进行简化，因为<code>AnyObject</code>在当前情况下可以视为字符串。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">searchTextField</span><span class="o">.</span><span class="n">rac_textSignal</span><span class="p">()</span><span class="o">.</span><span class="n">subscribeNext</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">next</span><span class="ss">:AnyObject!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="k">in</span>
+</span><span class='line'>  <span class="n">let</span> <span class="n">text</span> <span class="o">=</span> <span class="k">next</span> <span class="n">as</span> <span class="nb">String</span>
+</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="n">countElements</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但是，这仍然还是要比Objective-C的版本复杂。
+还好有解决这个问题的方案！针对<code>RACSignal</code>进行扩展，把传入函数参数类型进行必须的转换:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">extension</span> <span class="no">RACSignal</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">func</span> <span class="n">subscribeNextAs</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="ss">nextClosure</span><span class="p">:(</span><span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">())</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">subscribeNext</span> <span class="p">{</span>
+</span><span class='line'>      <span class="p">(</span><span class="k">next</span><span class="p">:</span> <span class="no">AnyObject</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="k">in</span>
+</span><span class='line'>      <span class="n">let</span> <span class="n">nextAsT</span> <span class="o">=</span> <span class="k">next</span> <span class="n">as</span> <span class="n">T</span>
+</span><span class='line'>      <span class="n">nextClosure</span><span class="p">(</span><span class="n">nextAsT</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的代码使用泛型进行类型转换，参数T的类型通过实际传入的参数进行推断，这引出了一些有趣的语法</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">searchTextField</span><span class="o">.</span><span class="n">rac_textSignal</span><span class="p">()</span><span class="o">.</span><span class="n">subscribeNextAs</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">(</span><span class="ss">text</span><span class="p">:</span><span class="nb">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="k">in</span>
+</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="n">countElements</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/09/24/reactivecocoa-and-swift/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -657,6 +816,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/01/28/how-to-upgrade-to-rxandroid-1-dot-0/">如何过渡到 RxAndroid 1.0&#8221;</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/01/21/rxjavas-side-effect-methods/">RxJava 具有副作用的方法（译）</a>
       </li>
     
@@ -670,10 +833,6 @@
     
       <li class="post">
         <a href="/blog/2015/07/20/2015shang-ban-nian-du-guo-de-shu/">2015上半年读过的书</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/17/rxjava-and-rxandroid-xin-de/">RxJava &amp; RxAndroid 心得</a>
       </li>
     
   </ul>
