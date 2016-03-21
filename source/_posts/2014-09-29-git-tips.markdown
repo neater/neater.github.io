@@ -6,36 +6,46 @@ comments: true
 categories: 
 ---
 取消一次 git merge，比方说刚才执行了 git merge dev，发现各种崩溃，一大堆 conflict，想取消掉，那么就执行
+
 ```
 git reset --merge dev 
 ```
+
 显示某个作者的提交
+
 ```
 git log --name-status --author="[The Author's Name]" 
 ```
+
 从仓库取出file覆盖当前分支
+
 ```
 git checkout branch|tag|commit -- file_name
 ```
 
-
 ###Branch
+
 查看各个分支最后一个提交对象的信息
+
 ```
 git branch -v
 ```
 查看已经合并到当前分支的分支
+
 ```
 git branch --merge
 ```
 查看未合并到当前分支的分支
+
 ```
 git branch --no-merge
 ```
+
 基于dev新建test分支，并切换
 ```
 git checkout -b test dev
 ```
+
 ###Others
 停止追逐现在已经追踪的文件
 
