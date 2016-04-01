@@ -121,8 +121,50 @@ find . -name "file" | xargs -I [] cp []
 ###Vimperator
 y: 复制当前页的url到剪贴板。Y：复制选中文字到剪贴板
 
-"B显示书签列表
+####B显示书签列表
 :map B :dia bookmarks<cr>
 
-###Shell 随机数
-echo $RANDOM
+####Shell 随机数
+`echo $RANDOM`
+
+####使用echo检查命令要操作的文件
+`echo ls *`
+`echo rm *.txt`
+
+####dryrun
+很多命令支持 dryrun(testing)，即 -n，作用与上面提到的 echo 相似
+
+####撤销之前一次编辑操作
+`ctrl + _`
+
+####Rapidly invoke an editor to write a long, complex, or tricky command
+`ctrl x e`
+
+#### 与`ctrl a`相同，但再按一次会从新回到原位置
+`ctrl x x`
+####回车
+`ctrl o` 和 `ctrl m`
+
+####往右/左跳一个词
+`esc f/b`
+
+####删除光标后的一个词
+`esc d`
+
+####交换光标位置前的两个单词
+`esc t`
+
+####当前位置至词尾，转成大/小写
+`esc u/L`
+
+###ZSH
+
+`⌘ + f`: 查找。支持正则。其中查找的内容会被自动复制。省去了再去⌘+c的步骤。同样，鼠标去选中的内容也会自动复制，也可以鼠标中键直接粘贴。一般在使用时，键入搜索关键词，然后用shift-tab或者tab左右自动补全，option + enter则自动将搜索结果键入，并且复制到剪贴板。
+
+
+####Shell 使用 Vi 模式
+`bindkey -v`
+
+####你也可以像 vim 一样映射你的 escape 键：
+
+	bindkey -M viins ‘jj’ vi-cmd-mode

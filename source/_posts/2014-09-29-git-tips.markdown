@@ -82,3 +82,8 @@ git shortlog -sn
 
 	git checkout -- .
 
+#### 读取指定文件合并到当前分支
+	git checkout screencast -- file1 file2 etc.
+
+#### 与 git add -p 对应
+	git checkout -p
