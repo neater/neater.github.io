@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 命令行 | Neater]]></title>
   <link href="http://neater.github.io/blog/categories/ming-ling-xing/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2016-01-28T15:25:45+08:00</updated>
+  <updated>2016-04-01T17:53:18+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -152,12 +152,67 @@ find . -name "file" | xargs -I [] cp []
 
 <p>y: 复制当前页的url到剪贴板。Y：复制选中文字到剪贴板</p>
 
-<p>&ldquo;B显示书签列表
-:map B :dia bookmarks<cr></p>
+<h4>B显示书签列表</h4>
 
-<h3>Shell 随机数</h3>
+<p>:map B :dia bookmarks<cr></p>
 
-<p>echo $RANDOM</p>
+<h4>Shell 随机数</h4>
+
+<p><code>echo $RANDOM</code></p>
+
+<h4>使用echo检查命令要操作的文件</h4>
+
+<p><code>echo ls *</code>
+<code>echo rm *.txt</code></p>
+
+<h4>dryrun</h4>
+
+<p>很多命令支持 dryrun(testing)，即 -n，作用与上面提到的 echo 相似</p>
+
+<h4>撤销之前一次编辑操作</h4>
+
+<p><code>ctrl + _</code></p>
+
+<h4>Rapidly invoke an editor to write a long, complex, or tricky command</h4>
+
+<p><code>ctrl x e</code></p>
+
+<h4>与<code>ctrl a</code>相同，但再按一次会从新回到原位置</h4>
+
+<p><code>ctrl x x</code></p>
+
+<h4>回车</h4>
+
+<p><code>ctrl o</code> 和 <code>ctrl m</code></p>
+
+<h4>往右/左跳一个词</h4>
+
+<p><code>esc f/b</code></p>
+
+<h4>删除光标后的一个词</h4>
+
+<p><code>esc d</code></p>
+
+<h4>交换光标位置前的两个单词</h4>
+
+<p><code>esc t</code></p>
+
+<h4>当前位置至词尾，转成大/小写</h4>
+
+<p><code>esc u/L</code></p>
+
+<h3>ZSH</h3>
+
+<p><code>⌘ + f</code>: 查找。支持正则。其中查找的内容会被自动复制。省去了再去⌘+c的步骤。同样，鼠标去选中的内容也会自动复制，也可以鼠标中键直接粘贴。一般在使用时，键入搜索关键词，然后用shift-tab或者tab左右自动补全，option + enter则自动将搜索结果键入，并且复制到剪贴板。</p>
+
+<h4>Shell 使用 Vi 模式</h4>
+
+<p><code>bindkey -v</code></p>
+
+<h4>你也可以像 vim 一样映射你的 escape 键：</h4>
+
+<pre><code>bindkey -M viins ‘jj’ vi-cmd-mode
+</code></pre>
 ]]></content>
   </entry>
   

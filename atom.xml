@@ -4,7 +4,7 @@
   <title><![CDATA[Neater]]></title>
   <link href="http://neater.github.io/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2016-01-28T15:25:45+08:00</updated>
+  <updated>2016-04-01T17:53:18+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -2070,6 +2070,16 @@ Presenter和视图也出现在这里。
 <p>从暂存区去除文件覆盖工作区</p>
 
 <pre><code>git checkout -- .
+</code></pre>
+
+<h4>读取指定文件合并到当前分支</h4>
+
+<pre><code>git checkout screencast -- file1 file2 etc.
+</code></pre>
+
+<h4>与 git add -p 对应</h4>
+
+<pre><code>git checkout -p
 </code></pre>
 ]]></content>
   </entry>

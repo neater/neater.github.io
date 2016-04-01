@@ -1,12 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://neater.github.io/blog/2013/12/26/2013hui-gu-and-2014zhan-wang/</loc>
-        <lastmod>2015-09-23T14:58:11+08:00</lastmod>
-    </url>
-    <url>
         <loc>http://neater.github.io/blog/2014/01/14/cmd-tricks/</loc>
-        <lastmod>2016-01-26T15:10:40+08:00</lastmod>
+        <lastmod>2016-03-16T15:17:19+08:00</lastmod>
     </url>
     <url>
         <loc>http://neater.github.io/blog/2014/07/24/viewcontrollershou-shen/</loc>
@@ -14,10 +10,6 @@
     </url>
     <url>
         <loc>http://neater.github.io/blog/2014/07/29/xcodeji-qiao/</loc>
-        <lastmod>2015-09-23T14:58:11+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://neater.github.io/blog/2014/07/30/tong-xun-xue-xi-xin-de/</loc>
         <lastmod>2015-09-23T14:58:11+08:00</lastmod>
     </url>
     <url>
@@ -40,7 +32,7 @@
     </url>
     <url>
         <loc>http://neater.github.io/blog/2014/09/29/git-tips/</loc>
-        <lastmod>2016-01-20T10:58:34+08:00</lastmod>
+        <lastmod>2016-03-21T16:30:25+08:00</lastmod>
     </url>
     <url>
         <loc>
@@ -68,10 +60,6 @@
     </url>
     <url>
         <loc>http://neater.github.io/blog/2015/04/13/yong-rubyxie-alfred2de-workflow/</loc>
-        <lastmod>2015-09-23T14:58:11+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://neater.github.io/blog/2015/04/15/alfred2-workflowre-shen/</loc>
         <lastmod>2015-09-23T14:58:11+08:00</lastmod>
     </url>
     <url>
@@ -117,10 +105,6 @@
         <lastmod>2015-10-29T16:18:20+08:00</lastmod>
     </url>
     <url>
-        <loc>http://neater.github.io/blog/2015/07/29/ming-bu-zheng-%2Cma-bu-shun/</loc>
-        <lastmod>2015-09-23T14:58:11+08:00</lastmod>
-    </url>
-    <url>
         <loc>
             http://neater.github.io/blog/2015/09/23/rxjava-zai-android-kai-fa-zhong-de-chu-ci-chang-shi-%28xia-%29/
         </loc>
@@ -132,15 +116,15 @@
     </url>
     <url>
         <loc>http://neater.github.io/blog/2016/01/28/how-to-upgrade-to-rxandroid-1-dot-0/</loc>
-        <lastmod>2016-01-28T15:24:33+08:00</lastmod>
+        <lastmod>2016-01-29T15:38:12+08:00</lastmod>
     </url>
     <url>
         <loc>http://neater.github.io/blog/archives/</loc>
-        <lastmod>2016-01-28T15:24:33+08:00</lastmod>
+        <lastmod>2016-03-21T16:30:25+08:00</lastmod>
     </url>
     <url>
         <loc>http://neater.github.io/</loc>
-        <lastmod>2016-01-28T15:24:33+08:00</lastmod>
+        <lastmod>2016-03-21T16:30:25+08:00</lastmod>
     </url>
     <url>
         <loc>http://neater.github.io/robots.txt</loc>
