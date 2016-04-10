@@ -4,7 +4,7 @@
   <title><![CDATA[Neater]]></title>
   <link href="http://neater.github.io/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2016-04-10T16:01:26+08:00</updated>
+  <updated>2016-04-10T16:08:15+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Observe on the Correct Thread]]></title>
+    <title type="html"><![CDATA[RxJava 中的线程]]></title>
     <link href="http://neater.github.io/blog/2016/04/01/observe-on-the-correct-thread/"/>
     <updated>2016-04-01T19:29:08+08:00</updated>
     <id>http://neater.github.io/blog/2016/04/01/observe-on-the-correct-thread</id>
