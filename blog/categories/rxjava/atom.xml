@@ -4,7 +4,7 @@
   <title><![CDATA[Category: RxJava | Neater]]></title>
   <link href="http://neater.github.io/blog/categories/rxjava/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2016-04-10T16:08:15+08:00</updated>
+  <updated>2016-04-10T16:13:47+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -125,6 +125,8 @@ Observable.just(1,2,3)
 </code></p>
 
 <p>如果多次调用 <code>subscribeOn()</code>，以首次为准</p>
+
+<p>译自 <a href="https://medium.com/@diolor/observe-in-the-correct-thread-1939bb9bb9d2">https://medium.com/@diolor/observe-in-the-correct-thread-1939bb9bb9d2</a></p>
 ]]></content>
   </entry>
   
