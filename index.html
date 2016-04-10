@@ -9,8 +9,8 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="最近有许多人都在问我，操蛋的 RxAndroid 是怎么了？说真的，它确实是有点乱，这也是它最近被重构的主要原因，详细请看这里，主要是说： 我建议从头开始，改善它的模块化问题，提高可重用性和可组合性。 虽然已经完成了这个目标，但我们过渡到新版本时，出现了新的问题：
-原来的 API 都跑哪去了， &hellip;">
+  <meta name="description" content="最近有不少人开始使用 RxJava，但令人困扰的是：我们的业务逻辑链及其操作应该运行在哪个线程中。首先需要区分 .subsribeOn() 和 .observeOn(): .subsribeOn() 决定了 Observable 的操作所在的线程
+.observeOn() 决定了在哪个线程接收 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -85,6 +85,175 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/04/01/observe-on-the-correct-thread/">Observe on the Correct Thread</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-04-01T19:29:08+08:00" pubdate data-updated="true">Apr 1<span>st</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近有不少人开始使用 RxJava，但令人困扰的是：我们的业务逻辑链及其操作应该运行在哪个线程中。首先需要区分 <code>.subsribeOn()</code> 和 <code>.observeOn()</code>:</p>
+
+<ul>
+<li><code>.subsribeOn()</code> 决定了 <code>Observable</code> 的操作所在的线程</li>
+<li><code>.observeOn()</code> 决定了在哪个线程接收 <code>Observable</code> 的数据</li>
+<li>需要注意的是，默认地，<code>Observable</code> 调用链运行在调用 <code>.subscribe()</code> 的线程中</li>
+</ul>
+
+
+<h2>例子</h2>
+
+<h3>1. Main thread / .subscribe() thread</h3>
+
+<p>在 Android 的 Activity 中的 onCreate() 方法中运行下面的代码，将会在 UI 线程中</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Observable</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribe</span><span class="o">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*YDdZ06fTiZUHun9yvBh10Q.png" alt="" /></p>
+
+<h3>2. subscribeOn()</h3>
+
+<p>下面的代码即使在主线程运行，也会被切换到<code>.subsribeOn()</code>中使用的线程中</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Observable</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">newThread</span><span class="o">())</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribe</span><span class="o">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*fEmKjaIddA88GbQBPvjwNA.png" alt="" /></p>
+
+<h3>3. observeOn()</h3>
+
+<p>同样地，Observable 的创建会运行在调用<code>.subscribe()</code>的线程中，但调用 <code>.observeOn()</code>后的代码会运行在其指定的线程中</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Observable</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">observeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">newThread</span><span class="o">())</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribe</span><span class="o">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*dABPYQGANqqiF8BYhDQGwA.png" alt="" /></p>
+
+<h3>4. Combined logic</h3>
+
+<p>组合一下上面的代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Observable</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">newThread</span><span class="o">())</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">observeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">newThread</span><span class="o">())</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribe</span><span class="o">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*_7eJddNwledE5A8tM_7KfA.png" alt="" /></p>
+
+<h2>提示与陷阱</h2>
+
+<h3>1. 运行在主线程中</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Observable</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">newThread</span><span class="o">())</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="cm">/** 操作 UI 的逻辑 **/</span><span class="o">/);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>2. 运行在非主线程中</h3>
+
+<p>错误：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Observable</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">newThread</span><span class="o">())</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">observeOn</span><span class="o">(</span><span class="n">AndroidSchedulers</span><span class="o">.</span><span class="na">mainThread</span><span class="o">())</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="cm">/** 操作非 UI 的逻辑 **/</span><span class="o">/)</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribe</span><span class="o">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>正确：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Observable</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">newThread</span><span class="o">())</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="cm">/** 操作非 UI 的逻辑 **/</span><span class="o">/)</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">observeOn</span><span class="o">(</span><span class="n">AndroidSchedulers</span><span class="o">.</span><span class="na">mainThread</span><span class="o">())</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribe</span><span class="o">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>注意调用 <code>.observeOn</code> 的先后顺序</strong></p>
+
+<p>第2段代码中，<code>.flatMap()</code>的代码运行在后台线程中，当然不会阻塞 UI 线程了，这借鉴了<code>AsyncTask</code>中在<code>.doInBackground()</code>运行业务逻辑，而不是运行在<code>.onPostExecute()</code>中</p>
+
+<h3>3. 首次 .subscribeOn() 优先</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Observable</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">thread1</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">thread2</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribe</span><span class="o">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果多次调用 <code>subscribeOn()</code>，以首次为准</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -703,42 +872,6 @@ ContentObservable.fromBroadcast</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/29/0dai-ma-shi-xian-iosyin-dao-ye/">0代码实现iOS引导页</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-06-29T17:27:46+08:00" pubdate data-updated="true">Jun 29<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>通常App首次启动或者更新版本后，都会显示引导页，用来介绍App的使用方式和新功能的展示。Android App一般采用ViewPage，而iOS App使用UIScrollView，相比Android，则需要更多的代码，不过这一局面在Auto layout推出后发生了变化，话不多说，开干！</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -754,6 +887,10 @@ ContentObservable.fromBroadcast</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/04/01/observe-on-the-correct-thread/">Observe on the Correct Thread</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/01/28/how-to-upgrade-to-rxandroid-1-dot-0/">如何过渡到 RxAndroid 1.0&#8221;</a>
       </li>
     
@@ -767,10 +904,6 @@ ContentObservable.fromBroadcast</p>
     
       <li class="post">
         <a href="/blog/2015/07/22/rxjava-zai-android-kai-fa-zhong-de-yi-ci-chang-shi/">RxJava 在 Android 开发中的初次尝试（上）</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/20/2015shang-ban-nian-du-guo-de-shu/">2015上半年读过的书</a>
       </li>
     
   </ul>

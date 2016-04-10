@@ -9,7 +9,9 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="Swift可以和Objective-C相互调用，所以，在用Swift编写的App中，可以直接使用Reactivecocoa。 尽管如此， Signals in Swift 通过桥接，ReactiveCocoa的API从Objective-C的块过渡到了Swift的闭包，来看一个例子， &hellip;">
+  <meta name="description" content="取消一次 git merge，比方说刚才执行了 git merge dev，发现各种崩溃，一大堆 conflict，想取消掉，那么就执行 1
+git reset --merge dev 显示某个作者的提交 1
+git log --name-status --author="[The Author' &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -84,6 +86,137 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/29/git-tips/">Git Tips</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-29T16:19:27+08:00" pubdate data-updated="true">Sep 29<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>取消一次 git merge，比方说刚才执行了 git merge dev，发现各种崩溃，一大堆 conflict，想取消掉，那么就执行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git reset --merge dev </span></code></pre></td></tr></table></div></figure>
+
+
+<p>显示某个作者的提交</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git log --name-status --author="[The Author's Name]" </span></code></pre></td></tr></table></div></figure>
+
+
+<p>从仓库取出file覆盖当前分支</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git checkout branch|tag|commit -- file_name</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Branch</h3>
+
+<p>查看各个分支最后一个提交对象的信息</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git branch -v</span></code></pre></td></tr></table></div></figure>
+
+
+<p>查看已经合并到当前分支的分支</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git branch --merge</span></code></pre></td></tr></table></div></figure>
+
+
+<p>查看未合并到当前分支的分支</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git branch --no-merge</span></code></pre></td></tr></table></div></figure>
+
+
+<p>基于dev新建test分支，并切换</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git checkout -b test dev</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Others</h3>
+
+<p>停止追逐现在已经追踪的文件</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git rm --cached</span></code></pre></td></tr></table></div></figure>
+
+
+<p>返回一个简单版的git status,为默认git status来减少噪音。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git status -s</span></code></pre></td></tr></table></div></figure>
+
+
+<p>显示提交记录的参与者列表。和GitHub的参与者列表相同。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git shortlog -sn</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Revert</h3>
+
+<ol>
+<li><p>提交过版本库，但未提交至暂存区的文件（未执行 git add），此类文件的状态为 Changes not staged for commit，撤销方法：</p>
+
+<pre><code> git checkout .
+</code></pre></li>
+<li><p>新建的文件和目录，且从未提交至版本库，此类文件的状态为 Untracked files ，撤销方法如下：</p>
+
+<pre><code> git clean -fd .
+</code></pre></li>
+<li><p>已提交至暂存区的文件，此类文件的状态为 Changes to be committed，执行之后文件将会回到以上的 1 或者 2 状态</p>
+
+<pre><code> git reset .
+</code></pre></li>
+</ol>
+
+
+<p>从暂存区去除文件覆盖工作区</p>
+
+<pre><code>git checkout -- .
+</code></pre>
+
+<h4>读取指定文件合并到当前分支</h4>
+
+<pre><code>git checkout screencast -- file1 file2 etc.
+</code></pre>
+
+<h4>与 git add -p 对应</h4>
+
+<pre><code>git checkout -p
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -871,6 +1004,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/04/01/observe-on-the-correct-thread/">Observe on the Correct Thread</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/01/28/how-to-upgrade-to-rxandroid-1-dot-0/">如何过渡到 RxAndroid 1.0&#8221;</a>
       </li>
     
@@ -884,10 +1021,6 @@
     
       <li class="post">
         <a href="/blog/2015/07/22/rxjava-zai-android-kai-fa-zhong-de-yi-ci-chang-shi/">RxJava 在 Android 开发中的初次尝试（上）</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/20/2015shang-ban-nian-du-guo-de-shu/">2015上半年读过的书</a>
       </li>
     
   </ul>

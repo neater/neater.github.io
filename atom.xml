@@ -4,7 +4,7 @@
   <title><![CDATA[Neater]]></title>
   <link href="http://neater.github.io/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2016-04-01T17:53:18+08:00</updated>
+  <updated>2016-04-10T15:50:14+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -12,6 +12,148 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Observe on the Correct Thread]]></title>
+    <link href="http://neater.github.io/blog/2016/04/01/observe-on-the-correct-thread/"/>
+    <updated>2016-04-01T19:29:08+08:00</updated>
+    <id>http://neater.github.io/blog/2016/04/01/observe-on-the-correct-thread</id>
+    <content type="html"><![CDATA[<p>最近有不少人开始使用 RxJava，但令人困扰的是：我们的业务逻辑链及其操作应该运行在哪个线程中。首先需要区分 <code>.subsribeOn()</code> 和 <code>.observeOn()</code>:</p>
+
+<ul>
+<li><code>.subsribeOn()</code> 决定了 <code>Observable</code> 的操作所在的线程</li>
+<li><code>.observeOn()</code> 决定了在哪个线程接收 <code>Observable</code> 的数据</li>
+<li>需要注意的是，默认地，<code>Observable</code> 调用链运行在调用 <code>.subscribe()</code> 的线程中</li>
+</ul>
+
+
+<h2>例子</h2>
+
+<h3>1. Main thread / .subscribe() thread</h3>
+
+<p>在 Android 的 Activity 中的 onCreate() 方法中运行下面的代码，将会在 UI 线程中</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Observable</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribe</span><span class="o">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*YDdZ06fTiZUHun9yvBh10Q.png" alt="" /></p>
+
+<h3>2. subscribeOn()</h3>
+
+<p>下面的代码即使在主线程运行，也会被切换到<code>.subsribeOn()</code>中使用的线程中</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Observable</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">newThread</span><span class="o">())</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribe</span><span class="o">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*fEmKjaIddA88GbQBPvjwNA.png" alt="" /></p>
+
+<h3>3. observeOn()</h3>
+
+<p>同样地，Observable 的创建会运行在调用<code>.subscribe()</code>的线程中，但调用 <code>.observeOn()</code>后的代码会运行在其指定的线程中</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Observable</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">observeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">newThread</span><span class="o">())</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribe</span><span class="o">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*dABPYQGANqqiF8BYhDQGwA.png" alt="" /></p>
+
+<h3>4. Combined logic</h3>
+
+<p>组合一下上面的代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Observable</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">newThread</span><span class="o">())</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">observeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">newThread</span><span class="o">())</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribe</span><span class="o">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*_7eJddNwledE5A8tM_7KfA.png" alt="" /></p>
+
+<h2>提示与陷阱</h2>
+
+<h3>1. 运行在主线程中</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Observable</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">newThread</span><span class="o">())</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="cm">/** 操作 UI 的逻辑 **/</span><span class="o">/);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>2. 运行在非主线程中</h3>
+
+<p>错误：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Observable</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">newThread</span><span class="o">())</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">observeOn</span><span class="o">(</span><span class="n">AndroidSchedulers</span><span class="o">.</span><span class="na">mainThread</span><span class="o">())</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="cm">/** 操作非 UI 的逻辑 **/</span><span class="o">/)</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribe</span><span class="o">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>正确：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Observable</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">newThread</span><span class="o">())</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="cm">/** 操作非 UI 的逻辑 **/</span><span class="o">/)</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">observeOn</span><span class="o">(</span><span class="n">AndroidSchedulers</span><span class="o">.</span><span class="na">mainThread</span><span class="o">())</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribe</span><span class="o">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>注意调用 <code>.observeOn</code> 的先后顺序</strong></p>
+
+<p>第2段代码中，<code>.flatMap()</code>的代码运行在后台线程中，当然不会阻塞 UI 线程了，这借鉴了<code>AsyncTask</code>中在<code>.doInBackground()</code>运行业务逻辑，而不是运行在<code>.onPostExecute()</code>中</p>
+
+<h3>3. 首次 .subscribeOn() 优先</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Observable</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">thread1</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">thread2</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">.</span><span class="na">subscribe</span><span class="o">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果多次调用 <code>subscribeOn()</code>，以首次为准</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[如何过渡到 RxAndroid 1.0"]]></title>
@@ -1977,110 +2119,6 @@ Presenter和视图也出现在这里。
 
 <p>译自：
 <a href="http://techcrunch.com/2014/11/08/the-rise-and-fall-of-the-full-stack-developer/">The Rise And Fall Of The Full Stack Developer</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Git Tips]]></title>
-    <link href="http://neater.github.io/blog/2014/09/29/git-tips/"/>
-    <updated>2014-09-29T16:19:27+08:00</updated>
-    <id>http://neater.github.io/blog/2014/09/29/git-tips</id>
-    <content type="html"><![CDATA[<p>取消一次 git merge，比方说刚才执行了 git merge dev，发现各种崩溃，一大堆 conflict，想取消掉，那么就执行</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git reset --merge dev </span></code></pre></td></tr></table></div></figure>
-
-
-<p>显示某个作者的提交</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git log --name-status --author="[The Author's Name]" </span></code></pre></td></tr></table></div></figure>
-
-
-<p>从仓库取出file覆盖当前分支</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git checkout branch|tag|commit -- file_name</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Branch</h3>
-
-<p>查看各个分支最后一个提交对象的信息</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git branch -v</span></code></pre></td></tr></table></div></figure>
-
-
-<p>查看已经合并到当前分支的分支</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git branch --merge</span></code></pre></td></tr></table></div></figure>
-
-
-<p>查看未合并到当前分支的分支</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git branch --no-merge</span></code></pre></td></tr></table></div></figure>
-
-
-<p>基于dev新建test分支，并切换</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git checkout -b test dev</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Others</h3>
-
-<p>停止追逐现在已经追踪的文件</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git rm --cached</span></code></pre></td></tr></table></div></figure>
-
-
-<p>返回一个简单版的git status,为默认git status来减少噪音。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git status -s</span></code></pre></td></tr></table></div></figure>
-
-
-<p>显示提交记录的参与者列表。和GitHub的参与者列表相同。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git shortlog -sn</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Revert</h3>
-
-<ol>
-<li><p>提交过版本库，但未提交至暂存区的文件（未执行 git add），此类文件的状态为 Changes not staged for commit，撤销方法：</p>
-
-<pre><code> git checkout .
-</code></pre></li>
-<li><p>新建的文件和目录，且从未提交至版本库，此类文件的状态为 Untracked files ，撤销方法如下：</p>
-
-<pre><code> git clean -fd .
-</code></pre></li>
-<li><p>已提交至暂存区的文件，此类文件的状态为 Changes to be committed，执行之后文件将会回到以上的 1 或者 2 状态</p>
-
-<pre><code> git reset .
-</code></pre></li>
-</ol>
-
-
-<p>从暂存区去除文件覆盖工作区</p>
-
-<pre><code>git checkout -- .
-</code></pre>
-
-<h4>读取指定文件合并到当前分支</h4>
-
-<pre><code>git checkout screencast -- file1 file2 etc.
-</code></pre>
-
-<h4>与 git add -p 对应</h4>
-
-<pre><code>git checkout -p
-</code></pre>
 ]]></content>
   </entry>
   
