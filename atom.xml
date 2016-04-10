@@ -4,7 +4,7 @@
   <title><![CDATA[Neater]]></title>
   <link href="http://neater.github.io/atom.xml" rel="self"/>
   <link href="http://neater.github.io/"/>
-  <updated>2016-04-10T15:50:14+08:00</updated>
+  <updated>2016-04-10T16:01:26+08:00</updated>
   <id>http://neater.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -41,6 +41,9 @@
 
 
 <p><img src="https://cdn-images-1.medium.com/max/1600/1*YDdZ06fTiZUHun9yvBh10Q.png" alt="" /></p>
+
+<!--more-->
+
 
 <h3>2. subscribeOn()</h3>
 
