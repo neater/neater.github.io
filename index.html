@@ -9,8 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="最近有不少人开始使用 RxJava，但令人困扰的是：我们的业务逻辑链及其操作应该运行在哪个线程中。首先需要区分 .subsribeOn() 和 .observeOn(): .subsribeOn() 决定了 Observable 的操作所在的线程
-.observeOn() 决定了在哪个线程接收 &hellip;">
+  <meta name="description" content="前不久 Square 宣布不在维护 Otto，令人欣喜的是，Android 里还可有 RxJava 能实现同样的功能。 棘手的问题是，如何把基于 Otto 和 Greenbot’s EventBus 的代码迁移到 Rx（有时称为 RxBus)。在讨论使用 RxJava 实现事件总线之前， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -85,6 +84,260 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/04/13/rxjava-as-event-bus/">RxJava as Event Bus</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-04-13T08:27:12+08:00" pubdate data-updated="true">Apr 13<span>th</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>前不久 Square 宣布不在维护 Otto，令人欣喜的是，Android 里还可有 RxJava 能实现同样的功能。</p>
+
+<p>棘手的问题是，如何把基于 Otto 和 Greenbot’s EventBus 的代码迁移到 Rx（有时称为 RxBus)。在讨论使用 RxJava 实现事件总线之前，先来说说事件总线。</p>
+
+<h3>什么是事件总线</h3>
+
+<p>很简单，连接两个不同事物的机制，可以有不同的生命周期，在不同的层级，等等。</p>
+
+<blockquote><p>在 <code>Activity</code>,<code>Fragment</code>,<code>Service</code> 还有 <code>dialog</code> 之间通讯想必是我们很大的痛点，比如：</p></blockquote>
+
+<ol>
+<li>在 <code>Service</code> 中产生事件，需要在 <code>Activity</code> 中改变按钮的颜色</li>
+<li><code>Fragment</code>需要 <code>Activity</code>显示一个 <code>Dialog</code>，根据用户之后的操作再改变 <code>Fragment</code>中的内容，在这3个源文件中进行回调的操作，光想一下就真够累的，如果再增加几个特性，工作量可想而知了。</li>
+</ol>
+
+
+<p>事件总线的解决方案是：通过特定的事件总线连接两个类，并发送自定义的数据</p>
+
+<p>在类 A 中产生事件</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="c1">// EventBus</span>
+</span><span class='line'><span class="n">eventBus</span><span class="o">.</span><span class="na">post</span><span class="o">(</span><span class="k">new</span> <span class="n">AnswerAvailableEvent</span><span class="o">(</span><span class="mi">42</span><span class="o">));</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Otto</span>
+</span><span class='line'><span class="n">bus</span><span class="o">.</span><span class="na">post</span><span class="o">(</span><span class="k">new</span> <span class="n">AnswerAvailableEvent</span><span class="o">(</span><span class="mi">42</span><span class="o">));</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在类 B 中注册并接收事件</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="c1">// EventBus</span>
+</span><span class='line'><span class="n">eventBus</span><span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="k">this</span><span class="o">);</span> <span class="c1">// e.g. in onCreate</span>
+</span><span class='line'><span class="o">...</span>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">onEvent</span><span class="o">(</span><span class="n">AnswerAvailableEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Otto</span>
+</span><span class='line'><span class="nd">@Subscribe</span>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">answerAvailable</span><span class="o">(</span><span class="n">AnswerAvailableEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Rx 登场</h3>
+
+<p>监听者、Rx、事件总线都使用了响应式模式，只不过 RxJava 做的更好，在我看来，主要是下面几个原因：</p>
+
+<ol>
+<li>更容易追踪代码逻辑</li>
+<li>更容易测试</li>
+<li>简化线程调用</li>
+<li>提供了多种事件流</li>
+<li>易操作、易重用、易模块化</li>
+</ol>
+
+
+<h3>单事件流与多事件流的对比</h3>
+
+<p>理解了事件总线和 RxJava 之后，你是不是有自己写个轮子的冲动，我劝你还是打消这个念头吧，先看下面的代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyRxBus</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">private</span> <span class="kd">static</span> <span class="n">MyRxBus</span> <span class="n">instance</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">private</span> <span class="n">PublishSubject</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="n">subject</span> <span class="o">=</span> <span class="n">PublishSubject</span><span class="o">.</span><span class="na">create</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="n">MyRxBus</span> <span class="nf">instanceOf</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">(</span><span class="n">instance</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">instance</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MyRxBus</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">instance</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="cm">/**</span>
+</span><span class='line'><span class="cm">   * Pass any event down to event listeners.</span>
+</span><span class='line'><span class="cm">   */</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setString</span><span class="o">(</span><span class="n">Object</span> <span class="n">object</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">subject</span><span class="o">.</span><span class="na">onNext</span><span class="o">(</span><span class="n">object</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="cm">/**</span>
+</span><span class='line'><span class="cm">   * Subscribe to this Observable. On event, do something </span>
+</span><span class='line'><span class="cm">   * e.g. replace a fragment</span>
+</span><span class='line'><span class="cm">   */</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="n">Observable</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="nf">getEvents</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">subject</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>还需要引入相应的事件，并进行相应的类型检查。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">getEvents</span><span class="o">().</span><span class="na">subscribe</span><span class="o">(</span><span class="k">new</span> <span class="n">Action1</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="nd">@Override</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">call</span><span class="o">(</span><span class="n">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">if</span><span class="o">(</span><span class="n">o</span> <span class="k">instanceof</span> <span class="n">AnswerAvailableEvent</span><span class="o">){</span>
+</span><span class='line'>      <span class="c1">// do something</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面代码不容易测试，没有做到模块，还引入了不必要的事件类，那么我们引入新的概念</p>
+
+<blockquote><p>模块化的响应式</p></blockquote>
+
+<p>刚才的代码不易测试，没有模块化，还引入了不必要的事件类，现在再来看看：</p>
+
+<h3>模块化响应式</h3>
+
+<p>模块化的响应式理念来自于 Futurice’s repo，说的是在 Activity 和 Fragment 里使用多种模型来处理业务数据和网络访问</p>
+
+<p>比如，UserLocationModel 是提供物理位置的模型类，在 Activity 获得设备坐标然后发给相应的 Fragment</p>
+
+<p><img src="../images/user_location_model.png" alt="" /></p>
+
+<p>相应的代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserLocationModel</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">private</span> <span class="n">PublishSubject</span><span class="o">&lt;</span><span class="n">LatLng</span><span class="o">&gt;</span> <span class="n">subject</span> <span class="o">=</span> <span class="n">PublishSubject</span><span class="o">.</span><span class="na">create</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setLocation</span><span class="o">(</span><span class="n">LatLng</span> <span class="n">latLng</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">subject</span><span class="o">.</span><span class="na">onNext</span><span class="o">(</span><span class="n">latLng</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="n">Observable</span><span class="o">&lt;</span><span class="n">LatLng</span><span class="o">&gt;</span> <span class="nf">getUserLocation</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">subject</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>很好的完成了模块化，将来也更容易进行扩展，将来还可以还细分：</p>
+
+<p><img src="../images/modularity.png" alt="" /></p>
+
+<p>看到这，你会发现也没有那么难嘛，这种模式已经在我的许多项目中进行了充分的测试，在这方面没有比 RxJava 做的更好的了。</p>
+
+<h3>小技巧</h3>
+
+<ul>
+<li>尽可能使用小巧的模型类便于测试</li>
+<li>业务逻辑应该在模型中，而不是 <code>Activities/Fragment/Dialogs</code></li>
+<li>Keep the threading logic in the Activities/Fragments/Dialogs because unit testing is a bit harder (but not)</li>
+<li>使用 <code>Dagger</code> 或手工降低模块间的依赖</li>
+</ul>
+
+
+<p>译自 <a href="https://medium.com/@diolor/rxjava-as-event-bus-the-right-way-10a36bdd49ba">https://medium.com/@diolor/rxjava-as-event-bus-the-right-way-10a36bdd49ba</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -726,46 +979,6 @@ ContentObservable.fromBroadcast</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/30/shu-yu-cheng-xu-yuan-de-podcast/">属于程序员的Podcast</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-06-30T15:16:14+08:00" pubdate data-updated="true">Jun 30<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>英文Podcast</h3>
-
-<h4>FragmentedPodcast</h4>
-
-<h4>Android Backstage</h4>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -781,6 +994,10 @@ ContentObservable.fromBroadcast</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/04/13/rxjava-as-event-bus/">RxJava as Event Bus</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/04/01/observe-on-the-correct-thread/">RxJava 中的线程</a>
       </li>
     
@@ -794,10 +1011,6 @@ ContentObservable.fromBroadcast</p>
     
       <li class="post">
         <a href="/blog/2015/09/23/rxjava-zai-android-kai-fa-zhong-de-chu-ci-chang-shi-%28xia-%29/">RxJava 在 Android 开发中的初次尝试（下）</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/22/rxjava-zai-android-kai-fa-zhong-de-yi-ci-chang-shi/">RxJava 在 Android 开发中的初次尝试（上）</a>
       </li>
     
   </ul>
