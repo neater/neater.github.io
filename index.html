@@ -487,7 +487,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2016/01/21/rxjavas-side-effect-methods/">RxJava 具有副作用的方法（译）</a></h1>
+      <h1 class="entry-title"><a href="/blog/2016/01/21/rxjavas-side-effect-methods/">RxJava 具有副作用的方法</a></h1>
     
     
       <p class="meta">
@@ -702,120 +702,6 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/20/2015shang-ban-nian-du-guo-de-shu/">2015上半年读过的书</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-07-20T10:56:18+08:00" pubdate data-updated="true">Jul 20<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>本书作者是我最喜欢的著名经济学家王福重，他长期担任《财经郞眼》节目的嘉宾，虽长相匪气，但语言犀利幽默、视角独特</p>
-
-<h3>从0到1</h3>
-
-<p>网上被疯传的一本创业相关的书，感觉理论偏多，天生浮躁的年轻人看了恐怕会更加浮躁，有些不接地气，不过另一个《创业维艰》就相当不错。</p>
-
-<h3>疯狂的程序员</h3>
-
-<p>从上学、工作、创业，有很多当前的影子</p>
-
-<h3>RxJava Essentials</h3>
-
-<p>响应式编程最近是个很火的话题，本书内容是在 RxJava &amp; RxAndroid 的使用，概念讲解清晰，配有不少插图，不到200页，1天就能读完。</p>
-
-<h2>下半年想读的书</h2>
-
-<h3>创业维艰</h3>
-
-<p>都说比《从0到1》强不少</p>
-
-<h3>信息简史</h3>
-
-<h3>三体</h3>
-
-<h2>尾巴</h2>
-
-<p>自从去年买了 Kindle Voyage，看的书明显增加，确实是看书的利器，也给爱看书的老爸买了个。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/17/rxjava-and-rxandroid-xin-de/">RxJava &amp; RxAndroid 心得</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-07-17T10:20:58+08:00" pubdate data-updated="true">Jul 17<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>之前使用了一段 ReactiveCocoa，果然体会到了响应式编程的强大，写起代码来那叫一个酸爽，不过接触响应式编程的时间毕竟太短，并没有完全掌握 ReactiveCocoa，不过最近再学习 RxJava，就顺利的多了。</p>
-
-<h3>RxAndroid</h3>
-
-<h4>接口的变化</h4>
-
-<p>AndroidObservable &ndash;> AppObservable
-AndroidObservale.fromBroadcast &ndash;>
-ContentObservable.fromBroadcast</p>
-
-<p>下面两本书写的不错：</p>
-
-<ul>
-<li><a href="">RxJava Essentials</a></li>
-<li><a href="">Learning Reactive Programming with Java 8</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
       <h1 class="entry-title"><a href="/blog/2015/07/10/cai-xue-kang-yu-lu/">蔡学鏮语录</a></h1>
     
     
@@ -979,6 +865,146 @@ ContentObservable.fromBroadcast</p>
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/02/he-gua-de-git-commitzen-yao-xie/">合适的Git Commit怎么写</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-06-02T16:31:37+08:00" pubdate data-updated="true">Jun 2<span>nd</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>人们总是关心为什么做多过于做了什么，这种观念同样出现在写Git Commit的信息上。下面是我总结出来的写提交信息的最佳实践（听烂了都）。</p>
+
+<h3>黄金环路</h3>
+
+<p>我最近重看了一次最喜欢的TED演讲，由Simon Sinek主讲，主题是《如何鼓舞士气》。</p>
+
+<p>他解释了一个非常简单的观念：人们关心领导者为什么做，而不是做什么。这大概也适用于Git的提交信息。</p>
+
+<p><img src="http://i.imgur.com/QCpZaIk.png" alt="The Golden Circle" /></p>
+
+<p>Simon画了上面这张图（要比我画的好的多），解释道：伟大的公司有明确的愿景并且真的在实现它。回到我们的代码，每段代码都有自己的意图，我们要做的就是如何实现它。</p>
+
+<h3>为什么这么做？</h3>
+
+<p>你可能觉得奇怪，这有什么大不了的？是不是扯远了。如果你曾经在一个团队工作过，或者经历过一个长期的项目，在查阅之前的代码时，经常会搞不懂为什么那么写。于是你使用git blame一路查找到提交信息，让人焦虑的是，最终你只会发现：这段代码和提交信息不是你写的。其实你是想知道当初为什么这么写？</p>
+
+<p>更进一步，我见过的绝大多数提交信息都有这个问题，也包括我在内，不久前，还在为我的提交信息洋洋自得，因为每次写之前，我都会仔细考虑，怎么让它尽可能的简单明了。</p>
+
+<h3>惊喜时刻</h3>
+
+<p>一天，我正和Craig Savolainen（导师&amp;我认识的最佳开发者）结队编程，我写了一段自以为很像样的提交信息，而他说这没用并解释道：</p>
+
+<pre><code>Anyone can see WHAT you did just by looking at the code. But the code can never tell someone WHY you did it.
+代码可以告诉别人你做了什么，但不能告诉别人你为什么这么做。
+</code></pre>
+
+<p>对啊！我立即使用新的风格来写提交信息，不过这需要一些时间来适应，因为提交前，我总是在想这段代码的目的什么，为什么要这么做，这的确很费脑力。好消息是我适应了，已经变得流畅自然了，我发现了一个模式，就是使用“should”。</p>
+
+<h3>示例</h3>
+
+<p>下面是一个实例。我用”做什么风格“写了提交信息：</p>
+
+<pre><code>Card view controller added.
+</code></pre>
+
+<p>如果我用“为什么做”风格重写呢？</p>
+
+<pre><code>User should be able to see the card before editing it.
+在编辑前，用户应该先查看。
+</code></pre>
+
+<p>看到了吗？重写后的版本很容易看出这次提交原因以及一些上下文信息，这对以后维护这些代码的人是很有价值的。当他有问题的时候，就会找到我。同时这对我也有利，当重新阅读之前写的代码时，能帮助我想起提交时的场景！</p>
+
+<h3>结论</h3>
+
+<p>写提交信息的时候，用“为什么做”替代“做什么”对自己和团队都是有益的。在通往软件工匠的道路上，小的进步汇集起来都将是一大步。如果你认同或者有更好的想法，请与我们联系。</p>
+
+<p>Happy exploring!</p>
+
+<h4>旁注</h4>
+
+<p>很明显，这里虽然以Git为例子，但同样适用于其它版本控制系统。我原本想使用“code commit”，但是经过大家的反馈，我决定用“Git commit”，看起来更明了些。</p>
+
+<p>译自
+<a href="http://sundeepgupta.ca/writing-great-git-commit-messages/">Writing Great Git Commit Messages</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/04/29/bing-qi-pu-zhi-keyboard-maestro/">兵器谱之Keyboard Maestro</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-29T15:12:45+08:00" pubdate data-updated="true">Apr 29<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Keyboard Maestro是一款类似Alfred的App，但一点也不逊色后者，它对Automator进行了封装，方便用户的使用。</p>
+
+<h1>Firefox快捷设置</h1>
+
+<p>使用浏览器时，我个人非常不习惯网页的白色背景，感觉非常刺眼，于是手动调成灰色，但个别网页不能正常显示，这时只能手动来切换，不管是鼠标点击还是键盘操作都非常烦锁。</p>
+
+<p>Duang！有请Keyboard Maestro（简写成KM）出场，先在KM的编辑器里为我使用的Firefox添加一个Group并命名，在Avaliable in the following applications下拉菜单中选中Firefox，这样之后的操作只会在Firefox中生效，减少全局冲突；接着在中间的Macros栏中点击加号按钮添加一个Macro，取名为<code>Backgroud Color White</code>
+<img src="/images/group.png" alt="group" /></p>
+
+<p>KM有许多触发动作的机制，这里我设置一个快捷键<code>⌃⌘I</code>，当切换到Firefox中并按下这个快捷捷，就会触发一系列自定义的action。点击<code>New Action</code>，弹出选择列表，作为一个键盘党，按照Firefox修改背景颜色的键盘顺序，添加<code>Interface Control</code>中的<code>Type a keystroke</code>就可以了。问题来了，当我进入<code>常规</code>选项卡里进行设置后，再触发前面设置的快捷键，预设的一系列键盘操作就会在<code>常规</code>里面跳转。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/04/29/bing-qi-pu-zhi-keyboard-maestro/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1006,7 +1032,7 @@ ContentObservable.fromBroadcast</p>
       </li>
     
       <li class="post">
-        <a href="/blog/2016/01/21/rxjavas-side-effect-methods/">RxJava 具有副作用的方法（译）</a>
+        <a href="/blog/2016/01/21/rxjavas-side-effect-methods/">RxJava 具有副作用的方法</a>
       </li>
     
       <li class="post">
