@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "RxJava 具有副作用的方法（译）"
+title: "RxJava 具有副作用的方法"
 date: 2016-01-21 16:00:14 +0800
 comments: true
 categories: RxJava

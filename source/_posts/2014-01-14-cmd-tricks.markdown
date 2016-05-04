@@ -168,3 +168,10 @@ y: 复制当前页的url到剪贴板。Y：复制选中文字到剪贴板
 ####你也可以像 vim 一样映射你的 escape 键：
 
 	bindkey -M viins ‘jj’ vi-cmd-mode
+
+####vipe：将文本编辑器加到管道中
+	brew install moreutils
+	echo "fdsdf"  | vipe | dosomthing
+
+#### 如果有一个替换了ls命令的别名 ls。调用原本的ls命令
+	\ls
